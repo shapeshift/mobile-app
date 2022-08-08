@@ -6,7 +6,7 @@ const backgroundColor = '#181c27'
 
 const backgroundStyle = {
   backgroundColor,
-  flex: 1
+  flex: 1,
 }
 
 const App = () => {

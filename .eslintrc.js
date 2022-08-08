@@ -6,11 +6,11 @@ module.exports = {
     'prettier',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:jest/recommended'
+    'plugin:jest/recommended',
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['react-native', 'prettier', '@typescript-eslint', 'jest'],
   rules: {
-    'prettier/prettier': 'error'
-  }
+    'prettier/prettier': 'error',
+  },
 }
