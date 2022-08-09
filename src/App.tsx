@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ActivityIndicator, SafeAreaView } from 'react-native'
+import { ActivityIndicator, Linking, SafeAreaView } from 'react-native'
 import WebView from 'react-native-webview'
 
 const backgroundColor = '#181c27'
@@ -7,6 +7,13 @@ const backgroundColor = '#181c27'
 const backgroundStyle = {
   backgroundColor,
   flex: 1,
+}
+
+const openBrowser = async (url: string) => {
+  if (!(await Linking.canOpenURL(url))) {
+    return
+  }
+  await Linking.openURL(url)
 }
 
 const App = () => {
@@ -29,8 +36,15 @@ const App = () => {
         onLoad={() => setLoading(false)}
         onNavigationStateChange={e => console.log('Navigation Start', e.url)}
         onShouldStartLoadWithRequest={request => {
-          // Only allow navigating within this website
-          return request.url.startsWith('https://app.shapeshift.com')
+          // Navigation within wrapped web app
+          if (request.url.startsWith('https://app.shapeshift.com')) {
+            return true
+          }
+          // External navigation
+          openBrowser(request.url).catch(r => {
+            console.error(`rejection opening in browser url "${request.url}": `, r)
+          })
+          return false
         }}
         source={{ uri: 'https://app.shapeshift.com/#/dashboard' }}
         // @TODO: Show an error screen
