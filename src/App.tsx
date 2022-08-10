@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
-import { ActivityIndicator, Linking, SafeAreaView } from 'react-native'
+import { ActivityIndicator, SafeAreaView } from 'react-native'
 import WebView from 'react-native-webview'
+import { injectedJavaScript, onMessage } from './lib/console'
+import { MessageManager } from './lib/MessageManager'
+import { shouldLoadFilter } from './lib/navigationFilter'
 
 const backgroundColor = '#181c27'
 
@@ -9,12 +12,10 @@ const backgroundStyle = {
   flex: 1,
 }
 
-const openBrowser = async (url: string) => {
-  if (!(await Linking.canOpenURL(url))) {
-    return
-  }
-  await Linking.openURL(url)
-}
+/* Register message handlers and injected JavaScript */
+const messageManager = new MessageManager()
+messageManager.register('console', onMessage)
+messageManager.injectJavaScript(injectedJavaScript)
 
 const App = () => {
   const [loading, setLoading] = useState(true)
@@ -32,20 +33,11 @@ const App = () => {
         renderLoading={() => (
           <ActivityIndicator color='#FFFFFF' size='large' style={backgroundStyle} />
         )}
-        injectedJavaScriptBeforeContentLoaded={'globalThis.isShapeShiftMobile = true'}
+        injectedJavaScriptBeforeContentLoaded={messageManager.injectedJavaScript}
+        onMessage={messageManager.onMessage.bind(messageManager)}
         onLoad={() => setLoading(false)}
         onNavigationStateChange={e => console.log('Navigation Start', e.url)}
-        onShouldStartLoadWithRequest={request => {
-          // Navigation within wrapped web app
-          if (request.url.startsWith('https://app.shapeshift.com')) {
-            return true
-          }
-          // External navigation
-          openBrowser(request.url).catch(r => {
-            console.error(`rejection opening in browser url "${request.url}": `, r)
-          })
-          return false
-        }}
+        onShouldStartLoadWithRequest={shouldLoadFilter}
         source={{ uri: 'https://app.shapeshift.com/#/dashboard' }}
         // @TODO: Show an error screen
         onError={e => console.error(e)}
