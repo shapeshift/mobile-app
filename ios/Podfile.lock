@@ -19,6 +19,8 @@ PODS:
   - ExpoModulesCore (0.11.3):
     - React-Core
     - ReactCommon/turbomodule/core
+  - EXSecureStore (11.3.0):
+    - ExpoModulesCore
   - EXSplashScreen (0.16.1):
     - ExpoModulesCore
     - React-Core
@@ -406,6 +408,7 @@ DEPENDENCIES:
   - Expo (from `../node_modules/expo`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
+  - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -505,6 +508,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
+  EXSecureStore:
+    :path: "../node_modules/expo-secure-store/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   FBLazyVector:
@@ -586,6 +591,7 @@ SPEC CHECKSUMS:
   Expo: a2d9d4d17b9c97beab797c54220b305708f60e87
   ExpoKeepAwake: 0e8f18142e71bbf2c7f6aa66ebed249ba1420320
   ExpoModulesCore: 8303cc952788be09fc6eab62815d257016ae6dec
+  EXSecureStore: ac4b3c89dd5810528074d9422d5fed5a9e684467
   EXSplashScreen: 31ab6df6d23e97e074d1330224741979943f1d82
   FBLazyVector: 1d83d91816fa605d16227a83f1b2e71c8df09d22
   FBReactNativeSpec: 626e35e73f83c637ff166f906d584f4c6750c251

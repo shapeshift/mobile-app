@@ -1,5 +1,6 @@
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { Linking } from 'react-native'
+import { SHAPESHIFT_URI } from 'react-native-dotenv'
 
 const openBrowser = async (url: string) => {
   if (!(await Linking.canOpenURL(url))) {
@@ -10,7 +11,7 @@ const openBrowser = async (url: string) => {
 
 export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
   // Navigation within wrapped web app
-  if (request.url.startsWith('https://app.shapeshift.com')) {
+  if (request.url.startsWith(SHAPESHIFT_URI)) {
     return true
   }
   // External navigation
