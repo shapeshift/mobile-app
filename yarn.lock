@@ -7090,6 +7090,11 @@ react-native-dotenv@^3.3.1:
   dependencies:
     dotenv "^10.0.0"
 
+react-native-error-boundary@^1.1.15:
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/react-native-error-boundary/-/react-native-error-boundary-1.1.15.tgz#3c30bdadea7eb72c53431e04568f605f363216ca"
+  integrity sha512-ixBUITr28vzoRiTcwMKnYXRAl8yzIN9Pb0nOc71q6yM0qTTwyGFO8yWXz1MdVXsCwdRYyuW4Gl0rRpWovnBJog==
+
 react-native-gradle-plugin@^0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz#96602f909745239deab7b589443f14fce5da2056"
