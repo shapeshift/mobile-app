@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { ActivityIndicator, SafeAreaView } from 'react-native'
+import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import ErrorBoundary from 'react-native-error-boundary'
 import ErrorPage from './ErrorPage'
@@ -11,7 +11,12 @@ import { shouldLoadFilter } from './lib/navigationFilter'
 import { SHAPESHIFT_URI, DEVELOP_URI } from 'react-native-dotenv'
 import SelectDropdown from 'react-native-select-dropdown'
 
-const uris = [SHAPESHIFT_URI, DEVELOP_URI]
+const uris = [
+  SHAPESHIFT_URI,
+  DEVELOP_URI,
+  // release v1.57.0
+  'https://bafybeigwr6g27qysprur3x6d3y76e6tpbe3j2n7v4jkcpvdhu7tqf72kx4.on.fleek.co',
+]
 
 /* Register message handlers and injected JavaScript */
 const messageManager = new MessageManager()
@@ -26,6 +31,7 @@ messageManager.on('setKey', setMnemonic)
 const App = () => {
   const [loading, setLoading] = useState(true)
   const [ssUrl, setSsUrl] = useState(SHAPESHIFT_URI)
+  const [devMode, setDevMode] = useState(false)
   const [error, setError] = useState(false)
   const webviewRef = useRef<WebView>(null)
   messageManager.setWebViewRef(webviewRef)
@@ -36,6 +42,15 @@ const App = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+        <Text
+          onLongPress={() => {
+            setDevMode(true)
+          }}
+        >
+          SS
+        </Text>
+      </View>
       <ErrorBoundary
         onError={(e: Error) => {
           console.error(`ErrorBoundary onError: `, e)
@@ -68,15 +83,17 @@ const App = () => {
           }}
         />
       </ErrorBoundary>
-      <SelectDropdown
-        data={uris}
-        defaultValue={SHAPESHIFT_URI}
-        onSelect={selectedItem => {
-          setSsUrl(selectedItem)
-        }}
-        buttonTextAfterSelection={selectedItem => selectedItem}
-        rowTextForSelection={item => item}
-      />
+      <View style={[{ display: devMode ? 'flex' : 'none' }]}>
+        <SelectDropdown
+          data={uris}
+          defaultValue={SHAPESHIFT_URI}
+          onSelect={selectedItem => {
+            setSsUrl(selectedItem)
+          }}
+          buttonTextAfterSelection={selectedItem => selectedItem}
+          rowTextForSelection={item => item}
+        />
+      </View>
     </SafeAreaView>
   )
 }

@@ -11,7 +11,11 @@ const openBrowser = async (url: string) => {
 
 export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
   // Navigation within wrapped web app
-  if (request.url.startsWith(SHAPESHIFT_URI) || request.url.startsWith(DEVELOP_URI)) {
+  if (
+    request.url.startsWith(SHAPESHIFT_URI) ||
+    request.url.startsWith(DEVELOP_URI) ||
+    request.url.includes('on.fleek.co') // FIXME
+  ) {
     return true
   }
 
