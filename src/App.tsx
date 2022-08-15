@@ -8,15 +8,10 @@ import { injectedJavaScript, onMessage } from './lib/console'
 import { MessageManager } from './lib/MessageManager'
 import { clearMnemonic, getMnemonic, hasMnemonic, setMnemonic } from './lib/mnemonicStore'
 import { shouldLoadFilter } from './lib/navigationFilter'
-import { SHAPESHIFT_URI, DEVELOP_URI } from 'react-native-dotenv'
+import { SHAPESHIFT_URI, DEVELOP_URI, RELEASE_URI } from 'react-native-dotenv'
 import SelectDropdown from 'react-native-select-dropdown'
 
-const uris = [
-  SHAPESHIFT_URI,
-  DEVELOP_URI,
-  // release v1.57.0
-  'https://bafybeigwr6g27qysprur3x6d3y76e6tpbe3j2n7v4jkcpvdhu7tqf72kx4.on.fleek.co',
-]
+const uris = [SHAPESHIFT_URI, DEVELOP_URI, RELEASE_URI]
 
 /* Register message handlers and injected JavaScript */
 const messageManager = new MessageManager()
