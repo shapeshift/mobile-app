@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { ActivityIndicator, SafeAreaView } from 'react-native'
+import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import ErrorBoundary from 'react-native-error-boundary'
 import ErrorPage from './ErrorPage'
@@ -8,7 +8,10 @@ import { injectedJavaScript, onMessage } from './lib/console'
 import { MessageManager } from './lib/MessageManager'
 import { clearMnemonic, getMnemonic, hasMnemonic, setMnemonic } from './lib/mnemonicStore'
 import { shouldLoadFilter } from './lib/navigationFilter'
-import { SHAPESHIFT_URI } from 'react-native-dotenv'
+import { SHAPESHIFT_URI, DEVELOP_URI, RELEASE_URI } from 'react-native-dotenv'
+import SelectDropdown from 'react-native-select-dropdown'
+
+const uris = [SHAPESHIFT_URI, DEVELOP_URI, RELEASE_URI]
 
 /* Register message handlers and injected JavaScript */
 const messageManager = new MessageManager()
@@ -22,6 +25,8 @@ messageManager.on('setKey', setMnemonic)
 
 const App = () => {
   const [loading, setLoading] = useState(true)
+  const [ssUrl, setSsUrl] = useState(SHAPESHIFT_URI)
+  const [devMode, setDevMode] = useState(false)
   const [error, setError] = useState(false)
   const webviewRef = useRef<WebView>(null)
   messageManager.setWebViewRef(webviewRef)
@@ -32,6 +37,15 @@ const App = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+        <Text
+          onLongPress={() => {
+            setDevMode(true)
+          }}
+        >
+          SS
+        </Text>
+      </View>
       <ErrorBoundary
         onError={(e: Error) => {
           console.error(`ErrorBoundary onError: `, e)
@@ -55,7 +69,7 @@ const App = () => {
           onLoad={() => setLoading(false)}
           onNavigationStateChange={e => console.log('Navigation Start', e.url)}
           onShouldStartLoadWithRequest={shouldLoadFilter}
-          source={{ uri: `${SHAPESHIFT_URI}/#/dashboard` }}
+          source={{ uri: `${ssUrl}/#/dashboard` }}
           onError={syntheticEvent => {
             const { nativeEvent } = syntheticEvent
             console.error('WebView onError: ', nativeEvent)
@@ -64,6 +78,17 @@ const App = () => {
           }}
         />
       </ErrorBoundary>
+      <View style={[{ display: devMode ? 'flex' : 'none' }]}>
+        <SelectDropdown
+          data={uris}
+          defaultValue={SHAPESHIFT_URI}
+          onSelect={selectedItem => {
+            setSsUrl(selectedItem)
+          }}
+          buttonTextAfterSelection={selectedItem => selectedItem}
+          rowTextForSelection={item => item}
+        />
+      </View>
     </SafeAreaView>
   )
 }
