@@ -1,27 +1,46 @@
 import React, { useRef, useState } from 'react'
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
-import { WebView } from 'react-native-webview'
+import { DEVELOP_URI, RELEASE_URI, SHAPESHIFT_URI } from 'react-native-dotenv'
 import ErrorBoundary from 'react-native-error-boundary'
-import ErrorPage from './ErrorPage'
-import { styles } from './styles'
-import { injectedJavaScript, onMessage } from './lib/console'
-import { MessageManager } from './lib/MessageManager'
-import { clearMnemonic, getMnemonic, hasMnemonic, setMnemonic } from './lib/mnemonicStore'
-import { shouldLoadFilter } from './lib/navigationFilter'
-import { SHAPESHIFT_URI, DEVELOP_URI, RELEASE_URI } from 'react-native-dotenv'
 import SelectDropdown from 'react-native-select-dropdown'
+import { WebView } from 'react-native-webview'
+import ErrorPage from './ErrorPage'
+import { injectedJavaScript, onConsole } from './lib/console'
+import { EventData, MessageManager } from './lib/MessageManager'
+import { shouldLoadFilter } from './lib/navigationFilter'
+import { WalletManager } from './lib/WalletManager'
+import { styles } from './styles'
 
 const uris = [SHAPESHIFT_URI, DEVELOP_URI, RELEASE_URI]
+
+const walletManager = new WalletManager()
+walletManager
+  .initialize()
+  .catch(e =>
+    console.error('[WalletManager.initialize] Error loading wallet index from storage', e),
+  )
 
 /* Register message handlers and injected JavaScript */
 const messageManager = new MessageManager()
 messageManager.registerInjectedJavaScript(injectedJavaScript)
 
-messageManager.on('console', onMessage)
-messageManager.on('deleteKey', clearMnemonic)
-messageManager.on('getKey', getMnemonic)
-messageManager.on('hasKey', hasMnemonic)
-messageManager.on('setKey', setMnemonic)
+messageManager.on('console', onConsole)
+messageManager.on('deleteWallet', evt => walletManager.delete(evt.key))
+messageManager.on('getWallet', evt => walletManager.get(evt.key))
+messageManager.on('hasWallet', evt => walletManager.has(evt.key))
+messageManager.on('setWallet', (evt: EventData) =>
+  walletManager.set(evt.key, {
+    id: evt.key,
+    label: String(evt.label),
+    mnemonic: String(evt.mnemonic),
+  }),
+)
+messageManager.on('addWallet', evt =>
+  walletManager.add({
+    label: String(evt.label),
+    mnemonic: String(evt.mnemonic),
+  }),
+)
 
 const App = () => {
   const [loading, setLoading] = useState(true)

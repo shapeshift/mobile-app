@@ -6,6 +6,7 @@ export type MessageCallback = (e: EventData) => undefined | unknown
 export type EventData = {
   cmd: string
   id: number
+  key: string
   [k: string]: unknown
 }
 
@@ -24,7 +25,7 @@ export class MessageManager {
   }
 
   /**
-   * Give a reference to a WebView so we can inject JavaScript
+   * Give a reference to a WebView, so we can inject JavaScript
    */
   setWebViewRef(value: RefObject<WebView>) {
     this.#webview = value
