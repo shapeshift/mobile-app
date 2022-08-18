@@ -20,6 +20,7 @@
     "react-native-dotenv": "^3.3.1",
     "react-native-error-boundary": "^1.1.15",
     "react-native-select-dropdown": "^2.0.4",
+    "react-native-svg": "^13.0.0",
     "react-native-webview": "^11.23.0"
   },
   "devDependencies": {

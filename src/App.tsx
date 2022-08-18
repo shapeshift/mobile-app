@@ -31,7 +31,7 @@ const App = () => {
   const webviewRef = useRef<WebView>(null)
   messageManager.setWebViewRef(webviewRef)
 
-  if (error) {
+  if (!error) {
     return <ErrorPage onTryAgain={() => setError(false)} />
   }
 
