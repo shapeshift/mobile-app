@@ -36,7 +36,7 @@ const App = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View>
         <Text
           onLongPress={() => {
@@ -89,7 +89,7 @@ const App = () => {
           rowTextForSelection={item => item}
         />
       </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
