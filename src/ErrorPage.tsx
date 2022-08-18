@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, Text, View, TouchableOpacity, ImageBackground } from 'react-native'
+import { Text, View, TouchableOpacity, ImageBackground } from 'react-native'
 import { ErrorIcon } from './ErrorIcon'
 import { styles } from './styles'
 
