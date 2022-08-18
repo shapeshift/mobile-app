@@ -33,9 +33,25 @@ export class WalletManager {
     return this.#index.size
   }
 
+  public async list() {
+    const list: Array<{ id: string; label: string }> = []
+    for (const id of this.#index) {
+      try {
+        const w = await this.get(id)
+        if (w) {
+          list.push({ id: w.id, label: w.label })
+        }
+      } catch (e) {
+        console.error('[WalletManager.list] Error getting a wallet')
+      }
+    }
+
+    return list
+  }
+
   public async add(value: Omit<StoredWallet, 'id'>) {
     const ids = [...this.#index].sort((a, b) => Number(a) - Number(b))
-    const nextId = String(Number(ids[ids.length - 1]) + 1)
+    const nextId = ids.length ? String((Number(ids[ids.length - 1]) || 0) + 1) : '1'
 
     return this.set(nextId, { ...value, id: nextId })
   }
@@ -86,6 +102,7 @@ export class WalletManager {
   }
 
   async #updateIndex(key: string, action: UpdateAction) {
+    console.log('[#updateIndex] Index Before', [...this.#index])
     try {
       // If we're adding a new deviceId, add it to the list to check
       if (action === UpdateAction.ADD) {
@@ -93,21 +110,24 @@ export class WalletManager {
       }
 
       for (const id of this.#index) {
-        const exists = await getItemAsync(getKey(key))
-        if (!exists || (action === UpdateAction.REMOVE && key === id)) {
+        const exists = await getItemAsync(getKey(id))
+        // Use a key of '*' to delete all wallets
+        if (!exists || (action === UpdateAction.REMOVE && (key === id || key === '*'))) {
           try {
             // This is the only place we remove an item from the index
             await deleteItemAsync(getKey(id))
             this.#index.delete(id)
+            console.log('[#updateIndex] Removed item', id)
           } catch (e) {
-            console.error('[updateIndex] Could not remove invalid mnemonic', id, e)
+            console.error('[#updateIndex] Could not remove invalid mnemonic', id, e)
           }
         }
       }
 
       await setItemAsync('mnemonic-index', JSON.stringify([...this.#index]))
+      console.log('[#updateIndex] Index After', [...this.#index])
     } catch (e) {
-      console.error('[updateIndex] Error updating mnemonic index', e)
+      console.error('[#updateIndex] Error updating mnemonic index', e)
       throw e
     }
   }

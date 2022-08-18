@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
-import { DEVELOP_URI, RELEASE_URI, SHAPESHIFT_URI } from 'react-native-dotenv'
+import { DEVELOP_URI, LOGGING_WEBVIEW, RELEASE_URI, SHAPESHIFT_URI } from 'react-native-dotenv'
 import ErrorBoundary from 'react-native-error-boundary'
 import SelectDropdown from 'react-native-select-dropdown'
 import { WebView } from 'react-native-webview'
@@ -22,9 +22,12 @@ walletManager
 
 /* Register message handlers and injected JavaScript */
 const messageManager = new MessageManager()
-messageManager.registerInjectedJavaScript(injectedJavaScript)
+if (LOGGING_WEBVIEW !== 'false') {
+  messageManager.registerInjectedJavaScript(injectedJavaScript)
+}
 
 messageManager.on('console', onConsole)
+messageManager.on('listWallets', () => walletManager.list())
 messageManager.on('deleteWallet', evt => walletManager.delete(evt.key))
 messageManager.on('getWallet', evt => walletManager.get(evt.key))
 messageManager.on('hasWallet', evt => walletManager.has(evt.key))

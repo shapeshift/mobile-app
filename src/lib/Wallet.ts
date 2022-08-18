@@ -36,6 +36,14 @@ export class Wallet {
     })
   }
 
+  get id() {
+    return this.#value.id
+  }
+
+  get label() {
+    return this.#value.label
+  }
+
   toJSON() {
     return JSON.stringify(this.#value)
   }
