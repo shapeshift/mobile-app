@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { ActivityIndicator, Text, View } from 'react-native'
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import ErrorBoundary from 'react-native-error-boundary'
 import ErrorPage from './ErrorPage'
@@ -37,15 +37,14 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text
-          onLongPress={() => {
-            setDevMode(true)
-          }}
-        >
-          SS
-        </Text>
-      </View>
+      <TouchableOpacity
+        style={styles.devBar}
+        onLongPress={() => {
+          setDevMode(true)
+        }}
+      >
+        <Text style={styles.devButtonText}>SS</Text>
+      </TouchableOpacity>
       <ErrorBoundary
         onError={(e: Error) => {
           console.error(`ErrorBoundary onError: `, e)
