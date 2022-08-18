@@ -30,6 +30,7 @@ ios/.xcode.env.local
 debug/
 release/
 .idea
+.vscode
 .gradle
 local.properties
 *.iml

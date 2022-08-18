@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native'
+import { ActivityIndicator, Text, View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import ErrorBoundary from 'react-native-error-boundary'
 import ErrorPage from './ErrorPage'
@@ -36,7 +36,7 @@ const App = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View>
         <Text
           onLongPress={() => {
@@ -89,7 +89,7 @@ const App = () => {
           rowTextForSelection={item => item}
         />
       </View>
-    </SafeAreaView>
+    </View>
   )
 }
 

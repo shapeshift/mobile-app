@@ -12,5 +12,6 @@ module.exports = {
   plugins: ['react-native', 'prettier', '@typescript-eslint', 'jest'],
   rules: {
     'prettier/prettier': 'error',
+    '@typescript-eslint/no-unused-vars': 'error',
   },
 }
