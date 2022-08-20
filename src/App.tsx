@@ -29,12 +29,13 @@ if (LOGGING_WEBVIEW !== 'false') {
 messageManager.on('console', onConsole)
 messageManager.on('listWallets', () => walletManager.list())
 messageManager.on('deleteWallet', evt => walletManager.delete(evt.key))
-messageManager.on('getWallet', evt => walletManager.get(evt.key))
+messageManager.on('getWallet', async evt => (await walletManager.get(evt.key))?.toJSON())
 messageManager.on('hasWallet', evt => walletManager.has(evt.key))
 messageManager.on('setWallet', (evt: EventData) =>
   walletManager.set(evt.key, {
     id: evt.key,
     label: String(evt.label),
+    createdAt: Number(evt.createdAt),
     mnemonic: String(evt.mnemonic),
   }),
 )

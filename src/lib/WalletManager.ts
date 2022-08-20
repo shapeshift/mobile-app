@@ -1,5 +1,5 @@
 import { deleteItemAsync, getItemAsync, setItemAsync, WHEN_UNLOCKED } from 'expo-secure-store'
-import { isValidDeviceId, StoredWallet, Wallet } from './Wallet'
+import { isValidDeviceId, StoredWallet, StoredWalletWithMnemonic, Wallet } from './Wallet'
 
 const getKey = (key: string) => {
   if (!isValidDeviceId(key)) throw new Error('Invalid key')
@@ -34,12 +34,12 @@ export class WalletManager {
   }
 
   public async list() {
-    const list: Array<{ id: string; label: string }> = []
+    const list: Array<StoredWallet> = []
     for (const id of this.#index) {
       try {
         const w = await this.get(id)
         if (w) {
-          list.push({ id: w.id, label: w.label })
+          list.push({ id: w.id, label: w.label, createdAt: w.createdAt })
         }
       } catch (e) {
         console.error('[WalletManager.list] Error getting a wallet')
@@ -49,11 +49,11 @@ export class WalletManager {
     return list
   }
 
-  public async add(value: Omit<StoredWallet, 'id'>) {
+  public async add(value: { label: string; mnemonic: string }) {
     const ids = [...this.#index].sort((a, b) => Number(a) - Number(b))
     const nextId = ids.length ? String((Number(ids[ids.length - 1]) || 0) + 1) : '1'
 
-    return this.set(nextId, { ...value, id: nextId })
+    return this.set(nextId, { ...value, id: nextId, createdAt: Date.now() })
   }
 
   public async delete(key: string): Promise<boolean> {
@@ -88,16 +88,18 @@ export class WalletManager {
     return this.#index.keys()
   }
 
-  public async set(key: string, value: StoredWallet) {
+  public async set(key: string, value: StoredWalletWithMnemonic): Promise<StoredWallet | null> {
     try {
       const wallet = new Wallet(value)
-      await setItemAsync(getKey(key), wallet.toJSON(), { keychainAccessible: WHEN_UNLOCKED })
+      await setItemAsync(getKey(key), JSON.stringify(wallet.toJSON()), {
+        keychainAccessible: WHEN_UNLOCKED,
+      })
       // Verify save and add to index
       await this.#updateIndex(key, UpdateAction.ADD)
-      return true
+      return { id: wallet.id, label: wallet.label, createdAt: wallet.createdAt }
     } catch (e) {
       console.error('[setMnemonic] Unable to set mnemonic', e)
-      return false
+      return null
     }
   }
 

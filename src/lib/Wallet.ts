@@ -1,4 +1,5 @@
-export type StoredWallet = { id: string; label: string; mnemonic: string }
+export type StoredWallet = { id: string; label: string; createdAt: number }
+export type StoredWalletWithMnemonic = StoredWallet & { mnemonic: string }
 
 export const isValidDeviceId = (deviceId: string) => /[a-z0-9-]+/.test(deviceId)
 
@@ -15,13 +16,15 @@ const parseMnemonic = (mnemonic: unknown): string | null => {
 }
 
 export class Wallet {
-  readonly #value: StoredWallet
+  readonly #value: StoredWalletWithMnemonic
 
-  constructor(wallet: StoredWallet) {
+  constructor(wallet: StoredWalletWithMnemonic) {
     if (
       !(
         typeof wallet === 'object' &&
         isValidDeviceId(wallet.id) &&
+        // a cheap way to make sure the date is reasonable
+        new Date(wallet.createdAt).valueOf() > 1600000000000 &&
         parseMnemonic(wallet.mnemonic) &&
         wallet.label
       )
@@ -32,6 +35,7 @@ export class Wallet {
     this.#value = Object.freeze({
       id: wallet.id,
       label: wallet.label,
+      createdAt: wallet.createdAt || Date.now(),
       mnemonic: wallet.mnemonic,
     })
   }
@@ -44,13 +48,17 @@ export class Wallet {
     return this.#value.label
   }
 
-  toJSON() {
-    return JSON.stringify(this.#value)
+  get createdAt() {
+    return this.#value.createdAt
+  }
+
+  toJSON(): StoredWallet {
+    return { id: this.#value.id, label: this.#value.label, createdAt: this.#value.createdAt }
   }
 
   static fromJSON(wallet: string): Wallet {
     try {
-      const result: StoredWallet = JSON.parse(wallet)
+      const result: StoredWalletWithMnemonic = JSON.parse(wallet)
       return new Wallet(result)
     } catch (e) {
       console.error('[Wallet.fromString] Invalid wallet data', e)
