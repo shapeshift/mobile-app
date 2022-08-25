@@ -26,6 +26,9 @@ export class WalletManager {
       }
     } catch (e) {
       console.error('[WalletManager.initialize] Unable to read wallet index')
+      // We couldn't parse the existing index, so we have to fall back to an empty index
+      // We could end up with "lost" wallets, but I don't see a way to intelligently recover
+      // from a failure to parse the stored JSON.
     }
   }
 
