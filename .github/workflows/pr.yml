@@ -27,6 +27,7 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node-modules-${{ github.ref }}-
+            ${{ runner.os }}-node-modules-
 
       - name: Install
         run: yarn install --frozen-lockfile
