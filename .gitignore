@@ -1,3 +1,15 @@
+# yarn 3
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# React Native
+.cxx
+
 # OSX
 #
 .DS_Store
@@ -35,6 +47,7 @@ release/
 local.properties
 *.iml
 *.hprof
+.cxx/
 
 # node.js
 #
@@ -62,7 +75,10 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+bundle.js
 
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
+
+coverage
