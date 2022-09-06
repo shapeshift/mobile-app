@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { ActivityIndicator, BackHandler, Text, TouchableOpacity, View } from 'react-native'
 import { DEVELOP_URI, LOGGING_WEBVIEW, RELEASE_URI, SHAPESHIFT_URI } from 'react-native-dotenv'
 import ErrorBoundary from 'react-native-error-boundary'
 import SelectDropdown from 'react-native-select-dropdown'
@@ -23,21 +23,18 @@ walletManager
 /* Register message handlers and injected JavaScript */
 const messageManager = new MessageManager()
 if (LOGGING_WEBVIEW !== 'false') {
+  console.log('[App] Injecting console logging JavaScript')
   messageManager.registerInjectedJavaScript(injectedJavaScript)
 }
 
 messageManager.on('console', onConsole)
 messageManager.on('listWallets', () => walletManager.list())
+messageManager.on('hasWallets', () => walletManager.size)
 messageManager.on('deleteWallet', evt => walletManager.delete(evt.key))
-messageManager.on('getWallet', async evt => (await walletManager.get(evt.key))?.toJSON())
+messageManager.on('getWallet', async evt => walletManager.get(evt.key))
 messageManager.on('hasWallet', evt => walletManager.has(evt.key))
-messageManager.on('setWallet', (evt: EventData) =>
-  walletManager.set(evt.key, {
-    id: evt.key,
-    label: String(evt.label),
-    createdAt: Number(evt.createdAt),
-    mnemonic: String(evt.mnemonic),
-  }),
+messageManager.on('updateWallet', (evt: EventData) =>
+  walletManager.update(evt.key, { label: String(evt.label) }),
 )
 messageManager.on('addWallet', evt =>
   walletManager.add({
@@ -53,6 +50,16 @@ const App = () => {
   const [error, setError] = useState(false)
   const webviewRef = useRef<WebView>(null)
   messageManager.setWebViewRef(webviewRef)
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      // eslint-disable-next-line no-sequences
+      () => (webviewRef.current?.goBack(), true),
+    )
+
+    return () => backHandler.remove()
+  }, [])
 
   if (error) {
     return <ErrorPage onTryAgain={() => setError(false)} />

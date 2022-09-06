@@ -1,4 +1,5 @@
 module.exports = {
+  sourceMap: true,
   transformer: {
     getTransformOptions: async () => ({
       transform: {
