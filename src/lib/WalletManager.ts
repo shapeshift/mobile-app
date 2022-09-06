@@ -70,12 +70,14 @@ export class WalletManager {
     return false
   }
 
-  public async get(key: string): Promise<Wallet | null> {
+  public async get(key: string) {
     if (this.has(key)) {
       try {
         const result = await getItemAsync(getKey(key))
-        if (result) return Wallet.fromJSON(result)
+        if (result) return Wallet.fromJSON(result).toJSON()
       } catch (e) {
+        // Delete a saved wallet if it's not valid
+        await this.delete(key)
         console.error('[WalletManager.get] Unable to get mnemonic', e)
       }
     }
@@ -89,6 +91,19 @@ export class WalletManager {
 
   public keys(): IterableIterator<string> {
     return this.#index.keys()
+  }
+
+  public async update(key: string, value: Partial<StoredWalletWithMnemonic>) {
+    try {
+      const originalWallet = await this.get(key)
+      if (originalWallet) {
+        return this.set(key, { ...originalWallet, label: value.label ?? originalWallet.label })
+      }
+    } catch (e) {
+      console.error('[update] Unable to update wallet', e)
+    }
+
+    return null
   }
 
   public async set(key: string, value: StoredWalletWithMnemonic): Promise<StoredWallet | null> {

@@ -24,7 +24,7 @@ export class Wallet {
         typeof wallet === 'object' &&
         isValidDeviceId(wallet.id) &&
         // a cheap way to make sure the date is reasonable
-        new Date(wallet.createdAt).valueOf() > 1600000000000 &&
+        new Date(wallet.createdAt ?? Date.now()).valueOf() > 1600000000000 &&
         parseMnemonic(wallet.mnemonic) &&
         wallet.label
       )
@@ -35,7 +35,7 @@ export class Wallet {
     this.#value = Object.freeze({
       id: wallet.id,
       label: wallet.label,
-      createdAt: wallet.createdAt || Date.now(),
+      createdAt: wallet.createdAt ?? Date.now(),
       mnemonic: wallet.mnemonic,
     })
   }
@@ -52,8 +52,8 @@ export class Wallet {
     return this.#value.createdAt
   }
 
-  toJSON(): StoredWallet {
-    return { id: this.#value.id, label: this.#value.label, createdAt: this.#value.createdAt }
+  toJSON() {
+    return this.#value
   }
 
   static fromJSON(wallet: string): Wallet {
@@ -61,7 +61,7 @@ export class Wallet {
       const result: StoredWalletWithMnemonic = JSON.parse(wallet)
       return new Wallet(result)
     } catch (e) {
-      console.error('[Wallet.fromString] Invalid wallet data', e)
+      console.error('[Wallet.fromJSON] Invalid wallet data', e)
     }
 
     throw new Error('data is not a valid wallet')
