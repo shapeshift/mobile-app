@@ -1,3 +1,6 @@
+# keystore
+*.jks
+
 # yarn 3
 .pnp.*
 .yarn/*
