@@ -29,7 +29,8 @@ if (LOGGING_WEBVIEW !== 'false') {
 
 messageManager.on('console', onConsole)
 messageManager.on('listWallets', () => walletManager.list())
-messageManager.on('hasWallets', () => walletManager.size)
+messageManager.on('hasWallets', () => walletManager.size > 0)
+messageManager.on('getWalletCount', () => walletManager.size)
 messageManager.on('deleteWallet', evt => walletManager.delete(evt.key))
 messageManager.on('getWallet', async evt => walletManager.get(evt.key))
 messageManager.on('hasWallet', evt => walletManager.has(evt.key))
@@ -85,6 +86,8 @@ const App = () => {
           ref={webviewRef}
           // Hide the webview until the page is loaded
           style={[styles.container, { display: loading ? 'none' : 'flex' }]}
+          pullToRefreshEnabled
+          decelerationRate={'normal'}
           startInLoadingState
           javaScriptEnabled
           domStorageEnabled
