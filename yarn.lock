@@ -2394,6 +2394,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-hook/async@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@react-hook/async@npm:3.1.1"
+  dependencies:
+    "@react-hook/latest": ^1.0.2
+  peerDependencies:
+    react: ">=16.8"
+  checksum: e996541d52ff3aa52ad96ec112415e6881d1423c7368d8ccabe57ca99c8e275fae3b1bac6a9dfbb7dd3424a50e785594f03c303e9e3c8222118021b6e37557d5
+  languageName: node
+  linkType: hard
+
+"@react-hook/latest@npm:^1.0.2":
+  version: 1.0.3
+  resolution: "@react-hook/latest@npm:1.0.3"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 2408c9cd35c5cfa7697b6da3bc5eebef254a932ade70955074c474f23be7dd3e2f81bbba12edcc9208bd0f89c6ed366d6b11d4f6d7b1052877a0bac8f74afad4
+  languageName: node
+  linkType: hard
+
 "@react-native-community/cli-clean@npm:^9.0.0":
   version: 9.0.0
   resolution: "@react-native-community/cli-clean@npm:9.0.0"
@@ -2794,6 +2814,31 @@ __metadata:
   version: 7.0.11
   resolution: "@types/json-schema@npm:7.0.11"
   checksum: 527bddfe62db9012fccd7627794bd4c71beb77601861055d87e3ee464f2217c85fca7a4b56ae677478367bbd248dbde13553312b7d4dbc702a2f2bbf60c4018d
+  languageName: node
+  linkType: hard
+
+"@types/lodash.memoize@npm:^4":
+  version: 4.1.7
+  resolution: "@types/lodash.memoize@npm:4.1.7"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 85f128b6606ab0545c11194208cf844536f981859221dff0032b1043dd4e02ee5aa1b96020d1e02a24db31be7493f2e9ff45836d2e3c35cf973fc6488f129eed
+  languageName: node
+  linkType: hard
+
+"@types/lodash.once@npm:^4":
+  version: 4.1.7
+  resolution: "@types/lodash.once@npm:4.1.7"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: ecca82deda7b34012882542d4a95b896263faff14e90ba4651555193e504e8df8b0b2b2af5150e9048bbb3a968ca7ab02f3cee58118fedbd6460d16d97a5c00f
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.184
+  resolution: "@types/lodash@npm:4.14.184"
+  checksum: 6d9a4d67f7f9d0ec3fd21174f3dd3d00629dc1227eb469450eace53adbc1f7e2330699c28d0fe093e5f0fef0f0e763098be1f779268857213224af082b62be21
   languageName: node
   linkType: hard
 
@@ -7945,10 +7990,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.memoize@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "lodash.memoize@npm:4.1.2"
+  checksum: 9ff3942feeccffa4f1fafa88d32f0d24fdc62fd15ded5a74a5f950ff5f0c6f61916157246744c620173dddf38d37095a92327d5fd3861e2063e736a5c207d089
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
   checksum: ad580b4bdbb7ca1f7abf7e1bce63a9a0b98e370cf40194b03380a46b4ed799c9573029599caebc1b14e3f24b111aef72b96674a56cfa105e0f5ac70546cdc005
+  languageName: node
+  linkType: hard
+
+"lodash.once@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "lodash.once@npm:4.1.1"
+  checksum: d768fa9f9b4e1dc6453be99b753906f58990e0c45e7b2ca5a3b40a33111e5d17f6edf2f768786e2716af90a8e78f8f91431ab8435f761fef00f9b0c256f6d245
   languageName: node
   linkType: hard
 
@@ -10700,9 +10759,12 @@ __metadata:
     "@babel/core": ^7.19.0
     "@babel/preset-env": ^7.18.10
     "@babel/runtime": ^7.19.0
+    "@react-hook/async": ^3.1.1
     "@react-native-community/eslint-config": ^3.1.0
     "@tsconfig/react-native": ^2.0.2
     "@types/jest": ^28.1.8
+    "@types/lodash.memoize": ^4
+    "@types/lodash.once": ^4
     "@types/react-native": ^0.69.6
     "@types/react-test-renderer": ^18.0.0
     "@typescript-eslint/eslint-plugin": ^5.36.2
@@ -10721,6 +10783,8 @@ __metadata:
     expo-secure-store: ^11.3.0
     expo-splash-screen: ^0.16.2
     jest: ^28.1.3
+    lodash.memoize: ^4.1.2
+    lodash.once: ^4.1.1
     metro-react-native-babel-preset: ^0.72.2
     prettier: ^2.7.1
     react: 18.2.0

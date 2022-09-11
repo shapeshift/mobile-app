@@ -1,47 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, View } from 'react-native'
-import { LOGGING_WEBVIEW, SHAPESHIFT_URI } from 'react-native-dotenv'
+import { SHAPESHIFT_URI } from 'react-native-dotenv'
 import ErrorBoundary from 'react-native-error-boundary'
 import RNShake from 'react-native-shake'
 import { WebView } from 'react-native-webview'
 import { DeveloperModeModal } from './components/DeveloperModeModal'
 import ErrorPage from './components/ErrorPage'
-import { injectedJavaScript, onConsole } from './lib/console'
-import { EventData, MessageManager } from './lib/MessageManager'
+import { useImportWallet } from './hooks/useImportWallet'
+import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
-import { WalletManager } from './lib/WalletManager'
 import { styles } from './styles'
-
-const walletManager = new WalletManager()
-walletManager
-  .initialize()
-  .catch(e =>
-    console.error('[WalletManager.initialize] Error loading wallet index from storage', e),
-  )
-
-/* Register message handlers and injected JavaScript */
-const messageManager = new MessageManager()
-if (LOGGING_WEBVIEW !== 'false') {
-  console.log('[App] Injecting console logging JavaScript')
-  messageManager.registerInjectedJavaScript(injectedJavaScript)
-}
-
-messageManager.on('console', onConsole)
-messageManager.on('listWallets', () => walletManager.list())
-messageManager.on('hasWallets', () => walletManager.size > 0)
-messageManager.on('getWalletCount', () => walletManager.size)
-messageManager.on('deleteWallet', evt => walletManager.delete(evt.key))
-messageManager.on('getWallet', async evt => walletManager.get(evt.key))
-messageManager.on('hasWallet', evt => walletManager.has(evt.key))
-messageManager.on('updateWallet', (evt: EventData) =>
-  walletManager.update(evt.key, { label: String(evt.label) }),
-)
-messageManager.on('addWallet', evt =>
-  walletManager.add({
-    label: String(evt.label),
-    mnemonic: String(evt.mnemonic),
-  }),
-)
 
 const App = () => {
   const [loading, setLoading] = useState(true)
@@ -49,7 +17,10 @@ const App = () => {
   const [error, setError] = useState(false)
   const [isDebugModalVisible, setIsDebugModalVisible] = useState(false)
   const webviewRef = useRef<WebView>(null)
+  const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
+
+  const { startImport } = useImportWallet()
 
   useEffect(() => {
     const subscription = RNShake.addListener(() => setIsDebugModalVisible(true))
@@ -68,6 +39,12 @@ const App = () => {
 
     return () => backHandler.remove()
   }, [])
+
+  useEffect(() => {
+    if (!loading) {
+      startImport()
+    }
+  }, [startImport, loading])
 
   return (
     <View style={styles.container}>
