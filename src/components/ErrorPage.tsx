@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, TouchableOpacity, ImageBackground } from 'react-native'
 import { ErrorIcon } from './ErrorIcon'
-import { styles } from './styles'
+import { styles } from '../styles'
 
 export type ErrorPageProps = { onTryAgain: () => unknown }
 
@@ -11,7 +11,7 @@ const ErrorPage: React.FC<ErrorPageProps> = props => {
       <ImageBackground
         resizeMode='cover'
         style={styles.imageBackground}
-        source={require('./no-connection-bg.jpg')}
+        source={require('../static/no-connection-bg.jpg')}
       >
         <View style={[styles.innerErrorContainer]}>
           <ErrorIcon style={[styles.errorIcon, styles['mb-md']]} />

@@ -9944,10 +9944,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-select-dropdown@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "react-native-select-dropdown@npm:2.0.4"
-  checksum: ba10311cdc8e9fff03805c7b7a1e7294b57a4f3aa095a220acabc1954ea800752a3c055873d9b225c7ebf75f5c3675a7054626fe885e3c8a1020bc687fa67e2d
+"react-native-shake@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "react-native-shake@npm:5.1.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 7ba0ff0b103bd9e7398a03b8873017ce5ed5c705cf45ca6f71e7ea1a4463602520edaa16e1762a262ac3c337dca07111ffcb498165da0d56db9cd33840be570a
   languageName: node
   linkType: hard
 
@@ -10724,7 +10727,7 @@ __metadata:
     react-native: 0.70.0
     react-native-dotenv: ^3.4.0
     react-native-error-boundary: ^1.1.15
-    react-native-select-dropdown: ^2.0.4
+    react-native-shake: ^5.1.1
     react-native-svg: ^13.1.0
     react-native-webview: ^11.23.1
     react-test-renderer: 18.2.0

@@ -105,4 +105,40 @@ export const styles = StyleSheet.create({
   textCenter: {
     textAlign: 'center',
   },
+  // For modals
+  modalView: {
+    color: 'white',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+    margin: 20,
+    backgroundColor,
+    borderRadius: 20,
+    padding: 35,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalHeader: {
+    color: 'white',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
 })
