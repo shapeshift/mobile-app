@@ -1,11 +1,12 @@
 import React from 'react'
-import { Button, FlatList, Modal, Pressable, Text, View } from 'react-native'
+import { Alert, Button, FlatList, Modal, Pressable, Text, View } from 'react-native'
 import {
   DEVELOP_URI,
   RELEASE_URI,
   SHAPESHIFT_PRIVATE_URI,
   SHAPESHIFT_URI,
 } from 'react-native-dotenv'
+import { setItemAsync } from 'expo-secure-store'
 import { styles } from '../styles'
 import { Separator } from './Separator'
 
@@ -75,6 +76,19 @@ export const DeveloperModeModal = (props: {
           )}
           ItemSeparatorComponent={Separator}
         />
+        <Pressable
+          style={styles.button}
+          onPress={async () => {
+            try {
+              await setItemAsync('mnemonic', 'all all all all all all all all all all all all')
+              Alert.alert('Mnemonic Saved')
+            } catch (e) {
+              Alert.alert('Save failed')
+            }
+          }}
+        >
+          <Text style={styles.textStyle}>Create a mnemonic for import</Text>
+        </Pressable>
         <Pressable style={[styles.button, styles.buttonClose]} onPress={onClose}>
           <Text style={styles.textStyle}>Close</Text>
         </Pressable>
