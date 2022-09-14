@@ -32,6 +32,15 @@ export class MessageManager {
   }
 
   /**
+   * Get a reference to webview
+   *
+   * Useful for injecting JavaScript
+   */
+  get webviewRef() {
+    return this.#webview?.current
+  }
+
+  /**
    * Add an event handler for a specific command
    * If the function returns a value, the result will be sent to the WebView
    *
@@ -70,7 +79,7 @@ export class MessageManager {
   postMessage(data: unknown) {
     try {
       // Yes, a document can post a message to itself
-      this.#webview?.current?.injectJavaScript(`window.postMessage(data)`)
+      this.#webview?.current?.injectJavaScript(`window.postMessage(${JSON.stringify(data)})`)
     } catch (e) {
       console.error('[MessageManager:postMessage] Error sending message', { data }, e)
     }
@@ -81,6 +90,6 @@ export class MessageManager {
     // to the WebView, but this solution is simple and pragmatic for now
     if (result === undefined) return
 
-    this.postMessage({ id, result: JSON.stringify(result) })
+    this.postMessage({ id, result })
   }
 }

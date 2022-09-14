@@ -10,7 +10,7 @@ import memoize from 'lodash.memoize'
  * memoize it by deviceId to avoid accidentally sending multiple events
  */
 const raiseImportEvent = memoize((deviceId: string) =>
-  getMessageManager().postMessage({ event: 'wallet_imported', deviceId }),
+  getMessageManager().postMessage({ id: Date.now(), cmd: 'walletImported', deviceId }),
 )
 
 export const useImportWallet = () => {
@@ -35,7 +35,7 @@ export const useImportWallet = () => {
             // We need to double-check that the mnemonic got imported correctly before deleting it
             const gotWallet = await walletManager.get(newWallet.id)
             if (gotWallet?.mnemonic === prevWallet) {
-              console.info('[useImportWallet] Imported a wallet')
+              console.info('\x1b[7m [useImportWallet] Imported a wallet \x1b[0m')
               await deleteItemAsync('mnemonic')
               return setStatus(gotWallet.id)
             }

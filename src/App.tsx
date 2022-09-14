@@ -7,11 +7,14 @@ import { WebView } from 'react-native-webview'
 import { DeveloperModeModal } from './components/DeveloperModeModal'
 import ErrorPage from './components/ErrorPage'
 import { useImportWallet } from './hooks/useImportWallet'
+import { useKeepAlive } from './hooks/useKeepAlive'
+import { useSettings } from './hooks/useSettings'
 import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 
 const App = () => {
+  const { settings, setSetting } = useSettings()
   const [loading, setLoading] = useState(true)
   const [ssUrl, setSsUrl] = useState(SHAPESHIFT_URI)
   const [error, setError] = useState(false)
@@ -20,7 +23,15 @@ const App = () => {
   const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
 
+  useKeepAlive()
   const { startImport } = useImportWallet()
+
+  useEffect(() => {
+    console.debug('\x1b[7m SHAPESHIFT_URI', settings.SHAPESHIFT_URI, '\x1b[0m')
+    if (typeof settings.SHAPESHIFT_URI === 'string' && settings.SHAPESHIFT_URI !== ssUrl) {
+      setSsUrl(settings.SHAPESHIFT_URI)
+    }
+  }, [settings.SHAPESHIFT_URI, ssUrl])
 
   useEffect(() => {
     const subscription = RNShake.addListener(() => setIsDebugModalVisible(true))
@@ -51,7 +62,7 @@ const App = () => {
       <DeveloperModeModal
         visible={isDebugModalVisible}
         onClose={() => setIsDebugModalVisible(false)}
-        onSelect={url => (setSsUrl(url), setError(false))}
+        onSelect={url => setSetting('SHAPESHIFT_URI', url).catch(console.error)}
       />
       {error ? (
         <ErrorPage onTryAgain={() => setError(false)} />
@@ -79,8 +90,10 @@ const App = () => {
             )}
             injectedJavaScriptBeforeContentLoaded={messageManager.injectedJavaScript}
             onMessage={msg => messageManager.handleMessage(msg)}
-            onLoad={() => setLoading(false)}
-            onNavigationStateChange={e => console.log('Navigation Start', e.url)}
+            onNavigationStateChange={e => {
+              console.debug('\x1b[7m onNavigationStateChange', e, '\x1b[0m')
+              if (loading) setLoading(e.loading)
+            }}
             onShouldStartLoadWithRequest={shouldLoadFilter}
             source={{ uri: `${ssUrl}/#/dashboard` }}
             onError={syntheticEvent => {
