@@ -47,6 +47,7 @@
 		7C4CCA59716C493489063330 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = shapeshift/SplashScreen.storyboard; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = shapeshift/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-shapeshift-shapeshiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shapeshift-shapeshiftTests.release.xcconfig"; path = "Target Support Files/Pods-shapeshift-shapeshiftTests/Pods-shapeshift-shapeshiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		9DA7728928D3B31500D07C31 /* shapeshift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = shapeshift.entitlements; path = shapeshift/shapeshift.entitlements; sourceTree = "<group>"; };
 		C6BEB627AC7EBA9D372060BE /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-shapeshift-shapeshiftTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		DBDF260EE60332113613BC23 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-shapeshift/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -92,6 +93,7 @@
 		13B07FAE1A68108700A75B9A /* shapeshift */ = {
 			isa = PBXGroup;
 			children = (
+				9DA7728928D3B31500D07C31 /* shapeshift.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -525,7 +527,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 303;
+				CODE_SIGN_ENTITLEMENTS = shapeshift/shapeshift.entitlements;
+				CURRENT_PROJECT_VERSION = 304;
 				DEVELOPMENT_TEAM = 7882V35EPB;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = shapeshift/Info.plist;
@@ -556,7 +559,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 303;
+				CODE_SIGN_ENTITLEMENTS = shapeshift/shapeshift.entitlements;
+				CURRENT_PROJECT_VERSION = 304;
 				DEVELOPMENT_TEAM = 7882V35EPB;
 				INFOPLIST_FILE = shapeshift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
