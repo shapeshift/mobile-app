@@ -11,11 +11,22 @@ It is simpler to install CocoaPods via brew rather than using Ruby.
 ```
 
 # Local build and development
-Install dependencies using `yarn install`
+## Tooling Requirements
+1. `node` v16+
+2. `yarn` v3
+3. Android Studio / Xcode
+
+### Yarn
+To install `yarn` v3, run
+```shell
+corepack enable
+corepack prepare yarn@3 --activate
+```
+
+run `yarn` to install dependencies
 
 ## iOS
 Tested with Xcode 13.4 on macOS 12.5. You will also need CocoaPods installed
-
 
 1. Copy .env file
 ```
@@ -39,4 +50,3 @@ Requires Android Studio. Follow the React Native Android setup instructions firs
 ```
 yarn android
 ```
-
