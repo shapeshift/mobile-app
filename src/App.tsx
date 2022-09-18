@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, View } from 'react-native'
-import { SHAPESHIFT_URI } from 'react-native-dotenv'
 import ErrorBoundary from 'react-native-error-boundary'
 import RNShake from 'react-native-shake'
 import { WebView } from 'react-native-webview'
@@ -16,7 +15,6 @@ import { styles } from './styles'
 const App = () => {
   const { settings, setSetting } = useSettings()
   const [loading, setLoading] = useState(true)
-  const [ssUrl, setSsUrl] = useState(SHAPESHIFT_URI)
   const [error, setError] = useState(false)
   const [isDebugModalVisible, setIsDebugModalVisible] = useState(false)
   const webviewRef = useRef<WebView>(null)
@@ -25,13 +23,6 @@ const App = () => {
 
   useKeepAlive()
   const { startImport } = useImportWallet()
-
-  useEffect(() => {
-    console.debug('\x1b[7m SHAPESHIFT_URI', settings.SHAPESHIFT_URI, '\x1b[0m')
-    if (typeof settings.SHAPESHIFT_URI === 'string' && settings.SHAPESHIFT_URI !== ssUrl) {
-      setSsUrl(settings.SHAPESHIFT_URI)
-    }
-  }, [settings.SHAPESHIFT_URI, ssUrl])
 
   useEffect(() => {
     const subscription = RNShake.addListener(() => setIsDebugModalVisible(true))
@@ -44,7 +35,6 @@ const App = () => {
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-
       () => (webviewRef.current?.goBack(), true),
     )
 
@@ -56,6 +46,8 @@ const App = () => {
       startImport()
     }
   }, [startImport, loading])
+
+  if (!settings?.SHAPESHIFT_URI) return null
 
   return (
     <View style={styles.container}>
@@ -95,7 +87,7 @@ const App = () => {
               if (loading) setLoading(e.loading)
             }}
             onShouldStartLoadWithRequest={shouldLoadFilter}
-            source={{ uri: `${ssUrl}/#/dashboard` }}
+            source={{ uri: `${settings.SHAPESHIFT_URI}/#/dashboard` }}
             onError={syntheticEvent => {
               const { nativeEvent } = syntheticEvent
               console.error('WebView onError: ', nativeEvent)

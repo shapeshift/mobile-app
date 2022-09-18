@@ -10656,6 +10656,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-singleton-hook@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "react-singleton-hook@npm:4.0.0"
+  peerDependencies:
+    react: 18
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 6ff823124ab17167a20b674670b83448c2df9f4eadbe78001a4c9d7deff5889bdb6c6398dc71f99ca2e01c9b104b4c1f2c97c3633f0b614c5eb9369869989153
+  languageName: node
+  linkType: hard
+
 "react-test-renderer@npm:18.2.0":
   version: 18.2.0
   resolution: "react-test-renderer@npm:18.2.0"
@@ -11350,6 +11364,7 @@ __metadata:
     react-native-shake: ^5.1.1
     react-native-svg: ^13.2.0
     react-native-webview: ^11.23.1
+    react-singleton-hook: ^4.0.0
     react-test-renderer: 18.2.0
     typescript: ^4.8.3
   languageName: unknown

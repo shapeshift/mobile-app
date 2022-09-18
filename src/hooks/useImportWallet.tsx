@@ -1,5 +1,6 @@
 import { deleteItemAsync, getItemAsync } from 'expo-secure-store'
 import { useEffect, useState } from 'react'
+import { singletonHook } from 'react-singleton-hook'
 import { getMessageManager } from '../lib/getMessageManager'
 import { getWalletManager } from '../lib/getWalletManager'
 import memoize from 'lodash.memoize'
@@ -13,7 +14,12 @@ const raiseImportEvent = memoize((deviceId: string) =>
   getMessageManager().postMessage({ id: Date.now(), cmd: 'walletImported', deviceId }),
 )
 
-export const useImportWallet = () => {
+const initialState = Object.freeze({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  startImport: () => {},
+})
+
+export const useImportWalletImpl = () => {
   const [started, setStarted] = useState(false)
   const [status, setStatus] = useState<string | false | null>(null)
 
@@ -59,3 +65,5 @@ export const useImportWallet = () => {
     startImport: () => setStarted(true),
   }
 }
+
+export const useImportWallet = singletonHook(initialState, useImportWalletImpl)

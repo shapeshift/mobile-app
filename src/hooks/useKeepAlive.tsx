@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import RNRestart from 'react-native-restart'
+import { singletonHook } from 'react-singleton-hook'
 import { getMessageManager } from '../lib/getMessageManager'
 
-export const useKeepAlive = () => {
+export const useKeepAliveImpl = () => {
   const [lastPong, setLastPong] = useState(Date.now())
   const [isAlerting, setIsAlerting] = useState(false)
 
@@ -50,3 +51,5 @@ export const useKeepAlive = () => {
     // No deps because we don't want to re-render the "setInterval"
   }, [isAlerting, lastPong, messageManager])
 }
+
+export const useKeepAlive = singletonHook(null, useKeepAliveImpl)
