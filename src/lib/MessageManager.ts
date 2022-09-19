@@ -69,7 +69,13 @@ export class MessageManager {
       const data: EventData = JSON.parse(evt.nativeEvent.data)
       const handlers = this.#handlers.get(data.cmd) ?? []
       for (const h of handlers) {
-        this.sendResult(data.id, await h(data))
+        let result
+        try {
+          result = await h(data)
+        } catch (e) {
+          result = { error: String(e) }
+        }
+        this.sendResult(data.id, result)
       }
     } catch (e) {
       console.error('[MessageManager:handleMessage] Invalid event data', e)

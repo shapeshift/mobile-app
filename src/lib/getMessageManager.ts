@@ -3,8 +3,13 @@ import once from 'lodash.once'
 import { LOGGING_WEBVIEW } from 'react-native-dotenv'
 
 import { injectedJavaScript, onConsole } from './console'
+import { hashPassword, makeKey } from './crypto/crypto'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
+
+type EncryptedWalletInfo = {
+  [k: string]: string
+}
 
 export const getMessageManager = once(() => {
   const messageManager = new MessageManager()
@@ -33,6 +38,25 @@ export const getMessageManager = once(() => {
       mnemonic: String(evt.mnemonic),
     }),
   )
+  messageManager.on('hashPassword', async evt => {
+    const { email, password } = evt as EncryptedWalletInfo
+    try {
+      const key = await makeKey(password, email)
+      return hashPassword(password, key)
+    } catch (e) {
+      console.error('[hashPassword:Error]', e)
+      return null
+    }
+  })
+  messageManager.on('decryptWallet', evt => {
+    const { email, password, encryptedWallet } = evt as EncryptedWalletInfo
+    try {
+      return walletManager.decryptWallet({ email, password, encryptedWallet })
+    } catch (e) {
+      console.error('[decryptWallet:Error]', e)
+      return null
+    }
+  })
 
   return messageManager
 })
