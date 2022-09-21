@@ -1,53 +1,9 @@
 import React from 'react'
 import { Alert, Button, FlatList, Modal, Pressable, Text, View } from 'react-native'
-import {
-  DEVELOP_URI,
-  RELEASE_URI,
-  SHAPESHIFT_PRIVATE_URI,
-  SHAPESHIFT_URI,
-} from 'react-native-dotenv'
 import { setItemAsync } from 'expo-secure-store'
+import { Environment, ENVIRONMENTS } from '../lib/environments'
 import { styles } from '../styles'
 import { Separator } from './Separator'
-
-type Environment = {
-  key: string
-  title: string
-  url: string
-}
-
-const ENVIRONMENTS: Environment[] = [
-  {
-    key: 'prod',
-    title: 'Production',
-    url: SHAPESHIFT_URI,
-  },
-  {
-    key: 'private',
-    title: 'Production (Private)',
-    url: SHAPESHIFT_PRIVATE_URI,
-  },
-  {
-    key: 'dev',
-    title: 'Development',
-    url: DEVELOP_URI,
-  },
-  {
-    key: 'pre-release',
-    title: 'Pre-release',
-    url: RELEASE_URI,
-  },
-  {
-    key: 'localhost',
-    title: 'Localhost',
-    url: 'http://localhost:3000',
-  },
-  {
-    key: 'android',
-    title: 'Localhost (Android)',
-    url: 'http://10.0.2.2:3000',
-  },
-]
 
 type PressFn = (url: string) => void
 
