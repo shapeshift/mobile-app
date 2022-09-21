@@ -70,6 +70,8 @@ const App = () => {
             // Hide the webview until the page is loaded
             // eslint-disable-next-line react-native/no-inline-styles
             style={[styles.container, { display: loading ? 'none' : 'flex' }]}
+            allowsInlineMediaPlayback={true}
+            mediaPlaybackRequiresUserAction={false}
             pullToRefreshEnabled
             decelerationRate={'normal'}
             startInLoadingState
