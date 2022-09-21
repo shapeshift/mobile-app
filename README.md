@@ -47,6 +47,20 @@ yarn ios
 
 ## Android
 Requires Android Studio. Follow the React Native Android setup instructions first.
+
+Note: by default the android virtual device configured in Android Studio is under resourced. 
+Increasing the RAM and Internal Storage may be required to succesffully run the app. 
+
+If you see an error like the following, please attempt to increase the resources on the virtual device
+
+> error Failed to install the app. Make sure you have the Android development environment set up: https://reactnative.dev/docs/environment-setup.
+Error: Command failed: ./gradlew app:installDebug -PreactNativeDevServerPort=8081
+Unable to install .../mobile-app/android/app/build/outputs/apk/debug/app-debug.apk
+com.android.ddmlib.InstallException: Unknown failure: Exception occurred while executing 'install':
+android.os.ParcelableException: java.io.IOException: Requested internal only, but not enough space
+
+#### To start the app:
+
 ```
 yarn android
 ```
