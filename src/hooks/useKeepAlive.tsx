@@ -27,20 +27,8 @@ export const useKeepAliveImpl = () => {
           isAlerting,
           `WebView is not responding to pings. Last ping: ${Math.round(ago / 1000)} seconds ago`,
         )
-        // If we haven't gotten a pong in 1 minute, try to reload the page
-        Alert.alert('Not Responding', 'ShapeShift is not responding', [
-          {
-            text: 'Cancel',
-            style: 'cancel',
-            // Don't ask again for 5 minutes
-            onPress: () => (setIsAlerting(false), setLastPong(Date.now() + 300000)),
-          },
-          {
-            text: 'Restart',
-            style: 'destructive',
-            onPress: () => RNRestart.Restart(),
-          },
-        ])
+
+        messageManager.webviewRef?.reload()
       }
     }, 5000)
 
