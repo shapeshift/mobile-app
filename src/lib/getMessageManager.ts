@@ -5,6 +5,7 @@ import { LOGGING_WEBVIEW } from 'react-native-dotenv'
 import { injectedJavaScript, onConsole } from './console'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
+import Clipboard from '@react-native-clipboard/clipboard';
 
 export const getMessageManager = once(() => {
   const messageManager = new MessageManager()
@@ -18,6 +19,8 @@ export const getMessageManager = once(() => {
   const walletManager = getWalletManager()
 
   messageManager.on('console', onConsole)
+
+  // wallet APIs
   messageManager.on('listWallets', () => walletManager.list())
   messageManager.on('hasWallets', () => walletManager.size > 0)
   messageManager.on('getWalletCount', () => walletManager.size)
@@ -33,6 +36,9 @@ export const getMessageManager = once(() => {
       mnemonic: String(evt.mnemonic),
     }),
   )
+
+  // clipboard
+  messageManager.on('setClipboard', evt => Clipboard.setString(evt.key));
 
   return messageManager
 })
