@@ -3,9 +3,10 @@ import once from 'lodash.once'
 import { LOGGING_WEBVIEW } from 'react-native-dotenv'
 
 import { injectedJavaScript, onConsole } from './console'
+import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
-import Clipboard from '@react-native-clipboard/clipboard';
+import Clipboard from '@react-native-clipboard/clipboard'
 
 export const getMessageManager = once(() => {
   const messageManager = new MessageManager()
@@ -15,6 +16,9 @@ export const getMessageManager = once(() => {
     console.log('[App] Injecting console logging JavaScript')
     messageManager.registerInjectedJavaScript(injectedJavaScript)
   }
+
+  console.log('[App] Injecting clipboard JavaScript')
+  messageManager.registerInjectedJavaScript(injectedJavaScriptClipboard)
 
   const walletManager = getWalletManager()
 
@@ -38,7 +42,7 @@ export const getMessageManager = once(() => {
   )
 
   // clipboard
-  messageManager.on('setClipboard', evt => Clipboard.setString(evt.key));
+  messageManager.on('setClipboard', evt => Clipboard.setString(evt.key))
 
   return messageManager
 })
