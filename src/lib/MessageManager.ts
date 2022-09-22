@@ -11,7 +11,7 @@ export type EventData = {
 }
 
 export class MessageManager {
-  #handlers = new Map<string, MessageCallback[]>()
+  #handlers = new Map<string, MessageCallback>()
   #js = ['globalThis.isShapeShiftMobile = true;']
   #webview: RefObject<WebView> | null = null
 
@@ -44,12 +44,12 @@ export class MessageManager {
    * Add an event handler for a specific command
    * If the function returns a value, the result will be sent to the WebView
    *
-   * Multiple event handlers per command are supported
+   * Only one handler per event is allowed
+   * We don't want React re-renders to add duplicate handlers, and we don't
+   * have a need for multiple handlers.
    */
   on(cmd: string, callback: MessageCallback) {
-    const callbacks = this.#handlers.get(cmd) ?? []
-    callbacks.push(callback)
-    this.#handlers.set(cmd, callbacks)
+    this.#handlers.set(cmd, callback)
   }
 
   /**
@@ -67,11 +67,11 @@ export class MessageManager {
   async handleMessage(evt: WebViewMessageEvent) {
     try {
       const data: EventData = JSON.parse(evt.nativeEvent.data)
-      const handlers = this.#handlers.get(data.cmd) ?? []
-      for (const h of handlers) {
+      const handler = this.#handlers.get(data.cmd)
+      if (handler) {
         let result
         try {
-          result = await h(data)
+          result = await handler(data)
         } catch (e) {
           result = { error: String(e) }
         }
