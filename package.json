@@ -11,9 +11,12 @@
     "type-check": "tsc --project ./tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@craftzdog/react-native-buffer": "^6.0.5",
     "@react-hook/async": "^3.1.1",
     "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-native-clipboard/clipboard": "^1.11.1",
+    "@seald-io/react-native-scrypt": "^1.2.3",
+    "bip39": "^3.0.4",
     "expo": "^46.0.10",
     "expo-modules-autolinking": "^0.10.3",
     "expo-modules-core": "^0.11.5",
@@ -25,8 +28,8 @@
     "react-native": "0.70.1",
     "react-native-dotenv": "^3.4.0",
     "react-native-error-boundary": "^1.1.16",
-    "react-native-restart": "^0.0.24",
     "react-native-shake": "^5.1.1",
+    "react-native-simple-crypto": "^0.2.15",
     "react-native-svg": "^13.2.0",
     "react-native-webview": "^11.23.1",
     "react-singleton-hook": "^4.0.0"

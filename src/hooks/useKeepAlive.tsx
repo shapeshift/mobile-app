@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
-import RNRestart from 'react-native-restart'
 import { singletonHook } from 'react-singleton-hook'
 import { getMessageManager } from '../lib/getMessageManager'
 

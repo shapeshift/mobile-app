@@ -3,7 +3,7 @@
   "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
   "compilerOptions": {
     "jsx": "react",
-    "lib": ["es2018"]
+    "lib": ["es2020"]
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
   }
 }

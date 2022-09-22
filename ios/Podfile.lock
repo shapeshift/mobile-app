@@ -324,9 +324,9 @@ PODS:
   - React-jsinspector (0.70.1)
   - React-logger (0.70.1):
     - glog
-  - react-native-restart (0.0.24):
-    - React-Core
   - react-native-shake (5.1.1):
+    - React
+  - react-native-simple-crypto (0.2.15):
     - React
   - react-native-webview (11.23.1):
     - React-Core
@@ -400,6 +400,8 @@ PODS:
     - React-Core
   - RNCClipboard (1.11.1):
     - React-Core
+  - RNScrypt (1.2.3):
+    - React
   - RNSVG (13.2.0):
     - React-Core
   - SocketRocket (0.6.0)
@@ -464,8 +466,8 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
-  - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-shake (from `../node_modules/react-native-shake`)
+  - react-native-simple-crypto (from `../node_modules/react-native-simple-crypto`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -481,6 +483,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
+  - "RNScrypt (from `../node_modules/@seald-io/react-native-scrypt`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -565,10 +568,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
-  react-native-restart:
-    :path: "../node_modules/react-native-restart"
   react-native-shake:
     :path: "../node_modules/react-native-shake"
+  react-native-simple-crypto:
+    :path: "../node_modules/react-native-simple-crypto"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-perflogger:
@@ -599,6 +602,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
+  RNScrypt:
+    :path: "../node_modules/@seald-io/react-native-scrypt"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -649,8 +654,8 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 47201924064085223b63ec7e3ee9fd40ad8508e8
   React-jsinspector: 1363be638eccfe1aea1b10dd42e632b0397e5ec8
   React-logger: 7bd569e3857d74ed412ce0a5c51f421ff7d4ca7f
-  react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
   react-native-shake: 67d43d6af4abfc299400b17fea7d2ec0754c72ac
+  react-native-simple-crypto: 499ddd9f317932677e50393e58e7a72bca2a86e1
   react-native-webview: d33e2db8925d090871ffeb232dfa50cb3a727581
   React-perflogger: 48c6b363e867d64b682e84f80ca45636bd65e19c
   React-RCTActionSheet: 33c74fe5c754835e3715c300618da9aa2f7203fa
@@ -666,6 +671,7 @@ SPEC CHECKSUMS:
   ReactCommon: 7f86326b92009925c6dcf93f8e825060171c379f
   RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
   RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
+  RNScrypt: 2dcfcc34960afb8836c947b0510167a18ebb0a5a
   RNSVG: 07037623c36f12e41312730622d5f6b3656227ca
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Yoga: 6c8252e38d65aa387daee699eacf027e055e0b31
