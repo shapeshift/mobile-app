@@ -1,4 +1,5 @@
 import { deleteItemAsync, getItemAsync, setItemAsync, WHEN_UNLOCKED } from 'expo-secure-store'
+import { decrypt } from './crypto'
 import { isValidDeviceId, StoredWallet, StoredWalletWithMnemonic, Wallet } from './Wallet'
 
 const getKey = (key: string) => {
@@ -149,6 +150,19 @@ export class WalletManager {
     } catch (e) {
       console.error('[#updateIndex] Error updating mnemonic index', e)
       throw e
+    }
+  }
+
+  async decryptWallet(encryptedWalletInfo: {
+    email: string
+    password: string
+    encryptedWallet: string
+  }) {
+    const { email, password, encryptedWallet } = encryptedWalletInfo
+    try {
+      return await decrypt({ email, password, encryptedWallet })
+    } catch (e) {
+      throw new Error('Native wallet decryption failed: ' + e)
     }
   }
 }
