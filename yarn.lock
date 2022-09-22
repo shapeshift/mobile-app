@@ -10256,16 +10256,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-restart@npm:^0.0.24":
-  version: 0.0.24
-  resolution: "react-native-restart@npm:0.0.24"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 2ea5f1e9c31d3d705ad2061966a240db32131ad11fd227f244919f2882a1ed7a6d48aed6b7bcab59a989fb58f59ca7e1d6d5316089d011a6955975f1148160f0
-  languageName: node
-  linkType: hard
-
 "react-native-shake@npm:^5.1.1":
   version: 5.1.1
   resolution: "react-native-shake@npm:5.1.1"
@@ -11096,7 +11086,6 @@ __metadata:
     react-native: 0.70.1
     react-native-dotenv: ^3.4.0
     react-native-error-boundary: ^1.1.16
-    react-native-restart: ^0.0.24
     react-native-shake: ^5.1.1
     react-native-simple-crypto: ^0.2.15
     react-native-svg: ^13.2.0
