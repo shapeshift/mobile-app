@@ -25,12 +25,18 @@ const App = () => {
   const { startImport } = useImportWallet()
 
   useEffect(() => {
-    const subscription = RNShake.addListener(() => setIsDebugModalVisible(true))
+    messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
+  }, [messageManager])
+
+  useEffect(() => {
+    const subscription = RNShake.addListener(() => {
+      messageManager.postMessage({ cmd: 'shakeEvent' })
+    })
 
     return () => {
       subscription.remove()
     }
-  }, [])
+  }, [messageManager])
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
