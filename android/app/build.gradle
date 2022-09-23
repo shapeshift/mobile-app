@@ -136,7 +136,7 @@ android {
         applicationId 'com.shapeshift.droid_shapeshift'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 311
+        versionCode 313
         versionName '3.0.0'
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
@@ -216,6 +216,7 @@ android {
             keyPassword 'android'
         }
     }
+    buildToolsVersion buildToolsVersion
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
