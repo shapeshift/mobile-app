@@ -41,7 +41,7 @@ const useMessageManagerImpl = () => {
     messageManager.on('hasWallets', () => walletManager.size > 0)
     messageManager.on('getWalletCount', () => walletManager.size)
     messageManager.on('deleteWallet', evt => walletManager.delete(evt.key))
-    messageManager.on('getWallet', async evt => walletManager.get(evt.key))
+    messageManager.on('getWallet', async evt => walletManager.getWalletWithMnemonic(evt.key))
     messageManager.on('hasWallet', evt => walletManager.has(evt.key))
     messageManager.on('updateWallet', (evt: EventData) =>
       walletManager.update(evt.key, { label: String(evt.label) }),

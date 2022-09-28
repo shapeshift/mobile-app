@@ -1,4 +1,5 @@
 import { deleteItemAsync, getItemAsync, setItemAsync, WHEN_UNLOCKED } from 'expo-secure-store'
+import { authenticateAsync, getEnrolledLevelAsync } from 'expo-local-authentication'
 import { decrypt } from './crypto'
 import { isValidDeviceId, StoredWallet, StoredWalletWithMnemonic, Wallet } from './Wallet'
 
@@ -14,6 +15,7 @@ enum UpdateAction {
 
 export class WalletManager {
   #index = new Set<string>()
+  #useAuthentication = false
 
   public readonly [Symbol.toStringTag]: string = 'WalletManager'
 
@@ -31,6 +33,19 @@ export class WalletManager {
       // We could end up with "lost" wallets, but I don't see a way to intelligently recover
       // from a failure to parse the stored JSON.
     }
+
+    try {
+      // https://docs.expo.dev/versions/latest/sdk/local-authentication/#securitylevel
+      const securityLevel = await getEnrolledLevelAsync()
+      this.#useAuthentication = securityLevel >= 1 // device has pin or biometrics
+      console.info(
+        `WalletManager.initialize] Device Security Level: ${securityLevel} useAuthentication:${
+          this.#useAuthentication
+        }`,
+      )
+    } catch (e) {
+      console.error('[WalletManager.initialize] Unable to determine device security state')
+    }
   }
 
   public get size(): number {
@@ -41,7 +56,7 @@ export class WalletManager {
     const list: Array<StoredWallet> = []
     for (const id of this.#index) {
       try {
-        const w = await this.get(id)
+        const w = await this.#get(id)
         if (w) {
           list.push({ id: w.id, label: w.label, createdAt: w.createdAt })
         }
@@ -71,18 +86,25 @@ export class WalletManager {
     return false
   }
 
-  public async get(key: string) {
-    if (this.has(key)) {
-      try {
-        const result = await getItemAsync(getKey(key))
-        if (result) return Wallet.fromJSON(result).toJSON()
-      } catch (e) {
-        // Delete a saved wallet if it's not valid
-        await this.delete(key)
-        console.error('[WalletManager.get] Unable to get mnemonic', e)
-      }
+  public async getWalletWithMnemonic(
+    key: string,
+    overrideAuth = false,
+  ): Promise<StoredWalletWithMnemonic | null> {
+    if (overrideAuth || !this.#useAuthentication) {
+      return this.#get(key)
     }
-
+    try {
+      const authResult = await authenticateAsync({
+        promptMessage: 'Please authenticate to access your wallet',
+      })
+      if (authResult.success) {
+        return this.#get(key)
+      } else {
+        console.error('[WalletManager.get] Auth failed: ', authResult)
+      }
+    } catch (e) {
+      console.error('[WalletManager.get] Auth failed with error:', e)
+    }
     return null
   }
 
@@ -96,7 +118,7 @@ export class WalletManager {
 
   public async update(key: string, value: Partial<StoredWalletWithMnemonic>) {
     try {
-      const originalWallet = await this.get(key)
+      const originalWallet = await this.#get(key)
       if (originalWallet) {
         return this.set(key, { ...originalWallet, label: value.label ?? originalWallet.label })
       }
@@ -151,6 +173,20 @@ export class WalletManager {
       console.error('[#updateIndex] Error updating mnemonic index', e)
       throw e
     }
+  }
+
+  async #get(key: string) {
+    if (this.has(key)) {
+      try {
+        const result = await getItemAsync(getKey(key))
+        if (result) return Wallet.fromJSON(result).toJSON()
+      } catch (e) {
+        // Delete a saved wallet if it's not valid
+        await this.delete(key)
+        console.error('[WalletManager.get] Unable to get mnemonic', e)
+      }
+    }
+    return null
   }
 
   async decryptWallet(encryptedWalletInfo: {

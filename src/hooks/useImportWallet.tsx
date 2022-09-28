@@ -39,7 +39,7 @@ export const useImportWalletImpl = () => {
           })
           if (newWallet) {
             // We need to double-check that the mnemonic got imported correctly before deleting it
-            const gotWallet = await walletManager.get(newWallet.id)
+            const gotWallet = await walletManager.getWalletWithMnemonic(newWallet.id, true)
             if (gotWallet?.mnemonic === prevWallet) {
               console.info('\x1b[7m [useImportWallet] Imported a wallet \x1b[0m')
               await deleteItemAsync('mnemonic')
