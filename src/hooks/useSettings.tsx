@@ -1,23 +1,39 @@
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect, useState } from 'react'
-import { SHAPESHIFT_URI } from 'react-native-dotenv'
+import { LOGGING_WEBVIEW, SHAPESHIFT_URI } from 'react-native-dotenv'
 import { singletonHook } from 'react-singleton-hook'
 
+export interface Settings {
+  SHAPESHIFT_URI: string
+  LOGGING_WEBVIEW: boolean
+  KEEP_ALIVE: number
+  [k: string]: unknown
+}
+
 const useSettingsImpl = () => {
-  const [settings, setSettings] = useState<Record<string, unknown> | null>(null)
+  const [settings, setSettings] = useState<Settings | null>(null)
   const { getItem, setItem, mergeItem } = useAsyncStorage('settings')
 
   useEffect(() => {
-    if (!settings)
+    if (!settings) {
+      const defaultSettings = {
+        SHAPESHIFT_URI,
+        LOGGING_WEBVIEW: LOGGING_WEBVIEW !== 'false',
+        KEEP_ALIVE: 30000,
+      }
+
       getItem()
         .then(data => {
           if (!data) {
-            setSettings({ SHAPESHIFT_URI })
-            return setItem(JSON.stringify({ SHAPESHIFT_URI }))
+            setSettings(defaultSettings)
+            return setItem(JSON.stringify(defaultSettings))
           }
-          setSettings(JSON.parse(data))
+          const newSettings = { ...defaultSettings, ...JSON.parse(data) }
+          console.debug('[useSettings.get]', newSettings)
+          setSettings(newSettings)
         })
         .catch(console.error)
+    }
   }, [settings, getItem, setItem])
 
   const setSetting = useCallback(

@@ -1,14 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { ActivityIndicator, BackHandler, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ActivityIndicator, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
-import RNShake from 'react-native-shake'
 import { WebView } from 'react-native-webview'
 import { DeveloperModeModal } from './components/DeveloperModeModal'
 import ErrorPage from './components/ErrorPage'
 import { useImportWallet } from './hooks/useImportWallet'
 import { useKeepAlive } from './hooks/useKeepAlive'
+import { useMessageManager } from './hooks/useMessageManager'
 import { useSettings } from './hooks/useSettings'
-import { getMessageManager } from './lib/getMessageManager'
+import { useShake } from './hooks/useShake'
+import { useWebViewRef } from './hooks/useWebViewRef'
+import { ENVIRONMENTS } from './lib/environments'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 
@@ -16,50 +18,48 @@ const App = () => {
   const { settings, setSetting } = useSettings()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [isDebugModalVisible, setIsDebugModalVisible] = useState(false)
-  const webviewRef = useRef<WebView>(null)
-  const messageManager = getMessageManager()
-  messageManager.setWebViewRef(webviewRef)
+  const [isDeveloperModalVisible, setIsDeveloperModalVisible] = useState(false)
+  const webviewRef = useWebViewRef()
+  const messageManager = useMessageManager()
 
   useKeepAlive()
-  const { startImport } = useImportWallet()
+  useShake()
+  const importWallet = useImportWallet()
 
   useEffect(() => {
-    messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
-  }, [messageManager])
+    if (webviewRef && messageManager) {
+      messageManager.on('showDeveloperModal', () => setIsDeveloperModalVisible(true))
+      messageManager.on('setEnvironment', async evt => {
+        console.debug('[setEnvironment', evt.key)
+        const env = ENVIRONMENTS.find(e => e.key === evt.key)
+        if (env) {
+          try {
+            await setSetting('SHAPESHIFT_URI', env.url)
+            return true
+          } catch (e) {
+            console.error('[setEnvironment]', e)
+          }
+        }
 
-  useEffect(() => {
-    const subscription = RNShake.addListener(() => {
-      messageManager.postMessage({ cmd: 'shakeEvent' })
-    })
-
-    return () => {
-      subscription.remove()
+        return false
+      })
+      messageManager.on('setError', evt => setError(Boolean(evt.key)))
     }
-  }, [messageManager])
+  }, [messageManager, setSetting, webviewRef])
 
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => (webviewRef.current?.goBack(), true),
-    )
-
-    return () => backHandler.remove()
-  }, [])
-
-  useEffect(() => {
-    if (!loading) {
-      startImport()
+    if (!loading && importWallet) {
+      importWallet.startImport()
     }
-  }, [startImport, loading])
+  }, [importWallet, loading])
 
-  if (!settings?.SHAPESHIFT_URI) return null
+  if (!settings?.SHAPESHIFT_URI || !webviewRef || !messageManager) return null
 
   return (
     <View style={styles.container}>
       <DeveloperModeModal
-        visible={isDebugModalVisible}
-        onClose={() => setIsDebugModalVisible(false)}
+        visible={isDeveloperModalVisible}
+        onClose={() => setIsDeveloperModalVisible(false)}
         onSelect={url => setSetting('SHAPESHIFT_URI', url).catch(console.error)}
       />
       {error ? (
@@ -68,7 +68,7 @@ const App = () => {
         <ErrorBoundary
           onError={(e: Error) => {
             console.error(`ErrorBoundary onError: `, e)
-            if (!isDebugModalVisible) setError(true)
+            if (!isDeveloperModalVisible) setError(true)
           }}
         >
           <WebView

@@ -5,7 +5,8 @@
 import type { EventData } from './MessageManager'
 
 export const injectedJavaScript = `
-console = new Proxy(console, {
+const _console = globalThis.console;
+globalThis.console = new Proxy(_console, {
   get(target, property) {
     return (...args) => {
       target[property](...args)
