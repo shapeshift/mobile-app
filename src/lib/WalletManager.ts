@@ -1,7 +1,15 @@
 import { deleteItemAsync, getItemAsync, setItemAsync, WHEN_UNLOCKED } from 'expo-secure-store'
 import { getEnrolledLevelAsync } from 'expo-local-authentication'
 import { decrypt } from './crypto'
-import { isValidDeviceId, isValidStoredWallet, parseMnemonic, StoredMnemonic, StoredWallet, StoredWalletWithMnemonic, Wallet } from './Wallet'
+import {
+  isValidDeviceId,
+  isValidStoredWallet,
+  parseMnemonic,
+  StoredMnemonic,
+  StoredWallet,
+  StoredWalletWithMnemonic,
+  Wallet,
+} from './Wallet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const getMnemonicKey = (key: string) => {
@@ -22,6 +30,12 @@ enum UpdateAction {
 type StoredWalletsEntries = Array<[string, StoredWallet]>
 type StoredWalletsMap = Map<string, StoredWallet>
 
+/**
+ * Wallet manager handles storage of mnemonics and wallet meta data in the devices stores.  In order to allow us to easily
+ * use bio-metrics, the mnemonics are stored in the secure storage, while meta-data is stored in normal storage. This adds some
+ * complexity to ensure that we can match the index between the two pieces of storage. Essentially we have to join the data on the index
+ * in order to recreate a full StoredWalletWithMnemonic
+ */
 export class WalletManager {
   #index: StoredWalletsMap = new Map()
   #useAuthentication = false
@@ -48,8 +62,12 @@ export class WalletManager {
     try {
       // https://docs.expo.dev/versions/latest/sdk/local-authentication/#securitylevel
       const securityLevel = await getEnrolledLevelAsync()
-      this.#useAuthentication = securityLevel >= 1; // device has pin or biometrics
-      console.info(`WalletManager.initialize] Device Security Level: ${securityLevel} useAuthentication:${this.#useAuthentication}`)
+      this.#useAuthentication = securityLevel >= 1 // device has pin or biometrics
+      console.info(
+        `WalletManager.initialize] Device Security Level: ${securityLevel} useAuthentication:${
+          this.#useAuthentication
+        }`,
+      )
     } catch (e) {
       console.error('[WalletManager.initialize] Unable to determine device security state')
     }
@@ -72,10 +90,10 @@ export class WalletManager {
         const storedWallet = this.setStoredWallet(nextId, wallet.storedWallet)
         // Verify save and add to index
         await this.#updateIndex(nextId, UpdateAction.ADD, wallet)
-        return storedWallet;
+        return storedWallet
       } catch (e) {
         // if we fail here we should make sure to clean up
-        this.deleteWallet(nextId);
+        this.deleteWallet(nextId)
       }
     }
   }
@@ -97,7 +115,6 @@ export class WalletManager {
     return false
   }
 
-
   public has(key: string): boolean {
     return this.#index.has(key)
   }
@@ -110,11 +127,17 @@ export class WalletManager {
     try {
       const originalWallet = await this.#getStoredWallet(key)
       if (originalWallet) {
-        console.log("update wallet", { ...originalWallet, label: value.label ?? originalWallet.label })
-        const storedWallet = await this.setStoredWallet(key, { ...originalWallet, label: value.label ?? originalWallet.label })
+        console.log('update wallet', {
+          ...originalWallet,
+          label: value.label ?? originalWallet.label,
+        })
+        const storedWallet = await this.setStoredWallet(key, {
+          ...originalWallet,
+          label: value.label ?? originalWallet.label,
+        })
         if (storedWallet) {
-          await this.#updateIndex(key, UpdateAction.ADD, storedWallet);
-          return storedWallet;
+          await this.#updateIndex(key, UpdateAction.ADD, storedWallet)
+          return storedWallet
         }
       }
       console.error('[update] Unable to find wallet to updated')
@@ -126,14 +149,13 @@ export class WalletManager {
   }
 
   public async getStoredWalletWithMnemonic(key: string) {
-    const keyString = key.toString();
-    const storedWallet = await this.#getStoredWallet(keyString);
-    const mnemonic = await this.#getMnemonic(keyString);
+    const keyString = key.toString()
+    const storedWallet = await this.#getStoredWallet(keyString)
+    const mnemonic = await this.#getMnemonic(keyString)
     if (storedWallet && mnemonic) {
-      return (new Wallet({ ...storedWallet, mnemonic })).toJSON()
+      return new Wallet({ ...storedWallet, mnemonic }).toJSON()
     }
   }
-
 
   public async setStoredWallet(key: string, value: StoredWallet): Promise<StoredWallet | null> {
     if (!isValidStoredWallet(value)) {
@@ -150,17 +172,22 @@ export class WalletManager {
     }
   }
 
-
   async #getStoredWallet(key: string) {
     if (this.has(key)) {
       try {
-        const result = await AsyncStorage.getItem(getWalletKey(key));
+        const result = await AsyncStorage.getItem(getWalletKey(key))
         if (result) {
           const storedWallet: StoredWallet = JSON.parse(result)
           if (isValidStoredWallet(storedWallet)) {
             return storedWallet
           } else {
-            console.error('[WalletManager.getStoredWallet] Is not valid stored wallet:', storedWallet, typeof storedWallet, isValidDeviceId(storedWallet.id), Boolean(storedWallet.label))
+            console.error(
+              '[WalletManager.getStoredWallet] Is not valid stored wallet:',
+              storedWallet,
+              typeof storedWallet,
+              isValidDeviceId(storedWallet.id),
+              Boolean(storedWallet.label),
+            )
           }
         }
         return null
@@ -214,32 +241,47 @@ export class WalletManager {
     }
   }
 
-
   async #setMnemonic(key: string, value: StoredWalletWithMnemonic): Promise<Wallet | null> {
     try {
       const wallet = new Wallet(value)
       try {
-        await setItemAsync(getMnemonicKey(key), JSON.stringify({ mnemonic: wallet.toJSON().mnemonic }), {
-          keychainAccessible: WHEN_UNLOCKED,
-          requireAuthentication: this.#useAuthentication
-        })
-      } catch (e) {
-        console.error(`[setMnemonic] Attempt to set mnemonic failed: ${e} requireAuthentication:${this.#useAuthentication}`)
-        // if we attempted with auth, fallback to attempt without auth.  This may be only an issue on the emulators, but just in case
-        // this may be better than failing entirely and having the app not work. 
-        try {
-          await setItemAsync(getMnemonicKey(key), JSON.stringify({ mnemonic: wallet.toJSON().mnemonic }), {
+        await setItemAsync(
+          getMnemonicKey(key),
+          JSON.stringify({ mnemonic: wallet.toJSON().mnemonic }),
+          {
             keychainAccessible: WHEN_UNLOCKED,
-            requireAuthentication: false,
-          })
+            requireAuthentication: this.#useAuthentication,
+          },
+        )
+      } catch (e) {
+        console.error(
+          `[setMnemonic] Attempt to set mnemonic failed: ${e} requireAuthentication:${
+            this.#useAuthentication
+          }`,
+        )
+        // if we attempted with auth, fallback to attempt without auth.  This may be only an issue on the emulators, but just in case
+        // this may be better than failing entirely and having the app not work.
+        try {
+          await setItemAsync(
+            getMnemonicKey(key),
+            JSON.stringify({ mnemonic: wallet.toJSON().mnemonic }),
+            {
+              keychainAccessible: WHEN_UNLOCKED,
+              requireAuthentication: false,
+            },
+          )
         } catch (e) {
           console.error(`[setMnemonic] Unable to set mnemonic: ${e}`)
           return null
         }
       }
-      return wallet;
+      return wallet
     } catch (e) {
-      console.error(`[setMnemonic] Attempt to set failed: ${e} requireAuthentication:${this.#useAuthentication}`)
+      console.error(
+        `[setMnemonic] Attempt to set failed: ${e} requireAuthentication:${
+          this.#useAuthentication
+        }`,
+      )
       return null
     }
   }

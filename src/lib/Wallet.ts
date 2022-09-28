@@ -2,14 +2,15 @@ export type StoredWallet = { id: string; label: string; createdAt: number }
 export type StoredMnemonic = { mnemonic: string }
 export type StoredWalletWithMnemonic = StoredWallet & StoredMnemonic
 
-
 export const isValidDeviceId = (deviceId: string) => /[a-z0-9-]+/.test(deviceId)
 export const isValidStoredWallet = (storedWallet: StoredWallet): boolean => {
-  return typeof storedWallet === 'object' &&
+  return (
+    typeof storedWallet === 'object' &&
     isValidDeviceId(storedWallet.id) &&
     // a cheap way to make sure the date is reasonable
     new Date(storedWallet.createdAt ?? Date.now()).valueOf() > 1600000000000 &&
     Boolean(storedWallet.label)
+  )
 }
 
 export const parseMnemonic = (mnemonic: unknown): string | null => {
@@ -28,12 +29,7 @@ export class Wallet {
   readonly #value: StoredWalletWithMnemonic
 
   constructor(wallet: StoredWalletWithMnemonic) {
-    if (
-      !(
-        isValidStoredWallet(wallet) &&
-        parseMnemonic(wallet.mnemonic)
-      )
-    ) {
+    if (!(isValidStoredWallet(wallet) && parseMnemonic(wallet.mnemonic))) {
       throw new Error('Invalid wallet')
     }
 
@@ -58,7 +54,7 @@ export class Wallet {
   }
 
   /**
-   * Returns non sensitive wallet meta-data only.  No mnemonic. 
+   * Returns non sensitive wallet meta-data only.  No mnemonic.
    */
   get storedWallet(): StoredWallet {
     return { id: this.#value.id, label: this.#value.label, createdAt: this.#value.createdAt }
