@@ -20,6 +20,7 @@ export class WalletManager {
   public async initialize() {
     try {
       if (this.#index.size === 0) {
+        console.log("init!!!!");
         const index: string[] = JSON.parse((await getItemAsync('mnemonic-index')) || '[]')
         this.#index = new Set(index)
       } else {
@@ -74,7 +75,9 @@ export class WalletManager {
   public async get(key: string) {
     if (this.has(key)) {
       try {
+        console.log("getting wallet!!! - get", key)
         const result = await getItemAsync(getKey(key))
+        console.log("got this"), result;
         if (result) return Wallet.fromJSON(result).toJSON()
       } catch (e) {
         // Delete a saved wallet if it's not valid
@@ -107,11 +110,13 @@ export class WalletManager {
     return null
   }
 
-  public async set(key: string, value: StoredWalletWithMnemonic): Promise<StoredWallet | null> {
+  public async set(key: string, value: StoredWalletWithMnemonic, requireAuthentication: boolean = true): Promise<StoredWallet | null> {
     try {
       const wallet = new Wallet(value)
+      console.log("setting!", key);
       await setItemAsync(getKey(key), JSON.stringify(wallet.toJSON()), {
         keychainAccessible: WHEN_UNLOCKED,
+        requireAuthentication
       })
       // Verify save and add to index
       await this.#updateIndex(key, UpdateAction.ADD)
@@ -131,6 +136,7 @@ export class WalletManager {
       }
 
       for (const id of this.#index) {
+        console.log("updateIndex - get", id)
         const exists = await getItemAsync(getKey(id))
         // Use a key of '*' to delete all wallets
         if (!exists || (action === UpdateAction.REMOVE && (key === id || key === '*'))) {
@@ -144,8 +150,7 @@ export class WalletManager {
           }
         }
       }
-
-      await setItemAsync('mnemonic-index', JSON.stringify([...this.#index]))
+      await setItemAsync('mnemonic-index', JSON.stringify([...this.#index]), { requireAuthentication: false});
       console.log('[#updateIndex] Index After', [...this.#index])
     } catch (e) {
       console.error('[#updateIndex] Error updating mnemonic index', e)
