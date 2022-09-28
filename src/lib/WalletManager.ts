@@ -2,7 +2,6 @@ import { deleteItemAsync, getItemAsync, setItemAsync, WHEN_UNLOCKED } from 'expo
 import { authenticateAsync, getEnrolledLevelAsync } from 'expo-local-authentication'
 import { decrypt } from './crypto'
 import { isValidDeviceId, StoredWallet, StoredWalletWithMnemonic, Wallet } from './Wallet'
-import { TouchableHighlightBase } from 'react-native'
 
 const getKey = (key: string) => {
   if (!isValidDeviceId(key)) throw new Error('Invalid key')
