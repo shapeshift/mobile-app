@@ -1,4 +1,5 @@
 import { deleteItemAsync, getItemAsync, setItemAsync, WHEN_UNLOCKED } from 'expo-secure-store'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { decrypt } from './crypto'
 import { isValidDeviceId, StoredWallet, StoredWalletWithMnemonic, Wallet } from './Wallet'
 
@@ -12,16 +13,21 @@ enum UpdateAction {
   REMOVE,
 }
 
+type StoredWalletsEntries = Array<[string, StoredWallet]>
+type StoredWalletsMap = Map<string, StoredWallet>
+
 export class WalletManager {
-  #index = new Set<string>()
+  #index: StoredWalletsMap = new Map()
 
   public readonly [Symbol.toStringTag]: string = 'WalletManager'
 
   public async initialize() {
     try {
       if (this.#index.size === 0) {
-        const index: string[] = JSON.parse((await getItemAsync('mnemonic-index')) || '[]')
-        this.#index = new Set(index)
+        const index: StoredWalletsEntries = JSON.parse(
+          (await AsyncStorage.getItem('mnemonic-index')) || '[]',
+        )
+        this.#index = new Map(index)
       } else {
         console.error('[WalletManager.initialize] initialize was already called')
       }
@@ -37,24 +43,12 @@ export class WalletManager {
     return this.#index.size
   }
 
-  public async list() {
-    const list: Array<StoredWallet> = []
-    for (const id of this.#index) {
-      try {
-        const w = await this.get(id)
-        if (w) {
-          list.push({ id: w.id, label: w.label, createdAt: w.createdAt })
-        }
-      } catch (e) {
-        console.error('[WalletManager.list] Error getting a wallet')
-      }
-    }
-
-    return list
+  public list(): StoredWallet[] {
+    return [...this.#index.values()]
   }
 
   public async add(value: { label: string; mnemonic: string }) {
-    const ids = [...this.#index].sort((a, b) => Number(a) - Number(b))
+    const ids = [...this.#index.keys()].sort((a, b) => Number(a) - Number(b))
     const nextId = ids.length ? String((Number(ids[ids.length - 1]) || 0) + 1) : '1'
 
     return this.set(nextId, { ...value, id: nextId, createdAt: Date.now() })
@@ -62,6 +56,7 @@ export class WalletManager {
 
   public async delete(key: string): Promise<boolean> {
     try {
+      await deleteItemAsync(getKey(key))
       await this.#updateIndex(key, UpdateAction.REMOVE)
       return true
     } catch (e) {
@@ -110,11 +105,11 @@ export class WalletManager {
   public async set(key: string, value: StoredWalletWithMnemonic): Promise<StoredWallet | null> {
     try {
       const wallet = new Wallet(value)
-      await setItemAsync(getKey(key), JSON.stringify(wallet.toJSON()), {
+      await setItemAsync(getKey(key), JSON.stringify({ mnemonic: wallet.toJSON().mnemonic }), {
         keychainAccessible: WHEN_UNLOCKED,
       })
       // Verify save and add to index
-      await this.#updateIndex(key, UpdateAction.ADD)
+      await this.#updateIndex(key, UpdateAction.ADD, wallet)
       return { id: wallet.id, label: wallet.label, createdAt: wallet.createdAt }
     } catch (e) {
       console.error('[setMnemonic] Unable to set mnemonic', e)
@@ -122,30 +117,38 @@ export class WalletManager {
     }
   }
 
-  async #updateIndex(key: string, action: UpdateAction) {
+  async #updateIndex(key: string, action: UpdateAction.REMOVE): Promise<void>
+  async #updateIndex(key: string, action: UpdateAction.ADD, wallet: Wallet): Promise<void>
+  async #updateIndex(key: string, action: UpdateAction, wallet?: Wallet): Promise<void> {
     console.log('[#updateIndex] Index Before', [...this.#index])
     try {
       // If we're adding a new deviceId, add it to the list to check
-      if (action === UpdateAction.ADD) {
-        this.#index.add(key)
+      if (action === UpdateAction.ADD && wallet && wallet.id === key) {
+        const walletInfo = { id: wallet.id, label: wallet.label, createdAt: wallet.createdAt }
+        this.#index.set(key, walletInfo)
       }
 
-      for (const id of this.#index) {
-        const exists = await getItemAsync(getKey(id))
-        // Use a key of '*' to delete all wallets
-        if (!exists || (action === UpdateAction.REMOVE && (key === id || key === '*'))) {
-          try {
-            // This is the only place we remove an item from the index
-            await deleteItemAsync(getKey(id))
-            this.#index.delete(id)
-            console.log('[#updateIndex] Removed item', id)
-          } catch (e) {
-            console.error('[#updateIndex] Could not remove invalid mnemonic', id, e)
-          }
-        }
+      if (action === UpdateAction.REMOVE) {
+        this.#index.delete(key)
       }
 
-      await setItemAsync('mnemonic-index', JSON.stringify([...this.#index]))
+      // // We can't verify each saved mnemonic anymore because it'll prompt for biometrics
+      // for (const id of this.#index) {
+      //   const exists = await getItemAsync(getKey(id))
+      //   // Use a key of '*' to delete all wallets
+      //   if (!exists || (action === UpdateAction.REMOVE && (key === id || key === '*'))) {
+      //     try {
+      //       // This is the only place we remove an item from the index
+      //       await deleteItemAsync(getKey(id))
+      //       this.#index.delete(id)
+      //       console.log('[#updateIndex] Removed item', id)
+      //     } catch (e) {
+      //       console.error('[#updateIndex] Could not remove invalid mnemonic', id, e)
+      //     }
+      //   }
+      // }
+
+      await AsyncStorage.setItem('mnemonic-index', JSON.stringify([...this.#index]))
       console.log('[#updateIndex] Index After', [...this.#index])
     } catch (e) {
       console.error('[#updateIndex] Error updating mnemonic index', e)
