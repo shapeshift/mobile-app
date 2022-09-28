@@ -5656,6 +5656,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-local-authentication@npm:^12.3.0":
+  version: 12.3.0
+  resolution: "expo-local-authentication@npm:12.3.0"
+  dependencies:
+    "@expo/config-plugins": ~5.0.0
+    invariant: ^2.2.4
+  peerDependencies:
+    expo: "*"
+  checksum: 09b2f9d9fa98bb96c6b78a46d2e0249abe6a57cfa9d74fff594b7d344dce923820990d4df8d0cbe4b7861bbb05b476aa5fc8accd6bf220c73645b7937328eef9
+  languageName: node
+  linkType: hard
+
 "expo-modules-autolinking@npm:0.10.3, expo-modules-autolinking@npm:^0.10.3":
   version: 0.10.3
   resolution: "expo-modules-autolinking@npm:0.10.3"
@@ -11073,6 +11085,7 @@ __metadata:
     eslint-plugin-react: ^7.31.8
     eslint-plugin-react-native: ^4.0.0
     expo: ^46.0.10
+    expo-local-authentication: ^12.3.0
     expo-modules-autolinking: ^0.10.3
     expo-modules-core: ^0.11.5
     expo-secure-store: ^11.3.0
