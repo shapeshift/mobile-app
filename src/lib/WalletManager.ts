@@ -86,8 +86,11 @@ export class WalletManager {
     return false
   }
 
-  public async getWalletWithMnemonic(key: string): Promise<StoredWalletWithMnemonic | null> {
-    if (!this.#useAuthentication) {
+  public async getWalletWithMnemonic(
+    key: string,
+    overrideAuth = false,
+  ): Promise<StoredWalletWithMnemonic | null> {
+    if (overrideAuth || !this.#useAuthentication) {
       return this.#get(key)
     }
     try {
