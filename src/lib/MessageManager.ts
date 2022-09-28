@@ -44,11 +44,9 @@ export class MessageManager {
    * Add an event handler for a specific command
    * If the function returns a value, the result will be sent to the WebView
    *
-   * Only ONE event handler is allowed at a time and a new one will replace the old one
-   * The reason for this is if there's a component re-render that has an `on` call
-   * we don't want to create an ever expanding array of copies of the same handler
-   *
-   * Currently, there's no need to support more than one handler per event
+   * Only one handler per event is allowed
+   * We don't want React re-renders to add duplicate handlers, and we don't
+   * have a need for multiple handlers.
    */
   on(cmd: string, callback: MessageCallback) {
     this.#handlers.set(cmd, callback)
@@ -87,7 +85,7 @@ export class MessageManager {
   postMessage(data: unknown) {
     try {
       // Yes, a document can post a message to itself
-      this.webviewRef?.injectJavaScript(`window.postMessage(${JSON.stringify(data)})`)
+      this.#webview?.current?.injectJavaScript(`window.postMessage(${JSON.stringify(data)})`)
     } catch (e) {
       console.error('[MessageManager:postMessage] Error sending message', { data }, e)
     }
