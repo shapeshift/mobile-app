@@ -86,15 +86,15 @@ export class WalletManager {
     return false
   }
 
-  public async getWalletWithMnemonic(key: string) : Promise<StoredWalletWithMnemonic | null> {
-    if(!this.#useAuthentication) {
-      return this.#get(key);
+  public async getWalletWithMnemonic(key: string): Promise<StoredWalletWithMnemonic | null> {
+    if (!this.#useAuthentication) {
+      return this.#get(key)
     }
     try {
       const authResult = await authenticateAsync({
-        promptMessage: "Please authenticate to access your wallet"
+        promptMessage: 'Please authenticate to access your wallet',
       })
-      if(authResult.success) {
+      if (authResult.success) {
         return this.#get(key)
       } else {
         console.error('[WalletManager.get] Auth failed: ', authResult)
