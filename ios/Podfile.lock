@@ -10,11 +10,11 @@ PODS:
     - ExpoModulesCore
   - EXFileSystem (14.1.0):
     - ExpoModulesCore
-  - EXFont (10.2.0):
+  - EXFont (10.2.1):
     - ExpoModulesCore
   - EXLocalAuthentication (12.3.0):
     - ExpoModulesCore
-  - Expo (46.0.10):
+  - Expo (46.0.13):
     - ExpoModulesCore
   - ExpoKeepAwake (10.2.0):
     - ExpoModulesCore
@@ -622,9 +622,9 @@ SPEC CHECKSUMS:
   EXConstants: 7c44785d41d8e959d527d23d29444277a4d1ee73
   EXErrorRecovery: 74d71ee59f6814315457b09d68e86aa95cc7d05d
   EXFileSystem: 927e0a8885aa9c49e50fc38eaba2c2389f2f1019
-  EXFont: a5d80bd9b3452b2d5abbce2487da89b0150e6487
+  EXFont: 06df627203afcb8a3b3152ec06eb2f11f46f0cff
   EXLocalAuthentication: a714f4e7370c4efba4ed4345a55110f22ac3d85f
-  Expo: fcdb32274e2ca9c7638d3b21b30fb665c6869219
+  Expo: 39582e41ae9e0aa9ed016d3918da87ee61e87525
   ExpoKeepAwake: 0e8f18142e71bbf2c7f6aa66ebed249ba1420320
   ExpoModulesCore: 5a973701f4400d70254bc836305228731c829010
   EXSecureStore: ac4b3c89dd5810528074d9422d5fed5a9e684467
