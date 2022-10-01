@@ -21,7 +21,15 @@ export class MessageManager {
    * Use `registerInjectedJavaScript` to add more JavaScript
    */
   get injectedJavaScript() {
-    return this.#js.join('\n')
+    // @see https://github.com/react-native-webview/react-native-webview/blob/master/docs/Reference.md#injectedjavascriptbeforecontentloaded
+    // The injected JavaScript is supposed to return a valid type
+    return `;(function () {
+try {
+${this.#js.join('\n')}
+} catch (e) {}
+
+true;
+})()`
   }
 
   /**
