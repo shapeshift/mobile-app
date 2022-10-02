@@ -3,6 +3,12 @@ import { StyleSheet } from 'react-native'
 const backgroundColor = '#181c27'
 
 export const styles = StyleSheet.create({
+  containerLoading: {
+    zIndex: -1,
+    display: 'none',
+    height: 0,
+    width: 0,
+  },
   container: {
     backgroundColor,
     flex: 1,

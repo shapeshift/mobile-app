@@ -74,8 +74,7 @@ const App = () => {
           <WebView
             ref={webviewRef}
             // Hide the webview until the page is loaded
-            // eslint-disable-next-line react-native/no-inline-styles
-            style={[styles.container, { display: loading ? 'none' : 'flex' }]}
+            style={loading ? styles.containerLoading : styles.container}
             allowsInlineMediaPlayback={true}
             mediaPlaybackRequiresUserAction={false}
             pullToRefreshEnabled
@@ -94,6 +93,7 @@ const App = () => {
               console.debug('\x1b[7m onNavigationStateChange', e, '\x1b[0m')
               if (loading) setLoading(e.loading)
             }}
+            onContentProcessDidTerminate={() => webviewRef.current?.reload()}
             onShouldStartLoadWithRequest={shouldLoadFilter}
             source={{ uri: `${settings.SHAPESHIFT_URI}/#/dashboard` }}
             onError={syntheticEvent => {

@@ -5,15 +5,21 @@
 import type { EventData } from './MessageManager'
 
 export const injectedJavaScript = `
-const _console = globalThis.console;
-globalThis.console = new Proxy(_console, {
-  get(target, property) {
-    return (...args) => {
-      target[property](...args)
-      window.ReactNativeWebView.postMessage(JSON.stringify({cmd: 'console', fn: property, data: args.join(' ') }))
+if (!globalThis._console) {
+  globalThis._console = { ...globalThis.console };
+  globalThis.console = new Proxy(globalThis.console, {
+    get(target, property) {
+      return (...args) => {
+        globalThis._console[property](...args)
+        try {
+          window.ReactNativeWebView.postMessage(JSON.stringify({cmd: 'console', fn: property, data: args.join(' ') }))
+        } catch (e) {
+          globalThis._console[property]('[REACT-NATIVE-WEBVIEW] ', e)
+        }
+      }
     }
-  }
-});
+  });
+}
 `
 
 export const onConsole = (e: EventData) => {
