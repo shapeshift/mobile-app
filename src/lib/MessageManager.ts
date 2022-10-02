@@ -27,9 +27,9 @@ export class MessageManager {
 try {
 ${this.#js.join('\n')}
 } catch (e) {}
+})();
 
-true;
-})()`
+true;`
   }
 
   /**
