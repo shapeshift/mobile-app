@@ -1,4 +1,24 @@
 {
-  "name": "shapeshift",
-  "displayName": "ShapeShift"
+  "expo": {
+    "name": "ShapeShift",
+    "slug": "shapeshift-mobile",
+    "version": "3.0.0",
+    "ios": {
+      "buildNumber": "315"
+    },
+    "android": {
+      "versionCode": 315
+    },
+    "runtimeVersion": {
+      "policy": "nativeVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f1a056a3-a603-459e-bfd8-b29c191699ee"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f1a056a3-a603-459e-bfd8-b29c191699ee"
+    }
+  }
 }
