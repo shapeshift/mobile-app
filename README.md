@@ -79,7 +79,7 @@ yarn android
 #### Publishing builds on Android
 You will need to obtain signing artifacts from someone in order to push builds. 
 
-1. Once you have successfully set up android studio per the documentation above you can proceed. 
+1. Once you have successfully set up android studio per the documentation above you can proceed. Make sure you have opened the ./android folder as the root.
 2. In android studio, select Build -> Generate Signed Bundle / APK
 3. Select Android App Bundle and select the keystore you have obtained
 4. Select a `release build` and click Finish. 
