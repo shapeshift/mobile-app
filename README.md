@@ -45,6 +45,17 @@ pod install
 yarn ios
 ```
 
+#### Publishing builds on ios
+
+Currently we are manually building an archive in xCode to distribute the app.
+
+1. Open xCode and open the ios/ folder.  You _must_ open the folder and not the project files.  If you dont see 2 projects in the file explorer (shapeshift and Pods) you haven't opened the directly correctly  
+2. Ensure you are signed in to your developer account that has access to the Shapeshift Apple Store account (Xcode -> preferences -> Accounts)
+3. Select any iOS device as the target
+4. Select Product > Archive
+5. If you archive builds correctly it will walk you through pushing this to the app store from there. 
+
+
 ## Android
 Requires Android Studio. Follow the React Native Android setup instructions first.
 
@@ -64,3 +75,11 @@ android.os.ParcelableException: java.io.IOException: Requested internal only, bu
 ```
 yarn android
 ```
+
+#### Publishing builds on Android
+You will need to obtain signing artifacts from someone in order to push builds. 
+
+1. Once you have successfully set up android studio per the documentation above you can proceed. 
+2. In android studio, select Build -> Generate Signed Bundle / APK
+3. Select Android App Bundle and select the keystore you have obtained
+4. Select a `release build` and click Finish. 
