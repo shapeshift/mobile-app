@@ -52,8 +52,8 @@ Currently we are manually building an archive in xCode to distribute the app.
 1. Open xCode and open the ios/ folder.  You _must_ open the folder and not the project files.  If you dont see 2 projects in the file explorer (shapeshift and Pods) you haven't opened the directly correctly  
 2. Ensure you are signed in to your developer account that has access to the Shapeshift Apple Store account (Xcode -> preferences -> Accounts)
 3. Select any iOS device as the target
-4. Select Product > Archive
-5. If you archive builds correctly it will walk you through pushing this to the app store from there. 
+4. Select Product > Archive to create the app archive.
+5. If your archive builds correctly it will walk you through pushing this to the app store from there. 
 
 
 ## Android
