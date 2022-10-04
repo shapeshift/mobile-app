@@ -80,6 +80,7 @@ yarn android
 You will need to obtain signing artifacts from someone in order to push builds. 
 
 1. Once you have successfully set up android studio per the documentation above you can proceed. Make sure you have opened the ./android folder as the root.
-2. In android studio, select Build -> Generate Signed Bundle / APK
-3. Select Android App Bundle and select the keystore you have obtained
-4. Select a `release build` and click Finish. 
+2. Bump the build / version number in ./android/app/build.gradle
+3. In android studio, select Build -> Generate Signed Bundle / APK
+4. Select Android App Bundle and select the keystore you have obtained
+5. Select a `release build` and click Finish. 
