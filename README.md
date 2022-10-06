@@ -84,6 +84,7 @@ for now, the above runs `node_modules/.bin/react-native run-ios --device 'iPhone
 - you may need to kill and reload the app after it's been completely loaded to get it to source content from metro
 - you may need to remove the line `messageManager.webviewRef?.reload()` in the useKeepAliveHook if the device has trouble downloading bundle.js before getting whacked.
 - you will need to manually add your ngrok domain to the `navigationFilter` to prevent opening in a browser. dev flag/mode?
+- as of 10/6: in your local web, move the entire contents of `react-app-rewired/headers/csps` out of their normal place and full restart web (yarn dev)
 
 ## Android
 Requires Android Studio. Follow the React Native Android setup instructions first.
