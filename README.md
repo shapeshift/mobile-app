@@ -45,7 +45,7 @@ pod install
 yarn ios
 ```
 
-#### Publishing builds on ios
+### Publishing builds on ios
 
 Currently we are manually building an archive in xCode to distribute the app.
 
@@ -55,6 +55,35 @@ Currently we are manually building an archive in xCode to distribute the app.
 4. Select Product > Archive to create the app archive.
 5. If your archive builds correctly it will walk you through pushing this to the app store from there. 
 
+### Running on device with local web
+1. Run web on your local machine as usual
+
+2. install ngrok
+```
+brew install ngrok
+```
+1. Create a free account here https://ngrok.com/ and obtain your auth token
+4. Configure ngrok with your token
+```
+ngrok config add-authtoken YOUR_TOKEN
+```
+3. run ngrok, note the public `Forwarding` domain listed
+```
+ngrok http 3000 # substitute port if necessary
+```
+4. Modify `.env` to point the WebView at the ngrok endpoint created above
+```
+SHAPESHIFT_URI=https://523d-135-134-162-133.ngrok.io # example ngrok domain
+```
+5. Run the app on your device from Xcode _or_ use the yarn script:
+```
+yarn ios:device
+```
+for now, the above runs `node_modules/.bin/react-native run-ios --device 'iPhone'` - substitute the name of your device for iPhone
+#### __Notes__
+- you may need to kill and reload the app after it's been completely loaded to get it to source content from metro
+- you may need to remove the line `messageManager.webviewRef?.reload()` in the useKeepAliveHook if the device has trouble downloading bundle.js before getting whacked.
+- you will need to manually add your ngrok domain to the `navigationFilter` to prevent opening in a browser. dev flag/mode?
 
 ## Android
 Requires Android Studio. Follow the React Native Android setup instructions first.
