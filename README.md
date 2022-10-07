@@ -35,9 +35,8 @@ cp .env.template .env
 
 2. Start Metro
 ```
-yarn start
+yarn start # add `--reset-cache` to wipe metro cache (required for .env changes)
 ```
-
 3. Start the app
 ```
 cd ios

@@ -3,8 +3,8 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "clean": "yarn clean-react-native && rm -rf node_modules/",
-    "clean-react-native": "react-native clean",
+    "clean": "react-native-clean",
+    "clean-ios": "rm -rf ios/build && rm -rf ios/Pods && react-native-clean",
     "android": "react-native run-android --appId 'com.shapeshift.droid_shapeshift' && yarn start",
     "ios": "react-native run-ios",
     "ios:device": "react-native run-ios --device 'iPhone'",

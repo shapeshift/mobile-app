@@ -15,7 +15,15 @@ const useSettingsImpl = () => {
             setSettings({ SHAPESHIFT_URI })
             return setItem(JSON.stringify({ SHAPESHIFT_URI }))
           }
-          setSettings(JSON.parse(data))
+          let parsed: Record<string, unknown> | null
+          try {
+            parsed = JSON.parse(data)
+          } catch (e) {
+            console.error('error parsing settings data: ', e)
+            parsed = {}
+          }
+          setSettings({ ...parsed, SHAPESHIFT_URI })
+          return
         })
         .catch(console.error)
   }, [settings, getItem, setItem])
