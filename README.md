@@ -43,7 +43,7 @@ yarn start
 cd ios
 pod install
 yarn ios
-# add --device 'iPhone' (replacing iPhone with your device name) to run on device. add --simulator 'iPhone 14' to specify iPhone 14 simulator
+# add --device 'iPhone' (replacing iPhone with your device name) to run on device. add --simulator 'iPhone 14' to specify iPhone 14 simulator. xcode also has these capabilities
 ```
 
 ### Publishing builds on ios
