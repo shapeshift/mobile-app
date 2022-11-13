@@ -5,6 +5,9 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 
+import android.os.Bundle;
+import android.view.View;
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -24,6 +27,17 @@ public class MainActivity extends ReactActivity {
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
     return new ReactActivityDelegateWrapper(this, BuildConfig.IS_NEW_ARCHITECTURE_ENABLED, new MainActivityDelegate(this, getMainComponentName()));
+  }
+
+  /**
+   * Allows us to avoid tapjacking attacks on older version of android.
+   * @param savedInstanceState
+   */
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // get the root view and activate touch filtering to prevent tap jacking
+    findViewById(android.R.id.content).setFilterTouchesWhenObscured(true);
   }
 
   public static class MainActivityDelegate extends ReactActivityDelegate {
