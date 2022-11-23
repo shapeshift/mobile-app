@@ -4,6 +4,7 @@ import {
   DEVELOP_URI,
   RELEASE_URI,
   SHAPESHIFT_PRIVATE_URI,
+  SHAPESHIFT_SANDBOX_URI,
   SHAPESHIFT_URI,
 } from 'react-native-dotenv'
 import { setItemAsync } from 'expo-secure-store'
@@ -26,6 +27,11 @@ const ENVIRONMENTS: Environment[] = [
     key: 'private',
     title: 'Production (Private)',
     url: SHAPESHIFT_PRIVATE_URI,
+  },
+  {
+    key: 'mobile-sandbox',
+    title: 'Mobile Sandbox (yeet)',
+    url: SHAPESHIFT_SANDBOX_URI,
   },
   {
     key: 'dev',
