@@ -532,7 +532,7 @@
 				CODE_SIGN_ENTITLEMENTS = shapeshift/shapeshift.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 316;
+				CURRENT_PROJECT_VERSION = 318;
 				DEVELOPMENT_TEAM = 7882V35EPB;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = shapeshift/Info.plist;
@@ -569,7 +569,7 @@
 				CODE_SIGN_ENTITLEMENTS = shapeshift/shapeshift.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 316;
+				CURRENT_PROJECT_VERSION = 318;
 				DEVELOPMENT_TEAM = 7882V35EPB;
 				INFOPLIST_FILE = shapeshift/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShapeShift;
