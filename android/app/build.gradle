@@ -136,8 +136,8 @@ android {
         applicationId 'com.shapeshift.droid_shapeshift'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 316
-        versionName '3.0.1'
+        versionCode 317
+        versionName '3.0.2'
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {
