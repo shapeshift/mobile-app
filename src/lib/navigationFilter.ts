@@ -1,6 +1,12 @@
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { Linking } from 'react-native'
-import { SHAPESHIFT_URI, RELEASE_URI, DEVELOP_URI } from 'react-native-dotenv'
+import {
+  SHAPESHIFT_URI,
+  SHAPESHIFT_PRIVATE_URI,
+  SHAPESHIFT_SANDBOX_URI,
+  RELEASE_URI,
+  DEVELOP_URI,
+} from 'react-native-dotenv'
 
 const openBrowser = async (url: string) => {
   if (!(await Linking.canOpenURL(url))) {
@@ -14,7 +20,9 @@ export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
   if (
     request.url.startsWith(SHAPESHIFT_URI) ||
     request.url.startsWith(DEVELOP_URI) ||
-    request.url.startsWith(RELEASE_URI)
+    request.url.startsWith(RELEASE_URI) ||
+    request.url.startsWith(SHAPESHIFT_PRIVATE_URI) ||
+    request.url.startsWith(SHAPESHIFT_SANDBOX_URI)
   ) {
     return true
   }
