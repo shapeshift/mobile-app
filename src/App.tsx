@@ -12,8 +12,14 @@ import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 
+import { LogBox } from 'react-native'
+
+// disable bottom toast in app simulators - read the console instead
+LogBox.ignoreAllLogs()
+
 const App = () => {
   const { settings, setSetting } = useSettings()
+  const [uri, setUri] = useState<string>()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [isDebugModalVisible, setIsDebugModalVisible] = useState(false)
@@ -44,19 +50,18 @@ const App = () => {
     const deepLinkHandler = ({ url }: { url: string }) => {
       console.log('###### deepLinkHandler')
       console.log(url)
-      // TODO(0xdef1cafe): route webview to url
-      // if (url.startsWith('shapeshift://y.at')) ...
+      if (url.includes('y.at')) {
+        // TODO(0xdef1cafe): route webview to actual url, not just trade page
+        setUri(`${settings?.SHAPESHIFT_URI}/#/trade`)
+      }
     }
 
     // case where the app is backgrounded/not yet opened
     Linking.getInitialURL().then(url => url && deepLinkHandler({ url }))
 
     // case where the app is foregrounded/currently open
-    const subscription = Linking.addEventListener('url', deepLinkHandler)
-
-    // cleanup
-    return () => Linking.removeSubscription(subscription)
-  }, [webviewRef])
+    Linking.addEventListener('url', deepLinkHandler)
+  }, [settings, webviewRef])
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -73,7 +78,15 @@ const App = () => {
     }
   }, [startImport, loading])
 
+  useEffect(() => {
+    if (!settings) return
+    const result = `${settings.SHAPESHIFT_URI}/#/dashboard`
+    console.log('uri', result)
+    setUri(result)
+  }, [settings])
+
   if (!settings?.SHAPESHIFT_URI) return null
+  if (!uri) return null
 
   return (
     <View style={styles.container}>
@@ -115,7 +128,7 @@ const App = () => {
             }}
             onContentProcessDidTerminate={() => webviewRef.current?.reload()}
             onShouldStartLoadWithRequest={shouldLoadFilter}
-            source={{ uri: `${settings.SHAPESHIFT_URI}/#/dashboard` }}
+            source={{ uri }}
             onError={syntheticEvent => {
               const { nativeEvent } = syntheticEvent
               console.error('WebView onError: ', nativeEvent)
