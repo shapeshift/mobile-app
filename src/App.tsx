@@ -52,7 +52,10 @@ const App = () => {
     Linking.getInitialURL().then(url => url && deepLinkHandler({ url }))
 
     // case where the app is foregrounded/currently open
-    Linking.addEventListener('url', deepLinkHandler)
+    const subscription = Linking.addEventListener('url', deepLinkHandler)
+
+    // cleanup
+    return () => Linking.removeSubscription(subscription)
   }, [webviewRef])
 
   useEffect(() => {
