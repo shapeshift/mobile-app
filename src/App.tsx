@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ActivityIndicator, BackHandler, View } from 'react-native'
+import { ActivityIndicator, BackHandler, Linking, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
 import RNShake from 'react-native-shake'
 import { WebView } from 'react-native-webview'
@@ -37,6 +37,23 @@ const App = () => {
       subscription.remove()
     }
   }, [messageManager])
+
+  // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
+  useEffect(() => {
+    // shared link handler
+    const deepLinkHandler = ({ url }: { url: string }) => {
+      console.log('###### deepLinkHandler')
+      console.log(url)
+      // TODO(0xdef1cafe): route webview to url
+      // if (url.startsWith('shapeshift://y.at')) ...
+    }
+
+    // case where the app is backgrounded/not yet opened
+    Linking.getInitialURL().then(url => url && deepLinkHandler({ url }))
+
+    // case where the app is foregrounded/currently open
+    Linking.addEventListener('url', deepLinkHandler)
+  }, [webviewRef])
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
