@@ -28,7 +28,7 @@
     "lodash.memoize": "^4.1.2",
     "lodash.once": "^4.1.1",
     "react": "18.2.0",
-    "react-native": "0.70.1",
+    "react-native": "0.70.8",
     "react-native-dotenv": "^3.4.0",
     "react-native-error-boundary": "^1.1.16",
     "react-native-shake": "^5.1.1",
