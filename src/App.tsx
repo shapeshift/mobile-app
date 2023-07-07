@@ -44,32 +44,14 @@ const App = () => {
     }
   }, [messageManager])
 
-  // TODO(0xdef1cafe): remove me before merging
-  // test URL effect
-  useEffect(() => {
-    const u = 'shapeshift://y.at/?eid=foobar'
-    const url = new URL(u)
-    const params = new URLSearchParams(url.search)
-    console.log('@@@@@@@@@ test URL eid', params.get('eid'))
-  }, [])
-
   // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
   useEffect(() => {
     // shared link handler
     const deepLinkHandler = ({ url }: { url: string }) => {
-      console.log('###### deepLinkHandler')
-      console.log(url)
-      if (url.includes('y.at')) {
-        const urlObj = new URL(url)
-        const params = new URLSearchParams(urlObj.search)
-        // https://api-docs.y.at/docs/crypto-wallets#redirection-of-the-user-to-the-yat-web-application
-        const yatEid = params.get('eid')
-        if (yatEid) {
-          console.log('$$$$$$$$$$$ found yat eid')
-          console.log(yatEid)
-          setUri(`${settings?.SHAPESHIFT_URI}/#/trade`)
-        }
-      }
+      // e.g. shapeshift://yat/🦊🚀🌈
+      const URL_DELIMITER = 'shapeshift://'
+      const path = url.split(URL_DELIMITER)[1]
+      setUri(`${settings?.SHAPESHIFT_URI}/#${path}`)
     }
 
     // case where the app is backgrounded/not yet opened
@@ -95,10 +77,7 @@ const App = () => {
   }, [startImport, loading])
 
   useEffect(() => {
-    if (!settings) return
-    const result = `${settings.SHAPESHIFT_URI}/#/dashboard`
-    console.log('uri', result)
-    setUri(result)
+    settings && setUri(`${settings.SHAPESHIFT_URI}`)
   }, [settings])
 
   if (!settings?.SHAPESHIFT_URI) return null
