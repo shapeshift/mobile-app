@@ -53,9 +53,14 @@ const App = () => {
       // "shouldn't" happen, but did in testing
       if (!url) return
       // e.g. shapeshift://yat/🦊🚀🌈
+      // url escaped http://192.168.1.22:3000/#/yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88
+      // to test this, run:
+      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --ios
+      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --android
       const URL_DELIMITER = 'shapeshift://'
       const path = url.split(URL_DELIMITER)[1]
-      setUri(`${settings?.SHAPESHIFT_URI}/#${path}`)
+      const newUri = `${settings?.SHAPESHIFT_URI}/#/${path}?${Date.now()}`
+      setUri(newUri)
     }
 
     // case where the app is backgrounded/not yet opened
