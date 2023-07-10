@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, Linking, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
 import RNShake from 'react-native-shake'
@@ -85,9 +85,15 @@ const App = () => {
     }
   }, [startImport, loading])
 
-  useEffect(() => {
-    settings && setUri(`${settings.SHAPESHIFT_URI}`)
+  const defaultUrl = useMemo(() => {
+    if (!settings) return
+    return `${settings.SHAPESHIFT_URI}`
   }, [settings])
+
+  useEffect(() => {
+    if (!defaultUrl) return
+    setUri(defaultUrl)
+  }, [defaultUrl])
 
   if (!settings?.SHAPESHIFT_URI) return null
   if (!uri) return null
@@ -130,7 +136,10 @@ const App = () => {
               console.debug('\x1b[7m onNavigationStateChange', e, '\x1b[0m')
               if (loading) setLoading(e.loading)
             }}
-            onContentProcessDidTerminate={() => webviewRef.current?.reload()}
+            onContentProcessDidTerminate={() => {
+              setUri(defaultUrl)
+              webviewRef.current?.reload()
+            }}
             onShouldStartLoadWithRequest={shouldLoadFilter}
             source={{ uri }}
             onError={syntheticEvent => {
