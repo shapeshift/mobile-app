@@ -5,10 +5,33 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.bridge.ReactContext;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends ReactActivity {
+
+@Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    Uri url = intent.getData();
+    // only handle shapeshift:// urls
+    if (url != null && "shapeshift".equals(url.getScheme())) {
+      this.sendEvent(getReactInstanceManager().getCurrentReactContext(), "url", url.toString());
+    }
+  }
+
+  private void sendEvent(ReactContext reactContext, String eventName, String params) {
+    if (reactContext != null) {
+      reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(eventName, params);
+    }
+  }
 
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule

@@ -46,8 +46,12 @@ const App = () => {
 
   // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
   useEffect(() => {
+    if (!settings) return
+
     // shared link handler
     const deepLinkHandler = ({ url }: { url: string }) => {
+      // "shouldn't" happen, but did in testing
+      if (!url) return
       // e.g. shapeshift://yat/🦊🚀🌈
       const URL_DELIMITER = 'shapeshift://'
       const path = url.split(URL_DELIMITER)[1]
