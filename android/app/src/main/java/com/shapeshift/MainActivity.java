@@ -20,7 +20,7 @@ public class MainActivity extends ReactActivity {
     super.onNewIntent(intent);
     Uri url = intent.getData();
     // only handle shapeshift:// urls
-    if (url != null && "shapeshift".equals(url.getScheme())) {
+    if (url != null && "shapeshift".equalsIgnoreCase(url.getScheme())) {
       this.sendEvent(getReactInstanceManager().getCurrentReactContext(), "url", url.toString());
     }
   }
