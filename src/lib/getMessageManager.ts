@@ -68,5 +68,18 @@ export const getMessageManager = once(() => {
   // clipboard
   messageManager.on('setClipboard', evt => Clipboard.setString(evt.key))
 
+  /**
+   * this handler allows use to do the webview equivalent of window.location.reload()
+   * without this, the web application is unable to reload the webview
+   *
+   * as of writing, this is used in the settings menu of web, with a "clear cache"
+   * button that that blows away the redux persisted cache, then refreshes the page
+   * to get to a good known state by calling this handler
+   */
+  messageManager.on('reloadWebview', () => {
+    console.log('[App] Reloading webview')
+    messageManager.webviewRef?.reload()
+  })
+
   return messageManager
 })
