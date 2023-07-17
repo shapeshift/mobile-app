@@ -59,6 +59,11 @@ const App = () => {
       // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --android
       const URL_DELIMITER = 'shapeshift://'
       const path = url.split(URL_DELIMITER)[1]
+      /**
+       * ?Date.now() tricks the webview into navigating to a different url.
+       * without it, the urls are the same, even if the webview has routed
+       * to some other page within the webview.
+       */
       const newUri = `${settings?.SHAPESHIFT_URI}/#/${path}?${Date.now()}`
       setUri(newUri)
     }
