@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { ActivityIndicator, BackHandler, View } from 'react-native'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { ActivityIndicator, BackHandler, Linking, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
 import RNShake from 'react-native-shake'
 import { WebView } from 'react-native-webview'
@@ -12,8 +12,14 @@ import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 
+import { LogBox } from 'react-native'
+
+// disable bottom toast in app simulators - read the console instead
+LogBox.ignoreAllLogs()
+
 const App = () => {
   const { settings, setSetting } = useSettings()
+  const [uri, setUri] = useState<string>()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [isDebugModalVisible, setIsDebugModalVisible] = useState(false)
@@ -38,6 +44,37 @@ const App = () => {
     }
   }, [messageManager])
 
+  // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
+  useEffect(() => {
+    if (!settings) return
+
+    // shared link handler
+    const deepLinkHandler = ({ url }: { url: string }) => {
+      // "shouldn't" happen, but did in testing
+      if (!url) return
+      // e.g. shapeshift://yat/🦊🚀🌈
+      // url escaped http://192.168.1.22:3000/#/yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88
+      // to test this, run:
+      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --ios
+      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --android
+      const URL_DELIMITER = 'shapeshift://'
+      const path = url.split(URL_DELIMITER)[1]
+      /**
+       * ?Date.now() tricks the webview into navigating to a different url.
+       * without it, the urls are the same, even if the webview has routed
+       * to some other page within the webview.
+       */
+      const newUri = `${settings?.SHAPESHIFT_URI}/#/${path}?${Date.now()}`
+      setUri(newUri)
+    }
+
+    // case where the app is backgrounded/not yet opened
+    Linking.getInitialURL().then(url => url && deepLinkHandler({ url }))
+
+    // case where the app is foregrounded/currently open
+    Linking.addEventListener('url', deepLinkHandler)
+  }, [settings, webviewRef])
+
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
@@ -53,7 +90,18 @@ const App = () => {
     }
   }, [startImport, loading])
 
+  const defaultUrl = useMemo(() => {
+    if (!settings) return
+    return `${settings.SHAPESHIFT_URI}`
+  }, [settings])
+
+  useEffect(() => {
+    if (!defaultUrl) return
+    setUri(defaultUrl)
+  }, [defaultUrl])
+
   if (!settings?.SHAPESHIFT_URI) return null
+  if (!uri) return null
 
   return (
     <View style={styles.container}>
@@ -93,9 +141,12 @@ const App = () => {
               console.debug('\x1b[7m onNavigationStateChange', e, '\x1b[0m')
               if (loading) setLoading(e.loading)
             }}
-            onContentProcessDidTerminate={() => webviewRef.current?.reload()}
+            onContentProcessDidTerminate={() => {
+              setUri(defaultUrl)
+              webviewRef.current?.reload()
+            }}
             onShouldStartLoadWithRequest={shouldLoadFilter}
-            source={{ uri: `${settings.SHAPESHIFT_URI}/#/dashboard` }}
+            source={{ uri }}
             onError={syntheticEvent => {
               const { nativeEvent } = syntheticEvent
               console.error('WebView onError: ', nativeEvent)

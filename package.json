@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "react-native-clean",
     "clean:ios": "rm -rf ios/build && rm -rf ios/Pods && react-native-clean",
-    "android": "react-native run-android --appId 'com.shapeshift.droid_shapeshift' && yarn start",
+    "android": "react-native run-android --appId 'com.shapeshift.droid_shapeshift'",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
