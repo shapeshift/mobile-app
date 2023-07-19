@@ -1,11 +1,16 @@
 import React from 'react'
 import { Alert, Button, FlatList, Modal, Pressable, Text, View } from 'react-native'
 import {
+  BEARD_URI,
+  CAFE_URI,
   DEVELOP_URI,
+  GOME_URI,
+  JUICE_URI,
   RELEASE_URI,
   SHAPESHIFT_PRIVATE_URI,
-  SHAPESHIFT_SANDBOX_URI,
   SHAPESHIFT_URI,
+  WOOD_URI,
+  YEET_URI,
 } from 'react-native-dotenv'
 import { setItemAsync } from 'expo-secure-store'
 import { styles } from '../styles'
@@ -18,40 +23,69 @@ type Environment = {
 }
 
 const ENVIRONMENTS: Environment[] = [
+  /**
+   * production environments
+   */
   {
-    key: 'prod',
-    title: 'Production',
+    key: 'app',
+    title: 'app',
     url: SHAPESHIFT_URI,
   },
   {
     key: 'private',
-    title: 'Production (Private)',
+    title: 'private',
     url: SHAPESHIFT_PRIVATE_URI,
   },
   {
-    key: 'mobile-sandbox',
-    title: 'Mobile Sandbox (yeet)',
-    url: SHAPESHIFT_SANDBOX_URI,
+    key: 'release',
+    title: 'release',
+    url: RELEASE_URI,
   },
+  /**
+   * shared development environments
+   */
   {
     key: 'dev',
-    title: 'Development',
+    title: 'develop',
     url: DEVELOP_URI,
   },
   {
-    key: 'pre-release',
-    title: 'Pre-release',
-    url: RELEASE_URI,
+    key: 'yeet',
+    title: 'yeet',
+    url: YEET_URI,
+  },
+  /**
+   * individual ephemeral environments
+   */
+  {
+    key: 'cafe',
+    title: 'cafe',
+    url: CAFE_URI,
+  },
+  {
+    key: 'beard',
+    title: 'beard',
+    url: BEARD_URI,
+  },
+  {
+    key: 'gome',
+    title: 'gome',
+    url: GOME_URI,
+  },
+  {
+    key: 'juice',
+    title: 'juice',
+    url: JUICE_URI,
+  },
+  {
+    key: 'wood',
+    title: 'wood',
+    url: WOOD_URI,
   },
   {
     key: 'localhost',
-    title: 'Localhost',
+    title: 'localhost',
     url: 'http://localhost:3000',
-  },
-  {
-    key: 'android',
-    title: 'Localhost (Android)',
-    url: 'http://10.0.2.2:3000',
   },
 ]
 
