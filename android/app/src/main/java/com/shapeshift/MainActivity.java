@@ -60,7 +60,10 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    WebView.setWebContentsDebuggingEnabled(true);
+    // https://codeql.github.com/codeql-query-help/java/java-android-webview-debugging-enabled/
+    if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
+      WebView.setWebContentsDebuggingEnabled(true);
+    }
     // get the root view and activate touch filtering to prevent tap jacking
     findViewById(android.R.id.content).setFilterTouchesWhenObscured(true);
   }
