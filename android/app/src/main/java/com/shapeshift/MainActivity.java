@@ -1,4 +1,5 @@
 package com.shapeshift;
+import android.webkit.WebView;
 import expo.modules.ReactActivityDelegateWrapper;
 
 import com.facebook.react.ReactActivity;
@@ -59,6 +60,7 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    WebView.setWebContentsDebuggingEnabled(true);
     // get the root view and activate touch filtering to prevent tap jacking
     findViewById(android.R.id.content).setFilterTouchesWhenObscured(true);
   }
