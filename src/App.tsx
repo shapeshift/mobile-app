@@ -1,3 +1,4 @@
+import '@walletconnect/react-native-compat'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, Linking, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
