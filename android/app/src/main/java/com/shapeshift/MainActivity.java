@@ -1,4 +1,5 @@
 package com.shapeshift;
+import android.content.pm.ApplicationInfo;
 import android.webkit.WebView;
 import expo.modules.ReactActivityDelegateWrapper;
 
