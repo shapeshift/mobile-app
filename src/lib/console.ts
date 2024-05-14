@@ -1,7 +1,3 @@
-/**
- * This code forwards all calls to `console` to ReactNative
- * so that we can monitor the logs of the app inside the WebView
- */
 import type { EventData } from './MessageManager'
 
 export const onConsole = (e: EventData) => {
