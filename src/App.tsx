@@ -1,4 +1,3 @@
-import '@walletconnect/react-native-compat'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, Linking, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
@@ -14,6 +13,9 @@ import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 
 import { LogBox } from 'react-native'
+
+// Needs to be imported as early as possible for the polyfills to be there
+import '@walletconnect/react-native-compat'
 
 // disable bottom toast in app simulators - read the console instead
 LogBox.ignoreAllLogs()
