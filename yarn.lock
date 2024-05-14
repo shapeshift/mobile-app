@@ -2902,6 +2902,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-native-get-random-values@npm:^1":
+  version: 1.8.2
+  resolution: "@types/react-native-get-random-values@npm:1.8.2"
+  checksum: 08f3f82efbb5b6d9acd8f7f55a2dac9f228886323ac3018a1bab46cd1b45f24809d194fd2a3fe02a9ec4196606325e5cfffde0b0057ae785208b658fdc83c821
+  languageName: node
+  linkType: hard
+
 "@types/react-native@npm:^0.70.4":
   version: 0.70.4
   resolution: "@types/react-native@npm:0.70.4"
@@ -5786,6 +5793,13 @@ __metadata:
     snapdragon: ^0.8.1
     to-regex: ^3.0.1
   checksum: a41531b8934735b684cef5e8c5a01d0f298d7d384500ceca38793a9ce098125aab04ee73e2d75d5b2901bc5dddd2b64e1b5e3bf19139ea48bac52af4a92f1d00
+  languageName: node
+  linkType: hard
+
+"fast-base64-decode@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "fast-base64-decode@npm:1.0.0"
+  checksum: 4c59eb1775a7f132333f296c5082476fdcc8f58d023c42ed6d378d2e2da4c328c7a71562f271181a725dd17cdaa8f2805346cc330cdbad3b8e4b9751508bd0a3
   languageName: node
   linkType: hard
 
@@ -10221,6 +10235,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-get-random-values@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "react-native-get-random-values@npm:1.11.0"
+  dependencies:
+    fast-base64-decode: ^1.0.0
+  peerDependencies:
+    react-native: ">=0.56"
+  checksum: 07729f70a007f7a3b8f98ebf687c1298ba288b87dd71d8ba385be6b5a377718b27b97547bbe1db6b225b83ee109dfce0b01721e6ed535d53892f3ac81e6bf975
+  languageName: node
+  linkType: hard
+
 "react-native-gradle-plugin@npm:^0.70.3":
   version: 0.70.3
   resolution: "react-native-gradle-plugin@npm:0.70.3"
@@ -11055,6 +11080,7 @@ __metadata:
     "@types/lodash.memoize": ^4.1.7
     "@types/lodash.once": ^4.1.7
     "@types/react-native": ^0.70.4
+    "@types/react-native-get-random-values": ^1
     "@types/react-test-renderer": ^18.0.0
     "@typescript-eslint/eslint-plugin": ^5.38.1
     "@typescript-eslint/parser": ^5.38.1
@@ -11083,6 +11109,7 @@ __metadata:
     react-native: 0.70.8
     react-native-dotenv: ^3.4.0
     react-native-error-boundary: ^1.1.16
+    react-native-get-random-values: ^1.11.0
     react-native-shake: ^5.1.1
     react-native-simple-crypto: ^0.2.15
     react-native-svg: ^13.2.0
