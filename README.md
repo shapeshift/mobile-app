@@ -25,6 +25,15 @@ corepack prepare yarn@3 --activate
 
 run `yarn` to install dependencies
 
+## Debugging the webview
+
+To debug the webview:
+
+- Run metro and the build for iOS / Android (see iOS and Android sections below)
+- Run `chrome://inspect/#devices` and click "Inspect" on the remote target
+
+![Remote Target Inspect](https://github.com/shapeshift/mobile-app/assets/17035424/7ede8055-9165-43e9-b54d-0862ae869728)
+
 ## iOS
 Tested with Xcode 13.4 on macOS 12.5. You will also need CocoaPods installed
 
