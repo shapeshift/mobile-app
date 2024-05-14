@@ -22,5 +22,4 @@ declare module 'react-native-dotenv' {
    * chatwoot support widget
    */
   export const CHATWOOT_URI: string
-  export const LOGGING_WEBVIEW: 'false' | 'true' | undefined
 }
