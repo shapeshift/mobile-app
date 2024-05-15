@@ -14,9 +14,6 @@ import { styles } from './styles'
 
 import { LogBox } from 'react-native'
 
-// Needs to be imported as early as possible for the polyfills to be there
-import '@walletconnect/react-native-compat'
-
 // disable bottom toast in app simulators - read the console instead
 LogBox.ignoreAllLogs()
 

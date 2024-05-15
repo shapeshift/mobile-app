@@ -18,7 +18,6 @@
     "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-native-clipboard/clipboard": "^1.11.1",
     "@seald-io/react-native-scrypt": "^1.2.3",
-    "@walletconnect/react-native-compat": "^2.13.0",
     "bip39": "^3.0.4",
     "expo": "^46.0.13",
     "expo-local-authentication": "^12.3.0",
