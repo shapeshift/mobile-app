@@ -1,4 +1,7 @@
 {
   "name": "shapeshift",
-  "displayName": "ShapeShift"
+  "displayName": "ShapeShift",
+  "plugins": [
+    "expo-secure-store"
+  ]
 }
