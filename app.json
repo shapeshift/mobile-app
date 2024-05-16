@@ -1,7 +1,12 @@
 {
   "name": "shapeshift",
   "displayName": "ShapeShift",
-  "plugins": [
-    "expo-secure-store"
-  ]
+  "plugins": ["expo-secure-store"],
+  "android": {
+    "package": "com.shapeshift"
+  },
+  "ios": {
+    "bundleIdentifier": "com.shapeshift"
+  },
+  "userInterfaceStyle": "automatic"
 }

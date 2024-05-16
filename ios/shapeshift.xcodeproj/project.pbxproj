@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* shapeshiftTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* shapeshiftTests.m */; };
+		0483E1172BF64354001FE65D /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0483E1162BF64354001FE65D /* Expo.plist */; };
 		0C80B921A6F3F58F76C31292 /* libPods-shapeshift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-shapeshift.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -17,6 +18,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A20495D1126A9EE684ED43DF /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDF260EE60332113613BC23 /* ExpoModulesProvider.swift */; };
 		A7ABB48369A95FAFA9F7DA66 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BEB627AC7EBA9D372060BE /* ExpoModulesProvider.swift */; };
+		DAA6BFD1BA77401FA13FC8F4 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186CFB7CDBBC4531988C5EF5 /* noop-file.swift */; };
 		F81F00B9105E4A65B7E6707A /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C4CCA59716C493489063330 /* SplashScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -34,12 +36,15 @@
 		00E356EE1AD99517003FC87E /* shapeshiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shapeshiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* shapeshiftTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = shapeshiftTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* ShapeShift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShapeShift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0483E1162BF64354001FE65D /* Expo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		0944E4151AB545FD92C041F6 /* shapeshift-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "shapeshift-Bridging-Header.h"; path = "shapeshift/shapeshift-Bridging-Header.h"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* ShapeShift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = ShapeShift.app; path = shapeshift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = shapeshift/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = shapeshift/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = shapeshift/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = shapeshift/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = shapeshift/main.m; sourceTree = "<group>"; };
+		186CFB7CDBBC4531988C5EF5 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "shapeshift/noop-file.swift"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-shapeshift-shapeshiftTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-shapeshift-shapeshiftTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-shapeshift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shapeshift.debug.xcconfig"; path = "Target Support Files/Pods-shapeshift/Pods-shapeshift.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-shapeshift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shapeshift.release.xcconfig"; path = "Target Support Files/Pods-shapeshift/Pods-shapeshift.release.xcconfig"; sourceTree = "<group>"; };
@@ -50,7 +55,7 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-shapeshift-shapeshiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shapeshift-shapeshiftTests.release.xcconfig"; path = "Target Support Files/Pods-shapeshift-shapeshiftTests/Pods-shapeshift-shapeshiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		9DA7728928D3B31500D07C31 /* shapeshift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = shapeshift.entitlements; path = shapeshift/shapeshift.entitlements; sourceTree = "<group>"; };
 		C6BEB627AC7EBA9D372060BE /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-shapeshift-shapeshiftTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		D023962B9845DDA70717FFE6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = shapeshift/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		D023962B9845DDA70717FFE6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = shapeshift/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		DBDF260EE60332113613BC23 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-shapeshift/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -92,9 +97,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0483E1152BF64335001FE65D /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				0483E1162BF64354001FE65D /* Expo.plist */,
+			);
+			name = Supporting;
+			path = shapeshift/Supporting;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* shapeshift */ = {
 			isa = PBXGroup;
 			children = (
+				0483E1152BF64335001FE65D /* Supporting */,
 				9DA7728928D3B31500D07C31 /* shapeshift.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -104,6 +119,8 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				7C4CCA59716C493489063330 /* SplashScreen.storyboard */,
 				D023962B9845DDA70717FFE6 /* PrivacyInfo.xcprivacy */,
+				186CFB7CDBBC4531988C5EF5 /* noop-file.swift */,
+				0944E4151AB545FD92C041F6 /* shapeshift-Bridging-Header.h */,
 			);
 			name = shapeshift;
 			sourceTree = "<group>";
@@ -282,6 +299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0483E1172BF64354001FE65D /* Expo.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				F81F00B9105E4A65B7E6707A /* SplashScreen.storyboard in Resources */,
@@ -496,6 +514,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				A20495D1126A9EE684ED43DF /* ExpoModulesProvider.swift in Sources */,
+				DAA6BFD1BA77401FA13FC8F4 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +555,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shapeShift.shapeShift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "shapeshift/shapeshift-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shapeshift.app/shapeshift";
 			};
 			name = Debug;
@@ -563,6 +584,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shapeShift.shapeShift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "shapeshift/shapeshift-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shapeshift.app/shapeshift";
 			};
 			name = Release;
@@ -594,12 +617,13 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.shapeShift.shapeShift;
-				PRODUCT_NAME = ShapeShift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shapeshift;
+				PRODUCT_NAME = shapeshift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "shapeshift/shapeshift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -630,11 +654,12 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.shapeShift.shapeShift;
-				PRODUCT_NAME = ShapeShift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shapeshift;
+				PRODUCT_NAME = shapeshift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "shapeshift/shapeshift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
