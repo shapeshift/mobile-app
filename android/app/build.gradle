@@ -79,9 +79,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.shapeshift'
+    namespace 'com.shapeshift.droid_shapeshift'
     defaultConfig {
-        applicationId 'com.shapeshift'
+        applicationId 'com.shapeshift.droid_shapeshift'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

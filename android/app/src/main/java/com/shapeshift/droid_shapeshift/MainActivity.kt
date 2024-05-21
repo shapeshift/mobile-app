@@ -1,4 +1,4 @@
-package com.shapeshift
+package com.shapeshift.droid_shapeshift
 import expo.modules.ReactActivityDelegateWrapper
 
 import android.os.Bundle

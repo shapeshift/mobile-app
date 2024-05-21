@@ -1,12 +1,18 @@
 {
-  "name": "shapeshift",
-  "displayName": "ShapeShift",
+  "name": "ShapeShift",
+  "slug": "shapeshift",
+  "icon": "./src/static/icon.png",
+  "primaryColor": "#181C27",
+  "backgroundColor": "#181C27",
+  "splashs": {
+    "image": "./src/static/splashscreen.png",
+    "backgroundColor": "#181C27"
+  },
   "plugins": ["expo-secure-store"],
   "android": {
-    "package": "com.shapeshift"
+    "package": "com.shapeshift.droid_shapeshift"
   },
   "ios": {
-    "bundleIdentifier": "com.shapeshift"
-  },
-  "userInterfaceStyle": "automatic"
+    "bundleIdentifier": "com.shapeShift.shapeShift"
+  }
 }
