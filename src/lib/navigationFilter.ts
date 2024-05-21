@@ -26,7 +26,7 @@ const openBrowser = async (url: string) => {
 export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
   // Navigation within wrapped web app
   if (
-    request.url.startsWith("https://app.shapeshift.com") ||
+    request.url.startsWith(SHAPESHIFT_URI) ||
     request.url.startsWith(SHAPESHIFT_PRIVATE_URI) ||
     request.url.startsWith(RELEASE_URI) ||
     request.url.startsWith(DEVELOP_URI) ||

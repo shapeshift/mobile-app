@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* shapeshiftTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* shapeshiftTests.m */; };
 		0483E1172BF64354001FE65D /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0483E1162BF64354001FE65D /* Expo.plist */; };
 		0C80B921A6F3F58F76C31292 /* libPods-shapeshift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-shapeshift.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
@@ -34,8 +33,6 @@
 
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* shapeshiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shapeshiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* shapeshiftTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = shapeshiftTests.m; sourceTree = "<group>"; };
 		0483E1162BF64354001FE65D /* Expo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		0944E4151AB545FD92C041F6 /* shapeshift-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "shapeshift-Bridging-Header.h"; path = "shapeshift/shapeshift-Bridging-Header.h"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ShapeShift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShapeShift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,23 +77,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* shapeshiftTests */ = {
-			isa = PBXGroup;
-			children = (
-				00E356F21AD99517003FC87E /* shapeshiftTests.m */,
-				00E356F01AD99517003FC87E /* Supporting Files */,
-			);
-			path = shapeshiftTests;
-			sourceTree = "<group>";
-		};
-		00E356F01AD99517003FC87E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				00E356F11AD99517003FC87E /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		0483E1152BF64335001FE65D /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,7 +135,6 @@
 			children = (
 				13B07FAE1A68108700A75B9A /* shapeshift */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* shapeshiftTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -502,7 +481,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* shapeshiftTests.m in Sources */,
 				A7ABB48369A95FAFA9F7DA66 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -556,7 +534,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.shapeShift.shapeShift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "shapeshift/shapeshift-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shapeshift.app/shapeshift";
 			};
 			name = Debug;
@@ -585,7 +563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.shapeShift.shapeShift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "shapeshift/shapeshift-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shapeshift.app/shapeshift";
 			};
 			name = Release;
@@ -603,7 +581,7 @@
 				DEVELOPMENT_TEAM = 7882V35EPB;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = shapeshift/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ShapeShifte;
+				INFOPLIST_KEY_CFBundleDisplayName = ShapeShift;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -618,12 +596,12 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shapeShift.shapeShift;
-				PRODUCT_NAME = "ShapeShift";
+				PRODUCT_NAME = ShapeShift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "shapeshift/shapeshift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -640,7 +618,7 @@
 				CURRENT_PROJECT_VERSION = 318;
 				DEVELOPMENT_TEAM = 7882V35EPB;
 				INFOPLIST_FILE = shapeshift/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ShapeShifte;
+				INFOPLIST_KEY_CFBundleDisplayName = ShapeShift;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -655,11 +633,11 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shapeShift.shapeShift;
-				PRODUCT_NAME = "ShapeShift";
+				PRODUCT_NAME = ShapeShift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "shapeshift/shapeshift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
