@@ -3,7 +3,7 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXConstants (16.0.1):
     - ExpoModulesCore
-  - Expo (51.0.6):
+  - Expo (51.0.8):
     - ExpoModulesCore
   - ExpoAsset (10.0.6):
     - ExpoModulesCore
@@ -11,11 +11,11 @@ PODS:
     - ExpoModulesCore
   - ExpoFont (12.0.5):
     - ExpoModulesCore
-  - ExpoKeepAwake (13.0.1):
+  - ExpoKeepAwake (13.0.2):
     - ExpoModulesCore
   - ExpoLocalAuthentication (14.0.1):
     - ExpoModulesCore
-  - ExpoModulesCore (1.12.10):
+  - ExpoModulesCore (1.12.11):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1513,13 +1513,13 @@ SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   EXConstants: 9a008dbf262550884e6280dea95b81b51f65ea6f
-  Expo: c6b1655cc45b8529e4a6f18417814502c5613b1a
+  Expo: c99f14ca53381d5399b88684c88e20ff7928d3c7
   ExpoAsset: 9b7433ecc5f1b608ccbb823492e062bde944abd2
   ExpoFileSystem: 80bfe850b1f9922c16905822ecbf97acd711dc51
   ExpoFont: 690b76008be824e47907f200cb0764870108dfd1
-  ExpoKeepAwake: f3a7b0ff4b4911957264dad8cb584ef688326a22
+  ExpoKeepAwake: 3b8815d9dd1d419ee474df004021c69fdd316d08
   ExpoLocalAuthentication: 9e02a56a4cf9868f0052656a93d4c94101a42ed7
-  ExpoModulesCore: 4c5576eec261d09549d78b751ccd62d94d4506ac
+  ExpoModulesCore: 4eb2165cde325c8c121d495bb8beb0da9b30c92e
   ExpoSecureStore: 5f6b712785986b54d95a92bd365aabb82a52088e
   EXSplashScreen: d439ca817211886dc80a00f3761e3b6d861d7205
   FBLazyVector: 898d14d17bf19e2435cafd9ea2a1033efe445709
@@ -1582,7 +1582,7 @@ SPEC CHECKSUMS:
   RNScrypt: 2dcfcc34960afb8836c947b0510167a18ebb0a5a
   RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
-  Yoga: b9a182ab00cf25926e7f79657d08c5d23c2d03b0
+  Yoga: 348f8b538c3ed4423eb58a8e5730feec50bce372
 
 PODFILE CHECKSUM: b14584819c8cd79ab86b35db0b4fe8a65b9147cb
 
