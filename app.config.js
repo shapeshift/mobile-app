@@ -1,4 +1,3 @@
-import config from './app.json'
 const { withAndroidStyles } = require('expo/config-plugins');
 
 // We need to avoid the prebuild script to override our own theme (ref: https://github.com/expo/expo/issues/19563)
@@ -23,4 +22,6 @@ function withCustomAppTheme(config) {
   });
 }
 
-export default withCustomAppTheme(config);
+export default ({ config }) => {
+  return withCustomAppTheme(config);
+};
