@@ -2,12 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:shapeshift.xcodeproj">
+      location = "group:ShapeShift.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:ShapeShift.xcodeproj">
    </FileRef>
 </Workspace>

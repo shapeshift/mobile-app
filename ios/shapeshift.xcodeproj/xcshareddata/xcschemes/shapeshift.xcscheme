@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1340"
+   LastUpgradeVersion = "1130"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "ShapeShift.app"
-               BlueprintName = "shapeshift"
-               ReferencedContainer = "container:shapeshift.xcodeproj">
+               BlueprintName = "ShapeShift"
+               ReferencedContainer = "container:ShapeShift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,15 +33,15 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "shapeshiftTests.xctest"
-               BlueprintName = "shapeshiftTests"
-               ReferencedContainer = "container:shapeshift.xcodeproj">
+               BuildableName = "ShapeShiftTests.xctest"
+               BlueprintName = "ShapeShiftTests"
+               ReferencedContainer = "container:ShapeShift.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -56,8 +56,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ShapeShift.app"
-            BlueprintName = "shapeshift"
-            ReferencedContainer = "container:shapeshift.xcodeproj">
+            BlueprintName = "ShapeShift"
+            ReferencedContainer = "container:ShapeShift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -73,8 +73,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ShapeShift.app"
-            BlueprintName = "shapeshift"
-            ReferencedContainer = "container:shapeshift.xcodeproj">
+            BlueprintName = "ShapeShift"
+            ReferencedContainer = "container:ShapeShift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
