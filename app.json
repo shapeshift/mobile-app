@@ -18,12 +18,5 @@
   },
   "ios": {
     "bundleIdentifier": "com.shapeShift.shapeShift"
-  },
-  "build": {
-    "production": {
-      "ios": {
-        "image": "latest"
-      }
-    }
   }
 }
