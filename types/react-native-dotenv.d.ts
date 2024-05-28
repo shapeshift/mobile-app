@@ -22,4 +22,14 @@ declare module 'react-native-dotenv' {
    * chatwoot support widget
    */
   export const CHATWOOT_URI: string
+
+  /**
+   * WalletConnect verify URI
+   */
+  export const WALLETCONNECT_VERIFY_SERVER: string
+  /**
+   * WalletConnect fallback verify URI
+   */
+  export const WALLETCONNECT_VERIFY_FALLBACK_SERVER: string
 }
+

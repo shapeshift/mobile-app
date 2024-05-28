@@ -85,3 +85,8 @@ bundle.js
 /vendor/bundle/
 
 coverage
+
+# Expo
+.expo
+dist/
+web-build/
