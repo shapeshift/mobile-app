@@ -32,4 +32,3 @@ declare module 'react-native-dotenv' {
    */
   export const WALLETCONNECT_VERIFY_FALLBACK_SERVER: string
 }
-

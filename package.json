@@ -49,7 +49,7 @@
     "@types/react-native": "^0.70.4",
     "@types/react-test-renderer": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
-    "@typescript-eslint/parser": "^5.38.1",
+    "@typescript-eslint/parser": "^6.6.0",
     "babel-jest": "^28.1.3",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
