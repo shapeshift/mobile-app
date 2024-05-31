@@ -1,10 +1,9 @@
 /* Register message handlers and injected JavaScript */
 import Clipboard from '@react-native-clipboard/clipboard'
 import once from 'lodash.once'
-import { LOGGING_WEBVIEW } from 'react-native-dotenv'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
 
-import { injectedJavaScript, onConsole } from './console'
+import { onConsole } from './console'
 import { makeKey } from './crypto/crypto'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
@@ -15,12 +14,6 @@ type EncryptedWalletInfo = {
 
 export const getMessageManager = once(() => {
   const messageManager = new MessageManager()
-  const enableLogging = LOGGING_WEBVIEW !== 'false'
-
-  if (enableLogging) {
-    console.log('[App] Injecting console logging JavaScript')
-    messageManager.registerInjectedJavaScript(injectedJavaScript)
-  }
 
   console.log('[App] Injecting clipboard JavaScript')
   messageManager.registerInjectedJavaScript(injectedJavaScriptClipboard)

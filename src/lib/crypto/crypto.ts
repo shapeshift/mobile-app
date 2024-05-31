@@ -110,6 +110,9 @@ export async function makeKey(password: string, email: string): Promise<Symmetri
   const saltArray = Buffer.from(email, 'utf8')
   const passwordArray = Buffer.from(password, 'utf8')
   // The 'buffer' encoding is required to get the right value
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore this is crypto stuff, absolutely not touching/bumping things here despite the type error if this is happy at runtime
+  // meaning we can decrypt a locked native wallet
   const key = await scrypt(passwordArray, saltArray, 16384, 8, 1, 32, 'buffer')
 
   const hashKey = await pbkdf2(key, password, 'SHA256', 1)

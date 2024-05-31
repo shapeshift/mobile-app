@@ -3,7 +3,8 @@
   "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
   "compilerOptions": {
     "jsx": "react",
-    "lib": ["es2020"]
+    "lib": ["es2020"],
+    "skipLibCheck": true // lib checks borked out of sanity after latest bumps - not an issue at runtime
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
   }
 }
