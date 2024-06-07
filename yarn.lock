@@ -11236,6 +11236,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-localize@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "react-native-localize@npm:3.1.0"
+  peerDependencies:
+    react: ">=18.1.0"
+    react-native: ">=0.70.0"
+    react-native-macos: ">=0.70.0"
+  peerDependenciesMeta:
+    react-native-macos:
+      optional: true
+  checksum: 93753788facca7493b21056098f968217a53321d3324a467d4913f5b1b010cb4fde5e6107d538b84eae87ba9390c4a67a32d5a5fe54710b509b8097f1cf437ae
+  languageName: node
+  linkType: hard
+
 "react-native-quick-base64@npm:^2.0.5":
   version: 2.0.5
   resolution: "react-native-quick-base64@npm:2.0.5"
@@ -12112,6 +12126,7 @@ __metadata:
     react-native-dotenv: latest
     react-native-error-boundary: latest
     react-native-get-random-values: ~1.11.0
+    react-native-localize: ^3.1.0
     react-native-shake: latest
     react-native-simple-crypto: latest
     react-native-svg: 15.3.0

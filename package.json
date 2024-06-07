@@ -30,6 +30,7 @@
     "react-native-dotenv": "latest",
     "react-native-error-boundary": "latest",
     "react-native-get-random-values": "~1.11.0",
+    "react-native-localize": "^3.1.0",
     "react-native-shake": "latest",
     "react-native-simple-crypto": "latest",
     "react-native-svg": "15.3.0",

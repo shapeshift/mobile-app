@@ -7,6 +7,7 @@ import { onConsole } from './console'
 import { makeKey } from './crypto/crypto'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
+import { currencyFormatSettingsInjectedJavascript } from './currencyFormat'
 
 type EncryptedWalletInfo = {
   [k: string]: string
@@ -17,6 +18,7 @@ export const getMessageManager = once(() => {
 
   console.log('[App] Injecting clipboard JavaScript')
   messageManager.registerInjectedJavaScript(injectedJavaScriptClipboard)
+  messageManager.registerInjectedJavaScript(currencyFormatSettingsInjectedJavascript)
 
   const walletManager = getWalletManager()
 

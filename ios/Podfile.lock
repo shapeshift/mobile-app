@@ -1275,9 +1275,11 @@ PODS:
     - React-Core
   - RNCClipboard (1.11.1):
     - React-Core
+  - RNLocalize (3.1.0):
+    - React-Core
   - RNScrypt (1.2.3):
     - React
-  - RNSVG (15.2.0):
+  - RNSVG (15.3.0):
     - React-Core
   - SocketRocket (0.7.0)
   - Yoga (0.0.0)
@@ -1354,6 +1356,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - "RNScrypt (from `../node_modules/@seald-io/react-native-scrypt`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -1502,6 +1505,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNScrypt:
     :path: "../node_modules/@seald-io/react-native-scrypt"
   RNSVG:
@@ -1579,10 +1584,11 @@ SPEC CHECKSUMS:
   ReactCommon: f42444e384d82ab89184aed5d6f3142748b54768
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
+  RNLocalize: e8694475db034bf601e17bd3dfa8986565e769eb
   RNScrypt: 2dcfcc34960afb8836c947b0510167a18ebb0a5a
-  RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
+  RNSVG: a48668fd382115bc89761ce291a81c4ca5f2fd2e
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
-  Yoga: b9a182ab00cf25926e7f79657d08c5d23c2d03b0
+  Yoga: 348f8b538c3ed4423eb58a8e5730feec50bce372
 
 PODFILE CHECKSUM: 6687c540e4a593ffbb7a9ecac60bdcc639137081
 
