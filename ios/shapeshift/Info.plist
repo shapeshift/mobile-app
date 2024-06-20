@@ -44,6 +44,8 @@
     </dict>
     <key>NSFaceIDUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to use Face ID</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to use Camera</string>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
