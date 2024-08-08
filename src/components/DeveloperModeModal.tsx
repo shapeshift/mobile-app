@@ -5,6 +5,7 @@ import {
   CAFE_URI,
   DEVELOP_URI,
   GOME_URI,
+  NEO_URI,
   JUICE_URI,
   RELEASE_URI,
   SHAPESHIFT_PRIVATE_URI,
@@ -81,6 +82,11 @@ const ENVIRONMENTS: Environment[] = [
     key: 'wood',
     title: 'wood',
     url: WOOD_URI,
+  },
+  {
+    key: 'neo',
+    title: 'neo',
+    url: NEO_URI,
   },
   {
     key: 'localhost',

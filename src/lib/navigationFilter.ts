@@ -12,6 +12,7 @@ import {
   GOME_URI,
   JUICE_URI,
   WOOD_URI,
+  NEO_URI,
   WALLETCONNECT_VERIFY_SERVER,
   WALLETCONNECT_VERIFY_FALLBACK_SERVER,
 } from 'react-native-dotenv'
@@ -36,6 +37,7 @@ export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
     request.url.startsWith(GOME_URI) ||
     request.url.startsWith(JUICE_URI) ||
     request.url.startsWith(WOOD_URI) ||
+    request.url.startsWith(NEO_URI) ||
     request.url.startsWith(CHATWOOT_URI) ||
     request.url.startsWith(WALLETCONNECT_VERIFY_SERVER) ||
     request.url.startsWith(WALLETCONNECT_VERIFY_FALLBACK_SERVER)
