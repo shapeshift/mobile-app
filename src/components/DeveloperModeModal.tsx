@@ -12,6 +12,7 @@ import {
   SHAPESHIFT_URI,
   WOOD_URI,
   YEET_URI,
+  LOCAL_URI,
 } from 'react-native-dotenv'
 import { setItemAsync } from 'expo-secure-store'
 import { styles } from '../styles'
@@ -91,7 +92,7 @@ const ENVIRONMENTS: Environment[] = [
   {
     key: 'localhost',
     title: 'localhost',
-    url: 'http://localhost:3000',
+    url: LOCAL_URI,
   },
 ]
 
