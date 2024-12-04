@@ -2,7 +2,7 @@
 React Native WebView wrapper for app.shapeshift.com
 
 # Native Environment Setup
-To setup your local environment follow the [react-native environment setup](https://reactnative.dev/docs/environment-setup) and selecting "React Native CLI Quickstart"
+To setup your local environment follow the [react-native environment setup](https://reactnative.dev/docs/set-up-your-environment)
 
 #### For M1 users
 It is simpler to install CocoaPods via brew rather than using Ruby. 
@@ -12,7 +12,7 @@ It is simpler to install CocoaPods via brew rather than using Ruby.
 
 # Local build and development
 ## Tooling Requirements
-1. `node` v16+
+1. `node` v18+
 2. `yarn` v3
 3. Android Studio / Xcode
 
@@ -23,7 +23,7 @@ corepack enable
 corepack prepare yarn@3 --activate
 ```
 
-run `yarn` to install dependencies
+Run `yarn` to install dependencies
 
 ## Debugging the webview
 
@@ -50,6 +50,8 @@ yarn start
 3. Start the app
 ```
 cd ios
+nvm use
+yarn install
 pod install
 yarn ios
 # add --device 'iPhone' (replacing iPhone with your device name) to run on device. add --simulator 'iPhone 14' to specify iPhone 14 simulator. xcode also has these capabilities
