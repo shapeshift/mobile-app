@@ -19,6 +19,7 @@ declare module 'react-native-dotenv' {
   export const JUICE_URI: string
   export const WOOD_URI: string
   export const NEO_URI: string
+  export const LOCAL_URI: string
   /**
    * chatwoot support widget
    */

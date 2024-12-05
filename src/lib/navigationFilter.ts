@@ -15,6 +15,7 @@ import {
   NEO_URI,
   WALLETCONNECT_VERIFY_SERVER,
   WALLETCONNECT_VERIFY_FALLBACK_SERVER,
+  LOCAL_URI,
 } from 'react-native-dotenv'
 
 const openBrowser = async (url: string) => {
@@ -40,7 +41,8 @@ export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
     request.url.startsWith(NEO_URI) ||
     request.url.startsWith(CHATWOOT_URI) ||
     request.url.startsWith(WALLETCONNECT_VERIFY_SERVER) ||
-    request.url.startsWith(WALLETCONNECT_VERIFY_FALLBACK_SERVER)
+    request.url.startsWith(WALLETCONNECT_VERIFY_FALLBACK_SERVER) ||
+    request.url.startsWith(LOCAL_URI)
   ) {
     return true
   }
