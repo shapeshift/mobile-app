@@ -7,7 +7,7 @@ To setup your local environment follow the [react-native environment setup](http
 #### For M1 users
 It is simpler to install CocoaPods via brew rather than using Ruby. 
 ```
-`brew install cocoapods`
+brew install cocoapods
 ```
 
 # Local build and development
