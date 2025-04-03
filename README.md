@@ -128,6 +128,10 @@ This is usually fixed by running Android directly from the project cwd. On osx, 
 
 This is usually fixed by running metro directly within the integrated terminal of Android studio with `yarn start`, then `a` for Android.
 
+> `net::ERR_CONNECTION_REFUSED (http://localhost:3000)` when using localhost env in mobile app
+
+Enable the reverse-proxy for localhost with `adb reverse tcp:3000 tcp:3000`
+
 ### Publishing builds on Android
 You will need to obtain signing artifacts from someone in order to push builds. 
 
