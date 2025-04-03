@@ -120,15 +120,15 @@ To debug the webview:
 
 ### Troubleshooting Android
 
-> `Cannot run program "node": error=2, No such file or directory`
+#### `Cannot run program "node": error=2, No such file or directory`
 
 This is usually fixed by running Android directly from the project cwd. On osx, this is done with `open -a /Applications/Android\ Studio.app`
 
-> `Unable to load script.Make sure you are either running a Metro server or that your bundle 'index.android.bundle' is packaged correctly for release`
+#### `Unable to load script.Make sure you are either running a Metro server or that your bundle 'index.android.bundle' is packaged correctly for release`
 
 This is usually fixed by running metro directly within the integrated terminal of Android studio with `yarn start`, then `a` for Android.
 
-> `net::ERR_CONNECTION_REFUSED (http://localhost:3000)` when using localhost env in mobile app
+#### `net::ERR_CONNECTION_REFUSED (http://localhost:3000)` when using localhost env in mobile app
 
 Enable the reverse-proxy for localhost with `adb reverse tcp:3000 tcp:3000`
 
