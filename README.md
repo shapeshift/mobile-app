@@ -7,7 +7,7 @@ To setup your local environment follow the [react-native environment setup](http
 #### For M1 users
 It is simpler to install CocoaPods via brew rather than using Ruby. 
 ```
-`brew install cocoapods`
+brew install cocoapods
 ```
 
 # Local build and development
@@ -24,15 +24,6 @@ corepack prepare yarn@3 --activate
 ```
 
 Run `yarn` to install dependencies
-
-## Debugging the webview
-
-To debug the webview:
-
-- Run metro and the build for iOS / Android (see iOS and Android sections below)
-- Run `chrome://inspect/#devices` and click "Inspect" on the remote target
-
-![Remote Target Inspect](https://github.com/shapeshift/mobile-app/assets/17035424/7ede8055-9165-43e9-b54d-0862ae869728)
 
 ## iOS
 Tested with Xcode 13.4 on macOS 12.5. You will also need CocoaPods installed
@@ -112,13 +103,36 @@ Unable to install .../mobile-app/android/app/build/outputs/apk/debug/app-debug.a
 com.android.ddmlib.InstallException: Unknown failure: Exception occurred while executing 'install':
 android.os.ParcelableException: java.io.IOException: Requested internal only, but not enough space
 
-#### To start the app:
+### To start the app:
 
 ```
 yarn android
 ```
 
-#### Publishing builds on Android
+### Debugging the webview (Android Only)
+
+To debug the webview:
+
+- Run metro and the build for iOS / Android (see iOS and Android sections below)
+- Run `chrome://inspect/#devices` and click "Inspect" on the remote target
+
+![Remote Target Inspect](https://github.com/shapeshift/mobile-app/assets/17035424/7ede8055-9165-43e9-b54d-0862ae869728)
+
+### Troubleshooting Android
+
+#### `Cannot run program "node": error=2, No such file or directory`
+
+This is usually fixed by running Android directly from the project cwd. On osx, this is done with `open -a /Applications/Android\ Studio.app`
+
+#### `Unable to load script.Make sure you are either running a Metro server or that your bundle 'index.android.bundle' is packaged correctly for release`
+
+This is usually fixed by running metro directly within the integrated terminal of Android studio with `yarn start`, then `a` for Android.
+
+#### `net::ERR_CONNECTION_REFUSED (http://localhost:3000)` when using localhost env in mobile app
+
+Enable the reverse-proxy for localhost with `adb reverse tcp:3000 tcp:3000`
+
+### Publishing builds on Android
 You will need to obtain signing artifacts from someone in order to push builds. 
 
 1. Once you have successfully set up android studio per the documentation above you can proceed. Make sure you have opened the ./android folder as the root.
