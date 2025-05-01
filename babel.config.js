@@ -1,5 +1,5 @@
 module.exports = {
-  presets: ['module:@react-native/babel-preset'],
+  presets: ['babel-preset-expo'],
   plugins: [
     // @see https://github.com/facebook/react-native/issues/29084
     ['@babel/plugin-transform-flow-strip-types', { loose: true }],

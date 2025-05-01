@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, Linking, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
-import RNShake from 'react-native-shake'
 import { WebView } from 'react-native-webview'
 import { DeveloperModeModal } from './components/DeveloperModeModal'
 import ErrorPage from './components/ErrorPage'
@@ -11,6 +10,9 @@ import { useSettings } from './hooks/useSettings'
 import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
+import Constants from 'expo-constants'
+
+const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
 import { LogBox } from 'react-native'
 
@@ -35,12 +37,21 @@ const App = () => {
   }, [messageManager])
 
   useEffect(() => {
-    const subscription = RNShake.addListener(() => {
-      messageManager.postMessage({ cmd: 'shakeEvent' })
-    })
+    if (isRunningInExpoGo) return
+    let subscription: any | null = null
+
+    ;(async () => {
+      const RNShake = await import('react-native-shake')
+
+      subscription = RNShake.default.addListener(() => {
+        messageManager.postMessage({ cmd: 'shakeEvent' })
+      })
+    })()
 
     return () => {
-      subscription.remove()
+      if (subscription) {
+        subscription.remove()
+      }
     }
   }, [messageManager])
 
@@ -67,6 +78,8 @@ const App = () => {
       const newUri = `${settings?.SHAPESHIFT_URI}/#/${path}?${Date.now()}`
       setUri(newUri)
     }
+
+    if (isRunningInExpoGo) return
 
     // case where the app is backgrounded/not yet opened
     Linking.getInitialURL().then(url => url && deepLinkHandler({ url }))
@@ -139,6 +152,7 @@ const App = () => {
             onMessage={msg => messageManager.handleMessage(msg)}
             onNavigationStateChange={e => {
               console.debug('\x1b[7m onNavigationStateChange', e, '\x1b[0m')
+
               if (loading) setLoading(e.loading)
             }}
             onContentProcessDidTerminate={() => {
