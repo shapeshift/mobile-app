@@ -69,7 +69,7 @@ Currently we are manually building an archive in xCode to distribute the app.
 
 ### Running on Expo Go with local web
 - Run web, select the lan IP
-- Update your `LOCAL_URI` in the .env with the related IP
+- Update your `EXPO_PUBLIC_LOCAL_URI` in the .env with the related IP
 - Run the mobile app using this command (note the --reset-cache option, it's necessary for Metro to reload the .env file):
 ```
 npx expo start --reset-cache

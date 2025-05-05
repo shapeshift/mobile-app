@@ -64,10 +64,11 @@ const App = () => {
         await Gyroscope.requestPermissionsAsync()
         await Gyroscope.setUpdateInterval(100)
 
-        const subscription = Gyroscope.addListener(handleShake)
-        setSubscription(subscription)
-      } catch (error) {
-        console.error('Failed to set up gyroscope:', error)
+        const gyroscopeSubscription = Gyroscope.addListener(handleShake)
+
+        setSubscription(gyroscopeSubscription)
+      } catch (gyroscopeError) {
+        console.error('Failed to set up gyroscope:', gyroscopeError)
       }
     })()
 
@@ -98,7 +99,7 @@ const App = () => {
        * without it, the urls are the same, even if the webview has routed
        * to some other page within the webview.
        */
-      const newUri = `${settings?.SHAPESHIFT_URI}/#/${path}?${Date.now()}`
+      const newUri = `${settings?.EXPO_PUBLIC_SHAPESHIFT_URI}/#/${path}?${Date.now()}`
       setUri(newUri)
     }
 
@@ -128,7 +129,7 @@ const App = () => {
 
   const defaultUrl = useMemo(() => {
     if (!settings) return
-    return `${settings.SHAPESHIFT_URI}`
+    return `${settings.EXPO_PUBLIC_SHAPESHIFT_URI}`
   }, [settings])
 
   useEffect(() => {
@@ -136,7 +137,7 @@ const App = () => {
     setUri(defaultUrl)
   }, [defaultUrl])
 
-  if (!settings?.SHAPESHIFT_URI) return null
+  if (!settings?.EXPO_PUBLIC_SHAPESHIFT_URI) return null
   if (!uri) return null
 
   return (
@@ -144,7 +145,7 @@ const App = () => {
       <DeveloperModeModal
         visible={isDebugModalVisible}
         onClose={() => setIsDebugModalVisible(false)}
-        onSelect={url => setSetting('SHAPESHIFT_URI', url).catch(console.error)}
+        onSelect={url => setSetting('EXPO_PUBLIC_SHAPESHIFT_URI', url).catch(console.error)}
       />
       {error ? (
         <ErrorPage onTryAgain={() => setError(false)} />

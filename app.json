@@ -2,13 +2,26 @@
   "name": "ShapeShift",
   "slug": "shapeshift",
   "icon": "./src/static/icon.png",
+  "scheme": "shapeshift",
+  "newArchEnabled": true,
   "primaryColor": "#181C27",
   "backgroundColor": "#181C27",
   "splash": {
     "image": "./src/static/splashscreen.png",
     "backgroundColor": "#181C27"
   },
-  "plugins": ["expo-secure-store"],
+  "plugins": [
+    "expo-secure-store",
+    [
+      "expo-splash-screen",
+      {
+        "image": "./src/static/splashscreen.png",
+        "imageWidth": 200,
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+      }
+    ]
+  ],
   "android": {
     "package": "com.shapeshift.droid_shapeshift",
     "adaptiveIcon": {

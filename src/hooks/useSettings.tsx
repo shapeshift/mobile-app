@@ -1,6 +1,5 @@
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect, useState } from 'react'
-import { SHAPESHIFT_URI } from 'react-native-dotenv'
 import { singletonHook } from 'react-singleton-hook'
 
 const useSettingsImpl = () => {
@@ -12,8 +11,12 @@ const useSettingsImpl = () => {
       getItem()
         .then(data => {
           if (!data) {
-            setSettings({ SHAPESHIFT_URI })
-            return setItem(JSON.stringify({ SHAPESHIFT_URI }))
+            setSettings({ EXPO_PUBLIC_SHAPESHIFT_URI: process.env.EXPO_PUBLIC_SHAPESHIFT_URI })
+            return setItem(
+              JSON.stringify({
+                EXPO_PUBLIC_SHAPESHIFT_URI: process.env.EXPO_PUBLIC_SHAPESHIFT_URI,
+              }),
+            )
           }
           let parsed: Record<string, unknown> | null
           try {
@@ -22,7 +25,10 @@ const useSettingsImpl = () => {
             console.error('error parsing settings data: ', e)
             parsed = {}
           }
-          setSettings({ ...parsed, SHAPESHIFT_URI })
+          setSettings({
+            ...parsed,
+            EXPO_PUBLIC_SHAPESHIFT_URI: process.env.EXPO_PUBLIC_SHAPESHIFT_URI,
+          })
           return
         })
         .catch(console.error)

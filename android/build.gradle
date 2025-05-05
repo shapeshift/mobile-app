@@ -1,12 +1,9 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     ext {
         buildToolsVersion = findProperty('android.buildToolsVersion') ?: '34.0.0'
-        minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '23')
+        minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '24')
         compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '34')
         targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
-        kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.23'
 
         ndkVersion = "26.1.10909125"
     }
@@ -21,7 +18,13 @@ buildscript {
     }
 }
 
-apply plugin: "com.facebook.react.rootproject"
+def reactNativeAndroidDir = new File(
+  providers.exec {
+    workingDir(rootDir)
+    commandLine("node", "--print", "require.resolve('react-native/package.json')")
+  }.standardOutput.asText.get().trim(),
+  "../android"
+)
 
 allprojects {
     repositories {
@@ -39,3 +42,5 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
     }
 }
+apply plugin: "com.facebook.react.rootproject"
+apply plugin: "expo-root-project"
