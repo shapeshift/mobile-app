@@ -1,5 +1,5 @@
 /* Register message handlers and injected JavaScript */
-// import Clipboard from '@react-native-clipboard/clipboard'
+import Clipboard from 'expo-clipboard'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
 
@@ -59,7 +59,7 @@ export const getMessageManager = once(() => {
   })
 
   // clipboard
-  // messageManager.on('setClipboard', evt => Clipboard.setString(evt.key))
+  messageManager.on('setClipboard', evt => Clipboard.setStringAsync(evt.key))
 
   /**
    * this handler allows use to do the webview equivalent of window.location.reload()

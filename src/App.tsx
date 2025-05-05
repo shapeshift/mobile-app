@@ -11,6 +11,7 @@ import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 import Constants from 'expo-constants'
+import { Gyroscope } from 'expo-sensors'
 
 const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
@@ -28,6 +29,9 @@ const App = () => {
   const webviewRef = useRef<WebView>(null)
   const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
+  const [subscription, setSubscription] = useState<ReturnType<typeof Gyroscope.addListener> | null>(
+    null,
+  )
 
   useKeepAlive()
   const { startImport } = useImportWallet()
@@ -37,15 +41,34 @@ const App = () => {
   }, [messageManager])
 
   useEffect(() => {
-    if (isRunningInExpoGo) return
-    let subscription: any | null = null
+    const SHAKE_THRESHOLD = 10.0
+    const SHAKE_TIMEOUT = 250
+    let lastShake = 0
+
+    const handleShake = (data: { x: number; y: number; z: number }) => {
+      const now = Date.now()
+      if (now - lastShake < SHAKE_TIMEOUT) return
+
+      const rotationRate = Math.sqrt(
+        Math.pow(data.x, 2) + Math.pow(data.y, 2) + Math.pow(data.z, 2),
+      )
+
+      if (rotationRate > SHAKE_THRESHOLD) {
+        lastShake = now
+        messageManager.postMessage({ cmd: 'shakeEvent' })
+      }
+    }
 
     ;(async () => {
-      const RNShake = await import('react-native-shake')
+      try {
+        await Gyroscope.requestPermissionsAsync()
+        await Gyroscope.setUpdateInterval(100)
 
-      subscription = RNShake.default.addListener(() => {
-        messageManager.postMessage({ cmd: 'shakeEvent' })
-      })
+        const subscription = Gyroscope.addListener(handleShake)
+        setSubscription(subscription)
+      } catch (error) {
+        console.error('Failed to set up gyroscope:', error)
+      }
     })()
 
     return () => {
@@ -53,7 +76,7 @@ const App = () => {
         subscription.remove()
       }
     }
-  }, [messageManager])
+  }, [messageManager, subscription])
 
   // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
   useEffect(() => {

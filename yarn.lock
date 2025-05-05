@@ -3870,23 +3870,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-clipboard/clipboard@npm:^1.16.2":
-  version: 1.16.2
-  resolution: "@react-native-clipboard/clipboard@npm:1.16.2"
-  peerDependencies:
-    react: ">= 16.9.0"
-    react-native: ">= 0.61.5"
-    react-native-macos: ">= 0.61.0"
-    react-native-windows: ">= 0.61.0"
-  peerDependenciesMeta:
-    react-native-macos:
-      optional: true
-    react-native-windows:
-      optional: true
-  checksum: 4b5b2d9cdd3f1540af6cd8d1596a2e4acc85cb6bcad5778dd1b1eeb78265e326aec1f624efc8e1113cf36293902a84c5c6afa155a1e1434916c79eef6d09da3d
-  languageName: node
-  linkType: hard
-
 "@react-native-community/cli-clean@npm:12.3.6":
   version: 12.3.6
   resolution: "@react-native-community/cli-clean@npm:12.3.6"
@@ -7697,6 +7680,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-clipboard@npm:^7.1.4":
+  version: 7.1.4
+  resolution: "expo-clipboard@npm:7.1.4"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 6ef824b160184ec64e3e4619a06109028f859dc80242a55424b9865c54e215d19994158fbdce8d5024250773c6a7dadbd8eba69e46a246b6284fb4f1c35cfa40
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~17.1.4":
   version: 17.1.4
   resolution: "expo-constants@npm:17.1.4"
@@ -7785,6 +7779,18 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: f51993a89394b48717bbc7e99c40bd215ebef5204c5ffb57b460189bef5ce392284aef22e8f00f376da73859e3fb0bca288e1d33e9a36e506568d7b3f44d2736
+  languageName: node
+  linkType: hard
+
+"expo-sensors@npm:~14.1.4":
+  version: 14.1.4
+  resolution: "expo-sensors@npm:14.1.4"
+  dependencies:
+    invariant: ^2.2.4
+  peerDependencies:
+    expo: "*"
+    react-native: "*"
+  checksum: 66e502d03c046edf6b060b0f7e5d821dc2589c02c4dd14b23b91cbf0b3c681d6ce202fb8a60994cf06c12815b30a9843dea3260083b5e6ce22f14930a60f5fd7
   languageName: node
   linkType: hard
 
@@ -12982,7 +12988,6 @@ __metadata:
     "@craftzdog/react-native-buffer": ^6.0.5
     "@react-hook/async": ^3.1.1
     "@react-native-async-storage/async-storage": 2.1.2
-    "@react-native-clipboard/clipboard": ^1.16.2
     "@react-native-community/eslint-config": ^3.1.0
     "@react-native/metro-config": 0.74.83
     "@seald-io/react-native-scrypt": ^1.2.3
@@ -13005,8 +13010,10 @@ __metadata:
     eslint-plugin-react: ^7.31.8
     eslint-plugin-react-native: ^4.0.0
     expo: latest
+    expo-clipboard: ^7.1.4
     expo-local-authentication: ~16.0.4
     expo-secure-store: ~14.2.3
+    expo-sensors: ~14.1.4
     expo-splash-screen: ~0.30.7
     jest: ^29.4.0
     lodash.memoize: ^4.1.2
