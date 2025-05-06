@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { isValidUrl, shouldLoadFilter } from '../lib/navigationFilter'
+import { isValidUrl } from '../lib/navigationFilter'
 
 const SETTINGS_KEY = 'settings'
 
