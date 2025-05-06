@@ -29,9 +29,6 @@ const App = () => {
   const webviewRef = useRef<WebView>(null)
   const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
-  const [subscription, setSubscription] = useState<ReturnType<typeof Gyroscope.addListener> | null>(
-    null,
-  )
 
   useKeepAlive()
   const { startImport } = useImportWallet()
@@ -59,25 +56,24 @@ const App = () => {
       }
     }
 
+    let gyroscopeSubscription: ReturnType<typeof Gyroscope.addListener> | null = null
+
     ;(async () => {
       try {
         await Gyroscope.requestPermissionsAsync()
         await Gyroscope.setUpdateInterval(100)
-
-        const gyroscopeSubscription = Gyroscope.addListener(handleShake)
-
-        setSubscription(gyroscopeSubscription)
+        gyroscopeSubscription = Gyroscope.addListener(handleShake)
       } catch (gyroscopeError) {
         console.error('Failed to set up gyroscope:', gyroscopeError)
       }
     })()
 
     return () => {
-      if (subscription) {
-        subscription.remove()
+      if (gyroscopeSubscription) {
+        gyroscopeSubscription.remove()
       }
     }
-  }, [messageManager, subscription])
+  }, [messageManager])
 
   // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
   useEffect(() => {
@@ -94,6 +90,7 @@ const App = () => {
       // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --android
       const URL_DELIMITER = 'shapeshift://'
       const path = url.split(URL_DELIMITER)[1]
+
       /**
        * ?Date.now() tricks the webview into navigating to a different url.
        * without it, the urls are the same, even if the webview has routed
@@ -137,15 +134,25 @@ const App = () => {
     setUri(defaultUrl)
   }, [defaultUrl])
 
-  if (!settings?.EXPO_PUBLIC_SHAPESHIFT_URI) return null
-  if (!uri) return null
+  if (!settings?.EXPO_PUBLIC_SHAPESHIFT_URI)
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator color='#FFFFFF' size='large' />
+      </View>
+    )
+  if (!uri)
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator color='#FFFFFF' size='large' />
+      </View>
+    )
 
   return (
     <View style={styles.container}>
       <DeveloperModeModal
         visible={isDebugModalVisible}
         onClose={() => setIsDebugModalVisible(false)}
-        onSelect={url => setSetting('EXPO_PUBLIC_SHAPESHIFT_URI', url).catch(console.error)}
+        onSelect={url => setSetting('EXPO_PUBLIC_SHAPESHIFT_URI', url)}
       />
       {error ? (
         <ErrorPage onTryAgain={() => setError(false)} />
@@ -163,7 +170,7 @@ const App = () => {
             allowsInlineMediaPlayback={true}
             mediaPlaybackRequiresUserAction={false}
             pullToRefreshEnabled
-            decelerationRate={'normal'}
+            decelerationRate={0.998}
             startInLoadingState
             javaScriptEnabled
             domStorageEnabled

@@ -22,25 +22,16 @@ plugins {
   id("expo-autolinking-settings")
 }
 
-rootProject.name = 'ShapeShift'
-
-dependencyResolutionManagement {
-  versionCatalogs {
-    reactAndroidLibs {
-      from(files(new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), "../gradle/libs.versions.toml")))
-    }
-  }
-}
-
 extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   if (System.getenv('EXPO_USE_COMMUNITY_AUTOLINKING') == '1') {
-    ex.autolinkLibrariesFromCommand()
+    ex.autolinkLibrariesFromCommand(expoAutolinking.rnConfigCommand)
   } else {
     ex.autolinkLibrariesFromCommand(expoAutolinking.rnConfigCommand)
   }
 }
-
 expoAutolinking.useExpoModules()
+
+rootProject.name = 'ShapeShift'
 
 expoAutolinking.useExpoVersionCatalog()
 

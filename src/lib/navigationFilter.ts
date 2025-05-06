@@ -8,25 +8,33 @@ const openBrowser = async (url: string) => {
   await Linking.openURL(url)
 }
 
+export const isValidUrl = (url: string) => {
+  if (
+    url.startsWith(process.env.EXPO_PUBLIC_SHAPESHIFT_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_SHAPESHIFT_PRIVATE_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_RELEASE_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_DEVELOP_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_YEET_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_BEARD_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_CAFE_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_GOME_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_JUICE_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_WOOD_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_NEO_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_CHATWOOT_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_WALLETCONNECT_VERIFY_SERVER) ||
+    url.startsWith(process.env.EXPO_PUBLIC_WALLETCONNECT_VERIFY_FALLBACK_SERVER) ||
+    url.startsWith(process.env.EXPO_PUBLIC_LOCAL_URI)
+  ) {
+    return true
+  }
+
+  return false
+}
+
 export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
   // Navigation within wrapped web app
-  if (
-    request.url.startsWith(process.env.EXPO_PUBLIC_SHAPESHIFT_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_SHAPESHIFT_PRIVATE_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_RELEASE_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_DEVELOP_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_YEET_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_BEARD_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_CAFE_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_GOME_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_JUICE_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_WOOD_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_NEO_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_CHATWOOT_URI) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_WALLETCONNECT_VERIFY_SERVER) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_WALLETCONNECT_VERIFY_FALLBACK_SERVER) ||
-    request.url.startsWith(process.env.EXPO_PUBLIC_LOCAL_URI)
-  ) {
+  if (isValidUrl(request.url)) {
     return true
   }
 
