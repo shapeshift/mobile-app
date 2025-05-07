@@ -42,13 +42,9 @@ const App = () => {
 
     // shared link handler
     const deepLinkHandler = ({ url }: { url: string }) => {
-      // "shouldn't" happen, but did in testing
+      // if no url, return but if we are using some deep linking, parse the url
+      // and update the webview uri to redirect the correct web page
       if (!url) return
-      // e.g. shapeshift://yat/🦊🚀🌈
-      // url escaped http://192.168.1.22:3000/#/yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88
-      // to test this, run:
-      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --ios
-      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --android
 
       // Expo Go uses exp://, so we need to handle it differently
       const URL_DELIMITER = isRunningInExpoGo ? 'exp://' : 'shapeshift://'
