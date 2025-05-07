@@ -16,6 +16,13 @@ npm install --global yarn
 
 Run `yarn` to install dependencies
 
+## Setup environment variables
+
+Copy .env file
+```
+cp .env.template .env
+```
+
 ## Launching the app
 
 - Run Expo 
@@ -26,13 +33,7 @@ yarn start
 - You can also open the devtool console by typing `d` in the terminal
 
 ## iOS
-
-1. Copy .env file
-```
-cp .env.template .env
-```
-
-2. There is an expo command to run the iOS app:
+1. There is an expo command to run the iOS app:
 ```
 yarn ios
 ```
