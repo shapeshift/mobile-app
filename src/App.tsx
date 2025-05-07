@@ -54,6 +54,9 @@ const App = () => {
 
       const path = url.split(URL_DELIMITER)[1]
 
+      // No deeplink paths, so we don't need to navigate to a different url than home
+      if (!path) return
+
       /**
        * ?Date.now() tricks the webview into navigating to a different url.
        * without it, the urls are the same, even if the webview has routed
