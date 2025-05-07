@@ -1,4 +1,3 @@
-import '@expo/metro-runtime'
 import App from './App'
 import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
