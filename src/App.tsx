@@ -46,8 +46,11 @@ const App = () => {
       // and update the webview uri to redirect the correct web page
       if (!url) return
 
+      // We don't support deep linking through Expo Go as expo go is an app by itself
+      if (isRunningInExpoGo) return
+
       // Expo Go uses exp://, so we need to handle it differently
-      const URL_DELIMITER = isRunningInExpoGo ? 'exp://' : 'shapeshift://'
+      const URL_DELIMITER = 'shapeshift://'
 
       const path = url.split(URL_DELIMITER)[1]
 
