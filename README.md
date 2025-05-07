@@ -46,7 +46,7 @@ npx expo start --reset-cache
 ```
 
 ### Running on Expo Go with local web
-- Run web, copy the lan IP
+- Run web, copy the lan IP e.g `192.168.x.y`
 - Update your `EXPO_PUBLIC_LOCAL_URI` in the .env with the related IP
 - Run the mobile app using this command (note the --reset-cache option, it's necessary for Metro to reload the .env file):
 ```
