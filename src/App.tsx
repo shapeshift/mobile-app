@@ -11,7 +11,6 @@ import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 import Constants from 'expo-constants'
-import { Gyroscope } from 'expo-sensors'
 
 const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
@@ -37,58 +36,22 @@ const App = () => {
     messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
   }, [messageManager])
 
-  useEffect(() => {
-    const SHAKE_THRESHOLD = 10.0
-    const SHAKE_TIMEOUT = 250
-    let lastShake = 0
-
-    const handleShake = (data: { x: number; y: number; z: number }) => {
-      const now = Date.now()
-      if (now - lastShake < SHAKE_TIMEOUT) return
-
-      const rotationRate = Math.sqrt(
-        Math.pow(data.x, 2) + Math.pow(data.y, 2) + Math.pow(data.z, 2),
-      )
-
-      if (rotationRate > SHAKE_THRESHOLD) {
-        lastShake = now
-        messageManager.postMessage({ cmd: 'shakeEvent' })
-      }
-    }
-
-    let gyroscopeSubscription: ReturnType<typeof Gyroscope.addListener> | null = null
-
-    ;(async () => {
-      try {
-        await Gyroscope.requestPermissionsAsync()
-        await Gyroscope.setUpdateInterval(100)
-        gyroscopeSubscription = Gyroscope.addListener(handleShake)
-      } catch (gyroscopeError) {
-        console.error('Failed to set up gyroscope:', gyroscopeError)
-      }
-    })()
-
-    return () => {
-      if (gyroscopeSubscription) {
-        gyroscopeSubscription.remove()
-      }
-    }
-  }, [messageManager])
-
   // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
   useEffect(() => {
     if (!settings) return
 
     // shared link handler
     const deepLinkHandler = ({ url }: { url: string }) => {
-      // "shouldn't" happen, but did in testing
+      // if no url, return but if we are using some deep linking, parse the url
+      // and update the webview uri to redirect the correct web page
       if (!url) return
-      // e.g. shapeshift://yat/🦊🚀🌈
-      // url escaped http://192.168.1.22:3000/#/yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88
-      // to test this, run:
-      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --ios
-      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --android
+
+      // We don't support deep linking through Expo Go as expo go is an app by itself
+      if (isRunningInExpoGo) return
+
+      // Expo Go uses exp://, so we need to handle it differently
       const URL_DELIMITER = 'shapeshift://'
+
       const path = url.split(URL_DELIMITER)[1]
 
       /**
@@ -97,10 +60,9 @@ const App = () => {
        * to some other page within the webview.
        */
       const newUri = `${settings?.EXPO_PUBLIC_SHAPESHIFT_URI}/#/${path}?${Date.now()}`
+      console.log('newUri', newUri, URL_DELIMITER, url)
       setUri(newUri)
     }
-
-    if (isRunningInExpoGo) return
 
     // case where the app is backgrounded/not yet opened
     Linking.getInitialURL().then(url => url && deepLinkHandler({ url }))

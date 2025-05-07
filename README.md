@@ -45,7 +45,7 @@ npx expo start --reset-cache
 ```
 
 ### Running on Expo Go with local web
-- Run web, select the lan IP
+- Run web, copy the lan IP e.g `192.168.x.y`
 - Update your `EXPO_PUBLIC_LOCAL_URI` in the .env with the related IP
 - Run the mobile app using this command (note the --reset-cache option, it's necessary for Metro to reload the .env file):
 ```
@@ -53,7 +53,7 @@ npx expo start --reset-cache
 ```
 - Install Expo Go
 - Launch ShapeShift by scanning the QR code
-- Select the `local` environment in the settings
+- Select the `localhost` environment in the settings
 - The hotreloading should work as expected
 
 ### Pushing builds to EAS

@@ -3,7 +3,10 @@
  */
 
 export const injectedJavaScript = `
+if (!globalThis.navigator.clipboard) {
+  globalThis.navigator.clipboard = {};
+};
 globalThis.navigator.clipboard.writeText = function(s) {
-  window.ReactNativeWebView.postMessage(JSON.stringify({cmd: 'setClipboard', key: s }))
-}
+  window.ReactNativeWebView.postMessage(JSON.stringify({cmd: 'setClipboard', key: s }));
+};
 `
