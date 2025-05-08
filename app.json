@@ -28,5 +28,12 @@
   },
   "ios": {
     "bundleIdentifier": "com.shapeShift.shapeShift"
+  },
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "3c6746bc-1931-470c-a7f8-effbac1edafc"
+      }
+    }
   }
 }
