@@ -1,5 +1,5 @@
 /* Register message handlers and injected JavaScript */
-import Clipboard from 'expo-clipboard'
+import * as Clipboard from 'expo-clipboard'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
 
