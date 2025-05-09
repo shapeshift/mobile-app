@@ -4,8 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "clean": "react-native-clean",
-    "clean:ios": "rm -rf ios/build && rm -rf ios/Pods && react-native-clean",
+    "prebuild": "expo prebuild",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "start": "expo start",
