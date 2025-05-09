@@ -5,9 +5,10 @@ const backgroundColor = '#181c27'
 export const styles = StyleSheet.create({
   containerLoading: {
     zIndex: -1,
-    display: 'none',
+    opacity: 0,
     height: 0,
     width: 0,
+    position: 'absolute',
   },
   container: {
     backgroundColor,

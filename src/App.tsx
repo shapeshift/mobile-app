@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, Linking, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
-import RNShake from 'react-native-shake'
 import { WebView } from 'react-native-webview'
 import { DeveloperModeModal } from './components/DeveloperModeModal'
 import ErrorPage from './components/ErrorPage'
@@ -11,6 +10,9 @@ import { useSettings } from './hooks/useSettings'
 import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
+import Constants from 'expo-constants'
+
+const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
 import { LogBox } from 'react-native'
 
@@ -34,37 +36,34 @@ const App = () => {
     messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
   }, [messageManager])
 
-  useEffect(() => {
-    const subscription = RNShake.addListener(() => {
-      messageManager.postMessage({ cmd: 'shakeEvent' })
-    })
-
-    return () => {
-      subscription.remove()
-    }
-  }, [messageManager])
-
   // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
   useEffect(() => {
     if (!settings) return
 
     // shared link handler
     const deepLinkHandler = ({ url }: { url: string }) => {
-      // "shouldn't" happen, but did in testing
+      // if no url, return but if we are using some deep linking, parse the url
+      // and update the webview uri to redirect the correct web page
       if (!url) return
-      // e.g. shapeshift://yat/🦊🚀🌈
-      // url escaped http://192.168.1.22:3000/#/yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88
-      // to test this, run:
-      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --ios
-      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --android
+
+      // We don't support deep linking through Expo Go as expo go is an app by itself
+      if (isRunningInExpoGo) return
+
+      // Expo Go uses exp://, so we need to handle it differently
       const URL_DELIMITER = 'shapeshift://'
+
       const path = url.split(URL_DELIMITER)[1]
+
+      // No deeplink paths, so we don't need to navigate to a different url than home
+      if (!path) return
+
       /**
        * ?Date.now() tricks the webview into navigating to a different url.
        * without it, the urls are the same, even if the webview has routed
        * to some other page within the webview.
        */
-      const newUri = `${settings?.SHAPESHIFT_URI}/#/${path}?${Date.now()}`
+      const newUri = `${settings?.EXPO_PUBLIC_SHAPESHIFT_URI}/#/${path}?${Date.now()}`
+      console.log('newUri', newUri, URL_DELIMITER, url)
       setUri(newUri)
     }
 
@@ -92,7 +91,7 @@ const App = () => {
 
   const defaultUrl = useMemo(() => {
     if (!settings) return
-    return `${settings.SHAPESHIFT_URI}`
+    return `${settings.EXPO_PUBLIC_SHAPESHIFT_URI}`
   }, [settings])
 
   useEffect(() => {
@@ -100,15 +99,25 @@ const App = () => {
     setUri(defaultUrl)
   }, [defaultUrl])
 
-  if (!settings?.SHAPESHIFT_URI) return null
-  if (!uri) return null
+  if (!settings?.EXPO_PUBLIC_SHAPESHIFT_URI)
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator color='#FFFFFF' size='large' />
+      </View>
+    )
+  if (!uri)
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator color='#FFFFFF' size='large' />
+      </View>
+    )
 
   return (
     <View style={styles.container}>
       <DeveloperModeModal
         visible={isDebugModalVisible}
         onClose={() => setIsDebugModalVisible(false)}
-        onSelect={url => setSetting('SHAPESHIFT_URI', url).catch(console.error)}
+        onSelect={url => setSetting('EXPO_PUBLIC_SHAPESHIFT_URI', url)}
       />
       {error ? (
         <ErrorPage onTryAgain={() => setError(false)} />
@@ -126,7 +135,7 @@ const App = () => {
             allowsInlineMediaPlayback={true}
             mediaPlaybackRequiresUserAction={false}
             pullToRefreshEnabled
-            decelerationRate={'normal'}
+            decelerationRate={0.998}
             startInLoadingState
             javaScriptEnabled
             domStorageEnabled
@@ -139,6 +148,7 @@ const App = () => {
             onMessage={msg => messageManager.handleMessage(msg)}
             onNavigationStateChange={e => {
               console.debug('\x1b[7m onNavigationStateChange', e, '\x1b[0m')
+
               if (loading) setLoading(e.loading)
             }}
             onContentProcessDidTerminate={() => {
