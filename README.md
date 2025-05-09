@@ -37,6 +37,10 @@ yarn start
 ```
 yarn ios
 ```
+2. If you are struggling launching the simulator, you might want to use the prebuild command which is updating native folders:
+```
+yarn prebuild
+```
 
 ### Reset the cache
 If you changed some environment variable, you might need to reset the cache:
