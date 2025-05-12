@@ -32,8 +32,10 @@
   "expo": {
     "extra": {
       "eas": {
-        "projectId": "3c6746bc-1931-470c-a7f8-effbac1edafc"
+        "projectId": "5fc55e72-5e61-41f2-be9b-01a77afc388e"
       }
-    }
+    },
+    "owner": "shapeshift_dao",
+    "slug": "mobile-app"
   }
 }
