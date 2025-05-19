@@ -30,5 +30,7 @@
         <data android:scheme="shapeshift"/>
       </intent-filter>
     </activity>
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://u.expo.dev/5fc55e72-5e61-41f2-be9b-01a77afc388e"/>
+    <meta-data android:name="expo.modules.updates.EXPO_RUNTIME_VERSION" android:value="@string/expo_runtime_version"/>
   </application>
 </manifest>
