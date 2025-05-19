@@ -1,4 +1,4 @@
-import { AppRegistry } from 'react-native'
+import {registerRootComponent} from 'expo';
 import Root from './src/Root'
 
-AppRegistry.registerComponent("main", () => Root)
+registerRootComponent(Root)
