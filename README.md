@@ -32,24 +32,14 @@ yarn start
 - Open Expo Go or scan the QR code.
 - You can also open the devtool console by typing `d` in the terminal
 
-## iOS
-1. There is an expo command to run the iOS app:
-```
-yarn ios
-```
-2. If you are struggling launching the simulator, you might want to use the prebuild command which is updating native folders:
-```
-yarn prebuild
-```
-
-### Reset the cache
+## Reset the cache
 If you changed some environment variable, you might need to reset the cache:
 
 ```
 npx expo start --reset-cache
 ```
 
-### Running on Expo Go with local web
+## Running on Expo Go with local web
 - Run web, copy the lan IP e.g `192.168.x.y`
 - Update your `EXPO_PUBLIC_LOCAL_URI` in the .env with the related IP
 - Run the mobile app using this command (note the --reset-cache option, it's necessary for Metro to reload the .env file):
@@ -61,7 +51,24 @@ npx expo start --reset-cache
 - Select the `localhost` environment in the settings
 - The hotreloading should work as expected
 
-### Pushing builds to EAS
+
+## Run the iOS build in a simulator
+1. There is an expo command to run the iOS app:
+```
+yarn ios
+```
+2. If you are struggling launching the simulator, you might want to use the prebuild command which is updating native folders:
+```
+yarn prebuild
+```
+
+## Run the Android build in a simulator
+1. There is an expo command to run the iOS app:
+```
+yarn android
+```
+
+## Pushing builds to EAS
 - Install EAS:
 ```shell
 npm install -g eas-cli
