@@ -16,13 +16,6 @@ npm install --global yarn
 
 Run `yarn` to install dependencies
 
-## Setup environment variables
-
-Copy .env file
-```
-cp .env.template .env
-```
-
 ## Launching the app
 
 - Run Expo 
