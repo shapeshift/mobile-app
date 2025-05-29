@@ -1,7 +1,7 @@
 {
   "name": "ShapeShift",
+  "version": "3.2.0",
   "displayName": "ShapeShift",
-  "slug": "shapeshift",
   "icon": "./src/static/icon.png",
   "scheme": "shapeshift",
   "newArchEnabled": true,
@@ -27,6 +27,18 @@
     }
   },
   "ios": {
-    "bundleIdentifier": "com.shapeShift.shapeShift"
-  }
+    "bundleIdentifier": "com.shapeShift.shapeShift",
+    "supportsTablet": true
+  },
+  "extra": {
+    "eas": {
+      "projectId": "5fc55e72-5e61-41f2-be9b-01a77afc388e"
+    }
+  },
+  "owner": "shapeshift_dao",
+  "slug": "mobile-app",
+  "updates": {
+    "url": "https://u.expo.dev/5fc55e72-5e61-41f2-be9b-01a77afc388e"
+  },
+  "runtimeVersion": "3.2.0"
 }
