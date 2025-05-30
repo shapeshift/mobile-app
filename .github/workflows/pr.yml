@@ -30,7 +30,7 @@ jobs:
             ${{ runner.os }}-node-modules-
 
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Lint
         run: yarn lint

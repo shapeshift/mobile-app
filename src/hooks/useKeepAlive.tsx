@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { singletonHook } from 'react-singleton-hook'
 import { getMessageManager } from '../lib/getMessageManager'
 
-export const useKeepAliveImpl = () => {
+export const useKeepAlive = () => {
   const [lastPong, setLastPong] = useState(Date.now())
   const [isAlerting, setIsAlerting] = useState(false)
 
@@ -34,8 +33,5 @@ export const useKeepAliveImpl = () => {
       clearInterval(intervalPing)
       clearInterval(intervalPong)
     }
-    // No deps because we don't want to re-render the "setInterval"
   }, [isAlerting, lastPong, messageManager])
 }
-
-export const useKeepAlive = singletonHook(null, useKeepAliveImpl)

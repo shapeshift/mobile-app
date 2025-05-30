@@ -1,20 +1,32 @@
 {
   "name": "ShapeShift",
+  "displayName": "ShapeShift",
   "slug": "shapeshift",
   "icon": "./src/static/icon.png",
+  "scheme": "shapeshift",
+  "newArchEnabled": true,
   "primaryColor": "#181C27",
   "backgroundColor": "#181C27",
-  "splash": {
-    "image": "./src/static/splashscreen.png",
-    "backgroundColor": "#181C27"
-  },
-  "plugins": ["expo-secure-store"],
+  "plugins": [
+    "expo-secure-store",
+    [
+      "expo-splash-screen",
+      {
+        "image": "./src/static/icon.png",
+        "imageWidth": 200,
+        "resizeMode": "contain",
+        "backgroundColor": "#000b1f"
+      }
+    ]
+  ],
   "android": {
+    "edgeToEdgeEnabled": true,
     "package": "com.shapeshift.droid_shapeshift",
     "adaptiveIcon": {
       "foregroundImage": "./src/static/adaptive-icon.png",
       "backgroundColor": "#181C27"
-    }
+    },
+    "softwareKeyboardLayoutMode": "pan"
   },
   "ios": {
     "bundleIdentifier": "com.shapeShift.shapeShift"

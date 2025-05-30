@@ -1,7 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { ActivityIndicator, BackHandler, Linking, View } from 'react-native'
+import {
+  ActivityIndicator,
+  BackHandler,
+  Keyboard,
+  KeyboardAvoidingView,
+  Linking,
+  View,
+} from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
-import RNShake from 'react-native-shake'
 import { WebView } from 'react-native-webview'
 import { DeveloperModeModal } from './components/DeveloperModeModal'
 import ErrorPage from './components/ErrorPage'
@@ -11,6 +17,48 @@ import { useSettings } from './hooks/useSettings'
 import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
+import Constants from 'expo-constants'
+import { Platform } from 'react-native'
+import * as NavigationBar from 'expo-navigation-bar'
+
+NavigationBar.setPositionAsync('relative')
+
+const isRunningInExpoGo = Constants.appOwnership === 'expo'
+
+// env(safe-area-inset-top) is working on iOS but not on Android
+// so we need to inject the safe area inset manually
+const topInset = Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
+const bottomInset = Platform.OS === 'ios' ? 0 : 30
+
+// This is a hack to get the actual value of env, as the first load is not populating the css env variables
+// We need to inject the proper value after the first load and avoid injecting it on reload
+// This issue has never been fixed: https://github.com/react-native-webview/react-native-webview/issues/155
+const injectedSafeArea = `
+  ;(function() {
+    const temporaryElement = document.createElement('div');
+    temporaryElement.style.position = 'absolute';
+    temporaryElement.style.top = '0';
+    temporaryElement.style.left = '0';
+    temporaryElement.style.height = '0';
+    temporaryElement.style.width = '0';
+    temporaryElement.style.visibility = 'hidden';
+    temporaryElement.style.paddingTop = 'env(safe-area-inset-top)';
+    temporaryElement.style.paddingBottom = 'env(safe-area-inset-bottom)';
+    document.body.appendChild(temporaryElement);
+
+    const computedTop = window.getComputedStyle(temporaryElement).paddingTop;
+    const computedBottom = window.getComputedStyle(temporaryElement).paddingBottom;
+
+    if (computedTop === '0px') {
+      document.body.style.setProperty('--safe-area-inset-top', '${topInset}px');
+    }
+    if (computedBottom === '0px') {
+      document.body.style.setProperty('--safe-area-inset-bottom', '${bottomInset}px');
+    }
+
+    document.body.removeChild(temporaryElement);
+  })();
+`
 
 import { LogBox } from 'react-native'
 
@@ -26,22 +74,27 @@ const App = () => {
   const webviewRef = useRef<WebView>(null)
   const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
+  const [keyboardVisible, setKeyboardVisible] = useState(false)
 
   useKeepAlive()
   const { startImport } = useImportWallet()
 
   useEffect(() => {
-    messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
-  }, [messageManager])
-
-  useEffect(() => {
-    const subscription = RNShake.addListener(() => {
-      messageManager.postMessage({ cmd: 'shakeEvent' })
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true)
+    })
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false)
     })
 
     return () => {
-      subscription.remove()
+      keyboardDidShowListener.remove()
+      keyboardDidHideListener.remove()
     }
+  }, [])
+
+  useEffect(() => {
+    messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
   }, [messageManager])
 
   // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
@@ -50,21 +103,30 @@ const App = () => {
 
     // shared link handler
     const deepLinkHandler = ({ url }: { url: string }) => {
-      // "shouldn't" happen, but did in testing
+      // if no url, return but if we are using some deep linking, parse the url
+      // and update the webview uri to redirect the correct web page
       if (!url) return
-      // e.g. shapeshift://yat/🦊🚀🌈
-      // url escaped http://192.168.1.22:3000/#/yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88
-      // to test this, run:
-      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --ios
-      // npx uri-scheme open "shapeshift://yat/%F0%9F%A6%8A%F0%9F%9A%80%F0%9F%8C%88" --android
-      const URL_DELIMITER = 'shapeshift://'
+
+      // We don't support deep linking through Expo Go as expo go is an app by itself
+      if (isRunningInExpoGo) return
+
+      // Expo Go uses exp://, so we need to handle it differently
+      const URL_DELIMITER = url.includes('expo-development-client')
+        ? 'shapeshift://expo-development-client/'
+        : 'shapeshift://'
+
       const path = url.split(URL_DELIMITER)[1]
+
+      // No deeplink paths, so we don't need to navigate to a different url than home
+      if (!path) return
+
       /**
        * ?Date.now() tricks the webview into navigating to a different url.
        * without it, the urls are the same, even if the webview has routed
        * to some other page within the webview.
        */
-      const newUri = `${settings?.SHAPESHIFT_URI}/#/${path}?${Date.now()}`
+      const newUri = `${settings?.EXPO_PUBLIC_SHAPESHIFT_URI}/#/${path}?${Date.now()}`
+      console.log('newUri', newUri, URL_DELIMITER, url)
       setUri(newUri)
     }
 
@@ -92,7 +154,7 @@ const App = () => {
 
   const defaultUrl = useMemo(() => {
     if (!settings) return
-    return `${settings.SHAPESHIFT_URI}`
+    return `${settings.EXPO_PUBLIC_SHAPESHIFT_URI}`
   }, [settings])
 
   useEffect(() => {
@@ -100,15 +162,32 @@ const App = () => {
     setUri(defaultUrl)
   }, [defaultUrl])
 
-  if (!settings?.SHAPESHIFT_URI) return null
-  if (!uri) return null
+  if (!settings?.EXPO_PUBLIC_SHAPESHIFT_URI)
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator color='#FFFFFF' size='large' />
+      </View>
+    )
+  if (!uri)
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator color='#FFFFFF' size='large' />
+      </View>
+    )
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior='padding'
+      enabled={Platform.OS === 'android'}
+      // Again a tricky hack to avoid an empty space after keyboard closing on android
+      // This is a known bug that the maintainer of react-native-webview is aware of but doesn't care about
+      keyboardVerticalOffset={Platform.OS === 'android' && keyboardVisible ? -50 : 0}
+    >
       <DeveloperModeModal
         visible={isDebugModalVisible}
         onClose={() => setIsDebugModalVisible(false)}
-        onSelect={url => setSetting('SHAPESHIFT_URI', url).catch(console.error)}
+        onSelect={url => setSetting('EXPO_PUBLIC_SHAPESHIFT_URI', url)}
       />
       {error ? (
         <ErrorPage onTryAgain={() => setError(false)} />
@@ -126,19 +205,22 @@ const App = () => {
             allowsInlineMediaPlayback={true}
             mediaPlaybackRequiresUserAction={false}
             pullToRefreshEnabled
-            decelerationRate={'normal'}
+            decelerationRate={0.998}
             startInLoadingState
             javaScriptEnabled
             domStorageEnabled
             scalesPageToFit
             originWhitelist={['*']}
+            overScrollMode='never'
             renderLoading={() => (
               <ActivityIndicator color='#FFFFFF' size='large' style={styles.container} />
             )}
-            injectedJavaScriptBeforeContentLoaded={messageManager.injectedJavaScript}
+            injectedJavaScriptBeforeContentLoaded={`${messageManager.injectedJavaScript}\n${injectedSafeArea}`}
+            injectedJavaScript={injectedSafeArea}
             onMessage={msg => messageManager.handleMessage(msg)}
             onNavigationStateChange={e => {
               console.debug('\x1b[7m onNavigationStateChange', e, '\x1b[0m')
+
               if (loading) setLoading(e.loading)
             }}
             onContentProcessDidTerminate={() => {
@@ -156,7 +238,7 @@ const App = () => {
           />
         </ErrorBoundary>
       )}
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
