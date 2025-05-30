@@ -182,7 +182,7 @@ const App = () => {
       enabled={Platform.OS === 'android'}
       // Again a tricky hack to avoid an empty space after keyboard closing on android
       // This is a known bug that the maintainer of react-native-webview is aware of but doesn't care about
-      keyboardVerticalOffset={Platform.OS === 'android' && keyboardVisible ? -150 : 0}
+      keyboardVerticalOffset={Platform.OS === 'android' && keyboardVisible ? -50 : 0}
     >
       <DeveloperModeModal
         visible={isDebugModalVisible}
