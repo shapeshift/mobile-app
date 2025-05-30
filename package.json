@@ -23,6 +23,7 @@
     "expo-clipboard": "^7.1.4",
     "expo-constants": "^17.1.5",
     "expo-local-authentication": "~16.0.4",
+    "expo-navigation-bar": "^4.2.4",
     "expo-secure-store": "~14.2.3",
     "expo-splash-screen": "~0.30.8",
     "expo-status-bar": "^2.2.3",

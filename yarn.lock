@@ -7168,6 +7168,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-navigation-bar@npm:^4.2.4":
+  version: 4.2.4
+  resolution: "expo-navigation-bar@npm:4.2.4"
+  dependencies:
+    "@react-native/normalize-colors": 0.79.2
+    debug: ^4.3.2
+    react-native-edge-to-edge: 1.6.0
+    react-native-is-edge-to-edge: ^1.1.6
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 1afb9619d8db0f639b62aa56f2e96f5eba6ada12c6557c2ef21d5edecf42778434509f9e1a1ebc322c4560397508cf51a396792a3f602b066e1cfe9018fd8e56
+  languageName: node
+  linkType: hard
+
 "expo-secure-store@npm:~14.2.3":
   version: 14.2.3
   resolution: "expo-secure-store@npm:14.2.3"
@@ -12012,6 +12028,7 @@ __metadata:
     expo-clipboard: ^7.1.4
     expo-constants: ^17.1.5
     expo-local-authentication: ~16.0.4
+    expo-navigation-bar: ^4.2.4
     expo-secure-store: ~14.2.3
     expo-splash-screen: ~0.30.8
     expo-status-bar: ^2.2.3

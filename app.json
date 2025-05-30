@@ -20,11 +20,13 @@
     ]
   ],
   "android": {
+    "edgeToEdgeEnabled": true,
     "package": "com.shapeshift.droid_shapeshift",
     "adaptiveIcon": {
       "foregroundImage": "./src/static/adaptive-icon.png",
       "backgroundColor": "#181C27"
-    }
+    },
+    "softwareKeyboardLayoutMode": "pan"
   },
   "ios": {
     "bundleIdentifier": "com.shapeShift.shapeShift"
