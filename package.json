@@ -1,5 +1,5 @@
 {
-  "name": "shapeshift-mobile",
+  "name": "shapeshift",
   "version": "3.0.0",
   "private": true,
   "main": "index.js",
@@ -27,6 +27,7 @@
     "expo-secure-store": "~14.2.3",
     "expo-splash-screen": "~0.30.8",
     "expo-status-bar": "^2.2.3",
+    "expo-updates": "~0.28.13",
     "lodash.memoize": "^4.1.2",
     "lodash.once": "^4.1.1",
     "metro": "^0.82.3",
