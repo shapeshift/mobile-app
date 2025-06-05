@@ -1,19 +1,5 @@
 import React from 'react'
 import { Alert, Button, FlatList, Modal, Pressable, Text, View } from 'react-native'
-import {
-  BEARD_URI,
-  CAFE_URI,
-  DEVELOP_URI,
-  GOME_URI,
-  NEO_URI,
-  JUICE_URI,
-  RELEASE_URI,
-  SHAPESHIFT_PRIVATE_URI,
-  SHAPESHIFT_URI,
-  WOOD_URI,
-  YEET_URI,
-  LOCAL_URI,
-} from 'react-native-dotenv'
 import { setItemAsync } from 'expo-secure-store'
 import { styles } from '../styles'
 import { Separator } from './Separator'
@@ -31,17 +17,17 @@ const ENVIRONMENTS: Environment[] = [
   {
     key: 'app',
     title: 'app',
-    url: SHAPESHIFT_URI,
+    url: process.env.EXPO_PUBLIC_SHAPESHIFT_URI,
   },
   {
     key: 'private',
     title: 'private',
-    url: SHAPESHIFT_PRIVATE_URI,
+    url: process.env.EXPO_PUBLIC_SHAPESHIFT_PRIVATE_URI,
   },
   {
     key: 'release',
     title: 'release',
-    url: RELEASE_URI,
+    url: process.env.EXPO_PUBLIC_RELEASE_URI,
   },
   /**
    * shared development environments
@@ -49,12 +35,12 @@ const ENVIRONMENTS: Environment[] = [
   {
     key: 'dev',
     title: 'develop',
-    url: DEVELOP_URI,
+    url: process.env.EXPO_PUBLIC_DEVELOP_URI,
   },
   {
     key: 'yeet',
     title: 'yeet',
-    url: YEET_URI,
+    url: process.env.EXPO_PUBLIC_YEET_URI,
   },
   /**
    * individual ephemeral environments
@@ -62,37 +48,37 @@ const ENVIRONMENTS: Environment[] = [
   {
     key: 'cafe',
     title: 'cafe',
-    url: CAFE_URI,
+    url: process.env.EXPO_PUBLIC_CAFE_URI,
   },
   {
     key: 'beard',
     title: 'beard',
-    url: BEARD_URI,
+    url: process.env.EXPO_PUBLIC_BEARD_URI,
   },
   {
     key: 'gome',
     title: 'gome',
-    url: GOME_URI,
+    url: process.env.EXPO_PUBLIC_GOME_URI,
   },
   {
     key: 'juice',
     title: 'juice',
-    url: JUICE_URI,
+    url: process.env.EXPO_PUBLIC_JUICE_URI,
   },
   {
     key: 'wood',
     title: 'wood',
-    url: WOOD_URI,
+    url: process.env.EXPO_PUBLIC_WOOD_URI,
   },
   {
     key: 'neo',
     title: 'neo',
-    url: NEO_URI,
+    url: process.env.EXPO_PUBLIC_NEO_URI,
   },
   {
     key: 'localhost',
     title: 'localhost',
-    url: LOCAL_URI,
+    url: process.env.EXPO_PUBLIC_LOCAL_URI,
   },
 ]
 

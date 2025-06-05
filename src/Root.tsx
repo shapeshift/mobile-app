@@ -1,12 +1,15 @@
 import App from './App'
-import { SingletonHooksContainer } from 'react-singleton-hook'
 import React from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const Root: React.FC = () => {
   return (
     <>
-      <SingletonHooksContainer />
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
     </>
   )
 }

@@ -1,22 +1,5 @@
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { Linking } from 'react-native'
-import {
-  SHAPESHIFT_URI,
-  SHAPESHIFT_PRIVATE_URI,
-  RELEASE_URI,
-  DEVELOP_URI,
-  CHATWOOT_URI,
-  YEET_URI,
-  BEARD_URI,
-  CAFE_URI,
-  GOME_URI,
-  JUICE_URI,
-  WOOD_URI,
-  NEO_URI,
-  WALLETCONNECT_VERIFY_SERVER,
-  WALLETCONNECT_VERIFY_FALLBACK_SERVER,
-  LOCAL_URI,
-} from 'react-native-dotenv'
 
 const openBrowser = async (url: string) => {
   if (!(await Linking.canOpenURL(url))) {
@@ -25,25 +8,33 @@ const openBrowser = async (url: string) => {
   await Linking.openURL(url)
 }
 
+export const isValidUrl = (url: string) => {
+  if (
+    url.startsWith(process.env.EXPO_PUBLIC_SHAPESHIFT_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_SHAPESHIFT_PRIVATE_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_RELEASE_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_DEVELOP_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_YEET_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_BEARD_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_CAFE_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_GOME_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_JUICE_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_WOOD_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_NEO_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_CHATWOOT_URI) ||
+    url.startsWith(process.env.EXPO_PUBLIC_WALLETCONNECT_VERIFY_SERVER) ||
+    url.startsWith(process.env.EXPO_PUBLIC_WALLETCONNECT_VERIFY_FALLBACK_SERVER) ||
+    url.startsWith(process.env.EXPO_PUBLIC_LOCAL_URI)
+  ) {
+    return true
+  }
+
+  return false
+}
+
 export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
   // Navigation within wrapped web app
-  if (
-    request.url.startsWith(SHAPESHIFT_URI) ||
-    request.url.startsWith(SHAPESHIFT_PRIVATE_URI) ||
-    request.url.startsWith(RELEASE_URI) ||
-    request.url.startsWith(DEVELOP_URI) ||
-    request.url.startsWith(YEET_URI) ||
-    request.url.startsWith(BEARD_URI) ||
-    request.url.startsWith(CAFE_URI) ||
-    request.url.startsWith(GOME_URI) ||
-    request.url.startsWith(JUICE_URI) ||
-    request.url.startsWith(WOOD_URI) ||
-    request.url.startsWith(NEO_URI) ||
-    request.url.startsWith(CHATWOOT_URI) ||
-    request.url.startsWith(WALLETCONNECT_VERIFY_SERVER) ||
-    request.url.startsWith(WALLETCONNECT_VERIFY_FALLBACK_SERVER) ||
-    request.url.startsWith(LOCAL_URI)
-  ) {
+  if (isValidUrl(request.url)) {
     return true
   }
 

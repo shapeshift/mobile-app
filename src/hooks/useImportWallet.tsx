@@ -1,9 +1,11 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { deleteItemAsync, getItemAsync } from 'expo-secure-store'
-import { useEffect, useState } from 'react'
-import { singletonHook } from 'react-singleton-hook'
+import { useCallback, useEffect, useState } from 'react'
 import { getMessageManager } from '../lib/getMessageManager'
 import { getWalletManager } from '../lib/getWalletManager'
 import memoize from 'lodash.memoize'
+import { StoredWallet } from '../lib/Wallet'
 
 /**
  * Send a message to the webview that the wallet was imported
@@ -14,12 +16,39 @@ const raiseImportEvent = memoize((deviceId: string) =>
   getMessageManager().postMessage({ id: Date.now(), cmd: 'walletImported', deviceId }),
 )
 
-const initialState = Object.freeze({
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  startImport: () => {},
-})
+const WALLET_KEY = 'wallet'
 
-export const useImportWalletImpl = () => {
+const fetchWallet = async () => {
+  const data = await AsyncStorage.getItem(WALLET_KEY)
+  return data ? JSON.parse(data) : null
+}
+
+const updateWallet = async (wallet: StoredWallet) => {
+  await AsyncStorage.setItem(WALLET_KEY, JSON.stringify(wallet))
+  return wallet
+}
+
+export const useImportWallet = () => {
+  const queryClient = useQueryClient()
+
+  const {
+    data: wallet,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: [WALLET_KEY],
+    queryFn: fetchWallet,
+  })
+
+  const mutation = useMutation({
+    mutationFn: async (wallet: StoredWallet) => updateWallet(wallet),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [WALLET_KEY] })
+    },
+  })
+
+  const importWallet = (wallet: StoredWallet) => mutation.mutate(wallet)
+
   const [started, setStarted] = useState(false)
   const [status, setStatus] = useState<string | false | null>(null)
 
@@ -61,9 +90,9 @@ export const useImportWalletImpl = () => {
     }
   }, [status])
 
-  return {
-    startImport: () => setStarted(true),
-  }
-}
+  const startImport = useCallback(() => {
+    setStarted(true)
+  }, [])
 
-export const useImportWallet = singletonHook(initialState, useImportWalletImpl)
+  return { wallet, importWallet, isLoading, error, startImport }
+}

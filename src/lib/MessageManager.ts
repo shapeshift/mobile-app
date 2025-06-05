@@ -13,7 +13,7 @@ export type EventData = {
 export class MessageManager {
   #handlers = new Map<string, MessageCallback>()
   #js = ['globalThis.isShapeShiftMobile = true;']
-  #webview: RefObject<WebView> | null = null
+  #webview: RefObject<WebView | null> | null = null
 
   /**
    * Get a string of JavaScript to be inserted into the WebView
@@ -35,7 +35,7 @@ true;`
   /**
    * Give a reference to a WebView, so we can inject JavaScript
    */
-  setWebViewRef(value: RefObject<WebView>) {
+  setWebViewRef(value: RefObject<WebView | null>) {
     this.#webview = value
   }
 
