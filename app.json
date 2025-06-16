@@ -20,6 +20,7 @@
     ]
   ],
   "android": {
+    "versionCode": 329,
     "edgeToEdgeEnabled": true,
     "package": "com.shapeshift.droid_shapeshift",
     "adaptiveIcon": {

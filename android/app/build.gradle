@@ -97,7 +97,7 @@ android {
         applicationId 'com.shapeshift.droid_shapeshift'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 329
         versionName "3.2.0"
     }
     signingConfigs {
