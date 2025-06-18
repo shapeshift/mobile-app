@@ -1,7 +1,7 @@
 {
   "name": "ShapeShift",
+  "version": "3.2.0",
   "displayName": "ShapeShift",
-  "slug": "shapeshift",
   "icon": "./src/static/icon.png",
   "scheme": "shapeshift",
   "newArchEnabled": true,
@@ -20,15 +20,29 @@
     ]
   ],
   "android": {
+    "versionCode": 329,
     "edgeToEdgeEnabled": true,
     "package": "com.shapeshift.droid_shapeshift",
     "adaptiveIcon": {
       "foregroundImage": "./src/static/adaptive-icon.png",
       "backgroundColor": "#181C27"
     },
-    "softwareKeyboardLayoutMode": "pan"
+    "softwareKeyboardLayoutMode": "pan",
+    "blockedPermissions": ["android.permission.ACTIVITY_RECOGNITION"]
   },
   "ios": {
-    "bundleIdentifier": "com.shapeShift.shapeShift"
-  }
+    "bundleIdentifier": "com.shapeShift.shapeShift",
+    "supportsTablet": true
+  },
+  "extra": {
+    "eas": {
+      "projectId": "5fc55e72-5e61-41f2-be9b-01a77afc388e"
+    }
+  },
+  "owner": "shapeshift_dao",
+  "slug": "mobile-app",
+  "updates": {
+    "url": "https://u.expo.dev/5fc55e72-5e61-41f2-be9b-01a77afc388e"
+  },
+  "runtimeVersion": "3.2.0"
 }

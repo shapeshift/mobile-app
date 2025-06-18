@@ -16,13 +16,6 @@ npm install --global yarn
 
 Run `yarn` to install dependencies
 
-## Setup environment variables
-
-Copy .env file
-```
-cp .env.template .env
-```
-
 ## Launching the app
 
 - Run Expo 
@@ -77,3 +70,8 @@ npm install -g eas-cli
 ```shell
 eas build
 ```
+
+## Deploying a new version
+- Update the `version` field in the `app.json` file to the new version
+- run `npx expo prebuild` to build both android and ios bundles and update the versions
+- and then deploy a build to eas using `eas build`
