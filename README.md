@@ -74,17 +74,17 @@ eas build
 ## Deploying a new version
 
 ### Autoincrement
-EAS is supposed to support builds auto increment, every time we submit a build, the patch version should be incremented.
+EAS supports auto incrementing builds. Every time we submit a build, the patch version will be automatically incremented.
 
 ### Major or minor versions
 
-- Update the `appVersion` and `version` fields of the `app.json` file
-- run `npx expo prebuild` to build both android and ios bundles and update the versions
-- and then deploy a build to eas using `eas build`
+1. Update the `appVersion` and `version` fields of the `app.json` file
+2. run `npx expo prebuild` to build both android and ios bundles and update the versions
+3. and then deploy a build to eas using `eas build`
 
 ### Updating native files
-If we add some native library, we will need to avoid the old applications to receive the Over-The-Air (OTA) updates:
-- The process is the same as updating to a major or minor version, but you also need to update the `runtimeVersion`, this is used for Expo to check if the `runtimeVersion` of the update is the same than the current OTA, if it differs, the application will not take the OTA avoiding any crash issues because of missing native files.
+If we add some native library, we will need to prevent the old applications from receiving the Over-The-Air (OTA) updates:
+- The process is the same as updating to a major or minor version, but you also need to update the `runtimeVersion`, which is used by Expo to check if the `runtimeVersion` of the update is the same as the current OTA. If it differs, the application will not accept the OTA to avoid crash issues due to missing native files.
 
 ### Allow for OPS to test before releasing an OTA
 The more practical way is to update the `runtimeVersion` and push this particular build to android testing channels and flightests, but this will require a store update.
