@@ -89,3 +89,21 @@ We can launch workflows to deploy an app without relying on the CI:
 `npx eas-cli@latest workflow:run .eas/workflows/build-and-deploy.yml`
 
 It can be useful if we want the operation team to test a specific version before we merge on main.
+
+### Autoincrement
+EAS supports auto incrementing builds. Every time we submit a build, the patch version will be automatically incremented.
+
+### Major or minor versions
+
+1. Update the `appVersion` and `version` fields of the `app.json` file
+2. run `npx expo prebuild` to build both android and ios bundles and update the versions
+3. and then deploy a build to eas using `eas build`
+
+### Updating native files
+If we add some native library, we will need to prevent the old applications from receiving the Over-The-Air (OTA) updates:
+- The process is the same as updating to a major or minor version, but you also need to update the `runtimeVersion`, which is used by Expo to check if the `runtimeVersion` of the update is the same as the current OTA. If it differs, the application will not accept the OTA to avoid crash issues due to missing native files.
+
+### Allow for OPS to test before releasing an OTA
+The more practical way is to update the `runtimeVersion` and push this particular build to android testing channels and flightests, but this will require a store update.
+
+In the future, if we see that it would be more practical to have a dedicated channel, it would means that OPS team would need to keep the operations app on their phone, we could do a release channel build and update them as OTAs, then rebuild using the production channel, but as far as I know, iPhones can't install both apps at the same time...
