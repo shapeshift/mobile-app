@@ -72,6 +72,23 @@ eas build
 ```
 
 ## Deploying a new version
+- Update the `version` field in the `app.json` file to the new version
+- run `npx expo prebuild` to build both android and ios bundles and update the versions
+- and then deploy a build to eas using `eas build`
+
+## Getting native files to test builds locally using an emulator
+
+- Make sure you have android studio installed, with an emulator, same for iOS with xcode
+- First run `npx expo prebuild`
+- Then `npx expo start`
+- Hit `i` or `a` depending on which emulator you want to run
+
+## Push a workflow job manually
+We can launch workflows to deploy an app without relying on the CI:
+
+`npx eas-cli@latest workflow:run .eas/workflows/build-and-deploy.yml`
+
+It can be useful if we want the operation team to test a specific version before we merge on main.
 
 ### Autoincrement
 EAS supports auto incrementing builds. Every time we submit a build, the patch version will be automatically incremented.

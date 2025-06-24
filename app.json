@@ -17,7 +17,8 @@
         "resizeMode": "contain",
         "backgroundColor": "#000b1f"
       }
-    ]
+    ],
+    ["./plugins/withCustomGradleProperties"]
   ],
   "android": {
     "versionCode": 329,
