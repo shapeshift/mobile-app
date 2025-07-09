@@ -204,10 +204,11 @@ const App = () => {
             style={loading ? styles.containerLoading : styles.container}
             allowsInlineMediaPlayback={true}
             mediaPlaybackRequiresUserAction={false}
-            pullToRefreshEnabled
+            pullToRefreshEnabled={false}
             decelerationRate={0.998}
             startInLoadingState
             javaScriptEnabled
+            bounces={false}
             domStorageEnabled
             scalesPageToFit
             originWhitelist={['*']}
