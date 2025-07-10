@@ -1,0 +1,89 @@
+publisher:
+  name: ShapeShift
+  address: '4EbFp6y4XNha8ZR7shd1ZuU5BnGWx7JnP1aPjhU8nric'
+  website: https://shapeshift.com
+  email: legal@shapeshift.io
+  media:
+    - purpose: icon
+      uri: ./src/static/icon.png
+app:
+  name: ShapeShift
+  address: ''
+  android_package: com.shapeshift.droid_shapeshift
+  urls:
+    license_url: https://shapeshift.com/privacy-policy
+    copyright_url: https://shapeshift.com/terms-of-service
+    privacy_policy_url: https://shapeshift.com/privacy-policy
+    website: https://shapeshift.com
+  media:
+    - purpose: icon
+      uri: ./src/static/icon.png
+release:
+  address: ''
+  media:
+    - purpose: icon
+      uri: ./src/static/icon.png
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/screenshot_1.webp
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/screenshot_2.webp
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/screenshot_3.webp
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/screenshot_4.webp
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/screenshot_5.webp
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/screenshot_6.webp
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/screenshot_7.webp
+  files:
+    - purpose: install
+      uri: ./files/app-release.apk
+  catalog:
+    en-US:
+      name: 'ShapeShift: Crypto Platform'
+      short_description: Welcome to your new multichain crypto home base. Trade, track, buy, and earn with your favorite crypto assets with ShapeShift's community-owned, private, non-custodial, and multichain platform.
+      long_description: |
+        Welcome to your new multichain crypto home base.
+        Trade, track, buy, and earn with your favorite crypto assets with ShapeShift's community-owned, private, non-custodial, and multichain platform.
+
+        Over 10,000 digital assets including Bitcoin, Ethereum, Cosmos, PEPE and DOGE
+
+        Aligning with the true ethos of decentralized finance, ShapeShift一founded in 2014一has dissolved our corporate structure, and evolved into a community-owned and governed crypto platform. ShapeShift is a 100% self-custody platform, meaning you are always in control of your keys and crypto.
+
+        INSTANTLY BUY CRYPTO WITH DEBIT OR CREDIT CARD
+
+        The ability to purchase crypto has never been easier! Easily on and off-ramp BTC, ETH, USDC, AAVE, LINK, UNI, DAI, BUSD, and 100's of the top crypto assets with your debit card, credit card, or bank transfer on our community-owned platform. Offering more on/off -ramp solutions and digital assets than ever before一ShapeShift is your one-stop Web3 shop! Our ramps are available in over 160 countries and offer some of the industry's most competitive rates.
+
+        TRADING MADE EASY
+
+        Kiss your CEX goodbye! Trade over 10,000 different assets with just two taps. Wherever you are, you can trade your favorite assets with the best rates at any time.
+
+        STORE YOUR CRYPTO IN A SECURE WALLET
+
+        Don't have a wallet? Simply create a new ShapeShift wallet or connect via one of our 170+ supported external wallets. ShapeShift makes self-custody easy. We never touch your crypto一ensuring that you will always have complete control over your assets.
+
+        Since 2014, ShapeShift has continued to be an industry leader in ensuring users maintain complete control over their digital assets一don't settle for less.
+
+        EASILY SEND & RECEIVE CRYPTO
+
+        When you use our open-source platform, you are only two clicks away from sending or receiving over 10,000 digital assets including top cryptocurrencies such as BTC, ETH, LINK, DOGE and assorted stablecoins across 14 chains.
+
+        BEGINNERS TO EXPERTS
+
+        ShapeShift was built to provide a comprehensive, borderless, permissionless interface for Web3. Whether it be DeFi, buying and selling your favorite coins, or earning through our diverse DeFi opportunities; there is a space for everyone with ShapeShift. Whether you are just getting started with buying Bitcoin or Ethereum for the first time, or you are a DeFi Degen, you will find the right tools available to you on our private web and mobile apps.
+        As we continue to add more chains, more wallets and more protocols, we continue to position ourselves to be the best free app to buy, sell, earn, track and trade crypto assets while providing an innovative and world-class approach to user experience and transparency—whether on the go or in your home.
+        For more resources, check out https://shapeshift.com/library
+
+        ABOUT SHAPESHIFT
+
+        Since 2014, ShapeShift has been pioneering self-custody for digital asset trading. Today's ShapeShift DAO is an engaged community of builders working to advance the state of crypto trading, investing and access to open, decentralized financial systems. Our web and mobile platforms empower users to safely buy, hold, trade, invest and interact with thousands of cryptos such as Bitcoin, Ethereum and Cosmos.
+
+        Accelerate onchain with ShapeShift
+solana_mobile_dapp_publisher_portal:
+  google_store_package: com.shapeshift.droid_shapeshift
+  testing_instructions: Create a wallet, then visit the app and see if you can buy crypto, send, receive, and trade.
+  alpha_testers:
+    - address: 6HYauFSi8D3m3ZvquJhQQdTDvRPRu8n9pRRNu5U4du1b
+      comment: Neo

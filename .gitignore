@@ -98,3 +98,6 @@ expo-env.d.ts
 
 android
 ios
+
+# Keypair to publish to solana store
+keypair.json
