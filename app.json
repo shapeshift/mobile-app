@@ -18,6 +18,14 @@
         "backgroundColor": "#000b1f"
       }
     ],
+    [
+      "expo-build-properties",
+      {
+        "android": {
+          "targetSdkVersion": 35
+        }
+      }
+    ],
     ["./plugins/withCustomGradleProperties"]
   ],
   "android": {
@@ -33,7 +41,10 @@
   },
   "ios": {
     "bundleIdentifier": "com.shapeShift.shapeShift",
-    "supportsTablet": true
+    "supportsTablet": true,
+    "infoPlist": {
+      "ITSAppUsesNonExemptEncryption": false
+    }
   },
   "extra": {
     "eas": {
