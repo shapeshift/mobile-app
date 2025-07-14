@@ -107,3 +107,13 @@ If we add some native library, we will need to prevent the old applications from
 The more practical way is to update the `runtimeVersion` and push this particular build to android testing channels and flightests, but this will require a store update.
 
 In the future, if we see that it would be more practical to have a dedicated channel, it would means that OPS team would need to keep the operations app on their phone, we could do a release channel build and update them as OTAs, then rebuild using the production channel, but as far as I know, iPhones can't install both apps at the same time...
+
+### Releasing on the Solana dApp store
+Prepare the keypair of the DAO's wallet managing the app publish/release NFTs (We did mint them following [this documentation](https://docs.solanamobile.com/dapp-publishing/publisher-and-app-nft))
+1. You need Android Studio installed on your computer, as long as the build tools.
+2. Verify that the app is configured accordingly by checking the `config.yaml` file and:
+```bash
+npx @solana-mobile/dapp-store-cli validate -k keypair.json -b ~/Library/Android/sdk/build-tools/35.0.0
+```
+3. Download the APK from our Expo dashboard (the build using the solana-dapp configuration profile), add it to the `solanaStoreMedia` folder named as `shapeshift-vX.X.X-signed.apk`
+4. Create the release and submit it using [this link](https://docs.solanamobile.com/dapp-publishing/submit).

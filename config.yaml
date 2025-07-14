@@ -1,11 +1,11 @@
 publisher:
   name: ShapeShift
-  address: '4EbFp6y4XNha8ZR7shd1ZuU5BnGWx7JnP1aPjhU8nric'
+  address: ''
   website: https://shapeshift.com
   email: legal@shapeshift.io
   media:
     - purpose: icon
-      uri: ./src/static/icon.png
+      uri: ./src/static/icon-512.png
 app:
   name: ShapeShift
   address: ''
@@ -17,12 +17,12 @@ app:
     website: https://shapeshift.com
   media:
     - purpose: icon
-      uri: ./src/static/icon.png
+      uri: ./src/static/icon-512.png
 release:
   address: ''
   media:
     - purpose: icon
-      uri: ./src/static/icon.png
+      uri: ./src/static/icon-512.png
     - purpose: screenshot
       uri: ./solanaStoreMedia/screenshot_1.webp
     - purpose: screenshot
@@ -39,11 +39,12 @@ release:
       uri: ./solanaStoreMedia/screenshot_7.webp
   files:
     - purpose: install
-      uri: ./files/app-release.apk
+      uri: ./solanaStoreMedia/shapeshift-v3.2.0-signed.apk
   catalog:
     en-US:
       name: 'ShapeShift: Crypto Platform'
-      short_description: Welcome to your new multichain crypto home base. Trade, track, buy, and earn with your favorite crypto assets with ShapeShift's community-owned, private, non-custodial, and multichain platform.
+      short_description: Trade, track, buy crypto asset
+      new_in_version: Swapper and home page redesign, as well as bundle size reduction
       long_description: |
         Welcome to your new multichain crypto home base.
         Trade, track, buy, and earn with your favorite crypto assets with ShapeShift's community-owned, private, non-custodial, and multichain platform.

@@ -101,3 +101,5 @@ ios
 
 # Keypair to publish to solana store
 keypair.json
+
+solanaStoreMedia/shapeshift-*.apk
