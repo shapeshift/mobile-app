@@ -29,7 +29,8 @@
       "backgroundColor": "#181C27"
     },
     "softwareKeyboardLayoutMode": "pan",
-    "blockedPermissions": ["android.permission.ACTIVITY_RECOGNITION"]
+    "blockedPermissions": ["android.permission.ACTIVITY_RECOGNITION"],
+    "permissions": ["android.permission.CAMERA"]
   },
   "ios": {
     "bundleIdentifier": "com.shapeShift.shapeShift",
