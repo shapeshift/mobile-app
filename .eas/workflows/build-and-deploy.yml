@@ -15,6 +15,13 @@ jobs:
     params:
       fingerprint_hash: ${{ needs.fingerprint.outputs.android_fingerprint_hash }}
       profile: production
+  get_solana_store_build:
+    name: Check for existing solana store build
+    needs: [fingerprint]
+    type: get-build
+    params:
+      fingerprint_hash: ${{ needs.fingerprint.outputs.solana_store_fingerprint_hash }}
+      profile: dapp-store
   get_ios_build:
     name: Check for existing ios build
     needs: [fingerprint]
@@ -30,6 +37,14 @@ jobs:
     params:
       platform: android
       profile: production
+  build_solana_store:
+    name: Build Android Solana Store
+    needs: [get_solana_store_build]
+    if: ${{ !needs.get_solana_store_build.outputs.build_id }}
+    type: build
+    params:
+      platform: android
+      profile: dapp-store
   build_ios:
     name: Build iOS
     needs: [get_ios_build]
