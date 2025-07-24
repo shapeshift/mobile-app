@@ -18,6 +18,14 @@
         "backgroundColor": "#000b1f"
       }
     ],
+    [
+      "expo-build-properties",
+      {
+        "android": {
+          "targetSdkVersion": 35
+        }
+      }
+    ],
     ["./plugins/withCustomGradleProperties"]
   ],
   "android": {
@@ -29,11 +37,15 @@
       "backgroundColor": "#181C27"
     },
     "softwareKeyboardLayoutMode": "pan",
-    "blockedPermissions": ["android.permission.ACTIVITY_RECOGNITION"]
+    "blockedPermissions": ["android.permission.ACTIVITY_RECOGNITION"],
+    "permissions": ["android.permission.CAMERA"]
   },
   "ios": {
     "bundleIdentifier": "com.shapeShift.shapeShift",
-    "supportsTablet": true
+    "supportsTablet": true,
+    "infoPlist": {
+      "ITSAppUsesNonExemptEncryption": false
+    }
   },
   "extra": {
     "eas": {
