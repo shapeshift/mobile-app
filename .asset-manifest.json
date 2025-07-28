@@ -1,0 +1,54 @@
+{
+  "assets": {
+    "./src/static/icon-512.png": {
+      "path": "./src/static/icon-512.png",
+      "sha256": "Dyp3CXHvpPlp3UILNb6t5en6l1yDWV/vjX5oKvrGjo4=",
+      "uri": "https://arweave.net/e4ueK_R_8JDNDAEMTa4sl2Q0PwaaCOfIsQn4zF61_7I"
+    },
+    "./solanaStoreMedia/banner.png": {
+      "path": "./solanaStoreMedia/banner.png",
+      "sha256": "QwW55jEQt/pb9ejhpG+hUjC40jqAtUjY6Zc8yFXBjTc=",
+      "uri": "https://arweave.net/rpB3RGHE93sGEZWD9yUyTkc5lU_Sgg90AQFhcFwk5d4"
+    },
+    "./solanaStoreMedia/7.png": {
+      "path": "./solanaStoreMedia/7.png",
+      "sha256": "4HJrgzNw4UplB96GpKFU1Xy5RE92iVQp8LbzraYquVA=",
+      "uri": "https://arweave.net/bslMTszUbdfSokVC0U56Dnz97UvW2Rr325pPz-H7jjU"
+    },
+    "./solanaStoreMedia/4.png": {
+      "path": "./solanaStoreMedia/4.png",
+      "sha256": "vr4LDVHmA6azHJCc61hz9WMRq52D6qchhKfuWJKtkj4=",
+      "uri": "https://arweave.net/EHP7SNVO3P-lqtvlU7hda8xXE1ug_AoOc8FRC4q6aaE"
+    },
+    "./solanaStoreMedia/5.png": {
+      "path": "./solanaStoreMedia/5.png",
+      "sha256": "5M4+XLcZDCa4kcc7cukJvpCndNk4oTZCTTMAAW3IAOc=",
+      "uri": "https://arweave.net/KUuMBVldEGW4GARMYI0EIOUe70AEjMjDh5pRjXhdZ40"
+    },
+    "./solanaStoreMedia/6.png": {
+      "path": "./solanaStoreMedia/6.png",
+      "sha256": "nDQnuk8QKn51kAMPonY7fS9KSQ7LF6axiUeuYrZs5Ec=",
+      "uri": "https://arweave.net/Pb1s_SjTtwsx7MzMlZohAEdtQbLQPYJGhwcANhG6z9Y"
+    },
+    "./solanaStoreMedia/3.png": {
+      "path": "./solanaStoreMedia/3.png",
+      "sha256": "M44+HOR8qk8UU6Qc/g21YrDi/+M2l8Zi1HbBpVmZ8gI=",
+      "uri": "https://arweave.net/6EV2SMna058GS2tfxrqowdC65gClTIVR70FlRwkNeJI"
+    },
+    "./solanaStoreMedia/1.png": {
+      "path": "./solanaStoreMedia/1.png",
+      "sha256": "LJhCGeQ8uMrcqD/0UP4g0BEtIZZTFvxE4t/QCOC7sWY=",
+      "uri": "https://arweave.net/wRGhXr6jNhJmJR-SLZ01u1AV_9lUPCGUT6ANkZm7GQI"
+    },
+    "./solanaStoreMedia/2.png": {
+      "path": "./solanaStoreMedia/2.png",
+      "sha256": "V7pC+OmsqrH9Yti+rzg4hrkmWijiUzg+UaBairYTvdg=",
+      "uri": "https://arweave.net/AIk_WfT40BA9WCkh796HQHMZlwlfOiThjzYGA6eL1Fs"
+    },
+    "./solanaStoreMedia/shapeshift-v3.2.0-signed.apk": {
+      "path": "./solanaStoreMedia/shapeshift-v3.2.0-signed.apk",
+      "sha256": "Vx0ikld+IzpT20UiApN7nAKv/eVkraGZmUDJALgs++8=",
+      "uri": "https://arweave.net/imFSVRTVmOzMl_0tii_wPlCjDusZPY3vrva0KlV4OyQ"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+publisher:
+  name: ShapeShift
+  address: ''
+  website: https://shapeshift.com
+  email: legal@shapeshift.io
+  media:
+    - purpose: icon
+      uri: ./src/static/icon-512.png
+app:
+  name: ShapeShift
+  address: 33hYAAJYhUYWhh7ibyw43KSEZPBofn2NPTaSVJvDiurN
+  android_package: com.shapeshift.droid_shapeshift
+  urls:
+    license_url: https://shapeshift.com/privacy-policy
+    copyright_url: https://shapeshift.com/terms-of-service
+    privacy_policy_url: https://shapeshift.com/privacy-policy
+    website: https://shapeshift.com
+  media:
+    - purpose: icon
+      uri: ./src/static/icon-512.png
+release:
+  address: 4XW6bKPAE2jWij68pRqBnUaTJgZzFwZDf9Gg2M5qMRLr
+  media:
+    - purpose: icon
+      uri: ./src/static/icon-512.png
+    - purpose: banner
+      uri: ./solanaStoreMedia/banner.png
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/1.png
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/2.png
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/3.png
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/4.png
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/5.png
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/6.png
+    - purpose: screenshot
+      uri: ./solanaStoreMedia/7.png
+  files:
+    - purpose: install
+      uri: ./solanaStoreMedia/shapeshift-v3.2.0-signed.apk
+  catalog:
+    en-US:
+      name: 'ShapeShift: Crypto Platform'
+      short_description: Swap crypto. No KYC.
+      new_in_version: Swapper and home page redesign, as well as bundle size reduction
+      long_description: |
+        ShapeShift is the fastest way to swap Bitcoin, Ethereum, Solana, and thousands of tokens — all from your phone, with full self-custody and no KYC.
+
+        - 🔄 Trade across 15+ chains: BTC, ETH, SOL, AVAX, USDC, and more — no bridges required
+        - 💸 Get the best price route every time via Matcha (0x), THORChain, Jupiter, CoWSwap, and more
+        - ⚡ Advanced trading: limit orders, custom gas/slippage, multiple accounts, watch-only mode
+        - 📲 One-tap DeFi: stake, add liquidity, and earn yield — without leaving the trade screen
+        - 🔐 You control your keys — no signups, no custodians, no compromises
+        - 💳 Buy or sell crypto with integrated fiat on/off ramps
+
+        Whether you're swapping Dogecoin, exploring DeFi on Arbitrum, or stacking sats via THORChain, ShapeShift gives you the most powerful mobile DEX experience — with the best routes and zero middlemen.
+
+        Download ShapeShift and trade Bitcoin, Ethereum, stablecoins, and altcoins — on your terms.
+solana_mobile_dapp_publisher_portal:
+  google_store_package: com.shapeshift.droid_shapeshift
+  testing_instructions: Create a wallet, then visit the app and see if you can buy crypto, send, receive, and trade.
+  alpha_testers:
+    - address: 6HYauFSi8D3m3ZvquJhQQdTDvRPRu8n9pRRNu5U4du1b
+      comment: Neo
+lastSubmittedVersionOnChain:
+  address: 4XW6bKPAE2jWij68pRqBnUaTJgZzFwZDf9Gg2M5qMRLr
+  version_code: 344
+  apk_hash: Vx0ikld+IzpT20UiApN7nAKv/eVkraGZmUDJALgs++8=
+lastUpdatedVersionOnStore:
+  address: 4XW6bKPAE2jWij68pRqBnUaTJgZzFwZDf9Gg2M5qMRLr
