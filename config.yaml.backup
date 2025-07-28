@@ -23,8 +23,6 @@ release:
   media:
     - purpose: icon
       uri: ./src/static/icon-512.png
-    - purpose: banner
-      uri: ./solanaStoreMedia/banner.png
     - purpose: screenshot
       uri: ./solanaStoreMedia/1.png
     - purpose: screenshot
@@ -45,7 +43,7 @@ release:
   catalog:
     en-US:
       name: 'ShapeShift: Crypto Platform'
-      short_description: Swap crypto. No KYC.
+      short_description: Swap BTC, ETH, SOL, and more across chains. No KYC. Best route every time.
       new_in_version: Swapper and home page redesign, as well as bundle size reduction
       long_description: |
         ShapeShift is the fastest way to swap Bitcoin, Ethereum, Solana, and thousands of tokens — all from your phone, with full self-custody and no KYC.
