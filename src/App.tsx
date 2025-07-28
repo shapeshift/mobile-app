@@ -25,42 +25,8 @@ NavigationBar.setPositionAsync('relative')
 
 const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
-// env(safe-area-inset-top) is working on iOS but not on Android
-// so we need to inject the safe area inset manually
-const topInset = Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
-const bottomInset = Platform.OS === 'ios' ? 0 : 30
-
-// This is a hack to get the actual value of env, as the first load is not populating the css env variables
-// We need to inject the proper value after the first load and avoid injecting it on reload
-// This issue has never been fixed: https://github.com/react-native-webview/react-native-webview/issues/155
-const injectedSafeArea = `
-  ;(function() {
-    const temporaryElement = document.createElement('div');
-    temporaryElement.style.position = 'absolute';
-    temporaryElement.style.top = '0';
-    temporaryElement.style.left = '0';
-    temporaryElement.style.height = '0';
-    temporaryElement.style.width = '0';
-    temporaryElement.style.visibility = 'hidden';
-    temporaryElement.style.paddingTop = 'env(safe-area-inset-top)';
-    temporaryElement.style.paddingBottom = 'env(safe-area-inset-bottom)';
-    document.body.appendChild(temporaryElement);
-
-    const computedTop = window.getComputedStyle(temporaryElement).paddingTop;
-    const computedBottom = window.getComputedStyle(temporaryElement).paddingBottom;
-
-    if (computedTop === '0px') {
-      document.body.style.setProperty('--safe-area-inset-top', '${topInset}px');
-    }
-    if (computedBottom === '0px') {
-      document.body.style.setProperty('--safe-area-inset-bottom', '${bottomInset}px');
-    }
-
-    document.body.removeChild(temporaryElement);
-  })();
-`
-
 import { LogBox } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 // disable bottom toast in app simulators - read the console instead
 LogBox.ignoreAllLogs()
@@ -75,6 +41,41 @@ const App = () => {
   const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
   const [keyboardVisible, setKeyboardVisible] = useState(false)
+  const insets = useSafeAreaInsets()
+
+  const injectedSafeArea = useMemo(() => {
+    // This is a hack to get the actual value of env, as the first load is not populating the css env variables
+    // We need to inject the proper value after the first load and avoid injecting it on reload
+    // This issue has never been fixed: https://github.com/react-native-webview/react-native-webview/issues/155
+    const injectedSafeAreaJs = `
+      ;(function() {
+        const temporaryElement = document.createElement('div');
+        temporaryElement.style.position = 'absolute';
+        temporaryElement.style.top = '0';
+        temporaryElement.style.left = '0';
+        temporaryElement.style.height = '0';
+        temporaryElement.style.width = '0';
+        temporaryElement.style.visibility = 'hidden';
+        temporaryElement.style.paddingTop = 'env(safe-area-inset-top)';
+        temporaryElement.style.paddingBottom = 'env(safe-area-inset-bottom)';
+        document.body.appendChild(temporaryElement);
+
+        const computedTop = window.getComputedStyle(temporaryElement).paddingTop;
+        const computedBottom = window.getComputedStyle(temporaryElement).paddingBottom;
+
+        if (computedTop === '0px') {
+          document.body.style.setProperty('--safe-area-inset-top', '${insets.top}px');
+        }
+        if (computedBottom === '0px') {
+          document.body.style.setProperty('--safe-area-inset-bottom', '${insets.bottom}px');
+        }
+
+        document.body.removeChild(temporaryElement);
+      })();
+    `
+
+    return injectedSafeAreaJs
+  }, [insets])
 
   useKeepAlive()
   const { startImport } = useImportWallet()
@@ -182,7 +183,7 @@ const App = () => {
       enabled={Platform.OS === 'android'}
       // Again a tricky hack to avoid an empty space after keyboard closing on android
       // This is a known bug that the maintainer of react-native-webview is aware of but doesn't care about
-      keyboardVerticalOffset={Platform.OS === 'android' && keyboardVisible ? -50 : 0}
+      keyboardVerticalOffset={Platform.OS === 'android' && keyboardVisible ? -100 : 0}
     >
       <DeveloperModeModal
         visible={isDebugModalVisible}
