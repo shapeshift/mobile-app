@@ -8,7 +8,7 @@ publisher:
       uri: ./src/static/icon-512.png
 app:
   name: ShapeShift
-  address: ''
+  address: 33hYAAJYhUYWhh7ibyw43KSEZPBofn2NPTaSVJvDiurN
   android_package: com.shapeshift.droid_shapeshift
   urls:
     license_url: https://shapeshift.com/privacy-policy
@@ -19,7 +19,7 @@ app:
     - purpose: icon
       uri: ./src/static/icon-512.png
 release:
-  address: ''
+  address: D2FJEEDSm8ZfDBHKLQt6YMXhxy3RUjqm7uiztzJe3FfY
   media:
     - purpose: icon
       uri: ./src/static/icon-512.png
@@ -41,12 +41,12 @@ release:
       uri: ./solanaStoreMedia/7.png
   files:
     - purpose: install
-      uri: ./solanaStoreMedia/shapeshift-v3.2.0-signed.apk
+      uri: ./solanaStoreMedia/shapeshift-v3.3.0-signed.apk
   catalog:
     en-US:
       name: 'ShapeShift: Crypto Platform'
       short_description: Swap crypto. No KYC.
-      new_in_version: Swapper and home page redesign, as well as bundle size reduction
+      new_in_version: Bottom bar 3 icons fixes
       long_description: |
         ShapeShift is the fastest way to swap Bitcoin, Ethereum, Solana, and thousands of tokens — all from your phone, with full self-custody and no KYC.
 
@@ -66,3 +66,9 @@ solana_mobile_dapp_publisher_portal:
   alpha_testers:
     - address: 6HYauFSi8D3m3ZvquJhQQdTDvRPRu8n9pRRNu5U4du1b
       comment: Neo
+lastSubmittedVersionOnChain:
+  address: D2FJEEDSm8ZfDBHKLQt6YMXhxy3RUjqm7uiztzJe3FfY
+  version_code: 351
+  apk_hash: s2As0LHvk/Eu8+mKJcoxRDjf98+ULNIXSwiNS6jmjp0=
+lastUpdatedVersionOnStore:
+  address: D2FJEEDSm8ZfDBHKLQt6YMXhxy3RUjqm7uiztzJe3FfY
