@@ -7,7 +7,7 @@ import { onConsole } from './console'
 import { makeKey } from './crypto/crypto'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
-import * as Haptics from 'expo-haptics';
+import * as Haptics from 'expo-haptics'
 
 type EncryptedWalletInfo = {
   [k: string]: string
