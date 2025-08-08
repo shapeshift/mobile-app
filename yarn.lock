@@ -10204,6 +10204,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-haptics@npm:^14.1.4":
+  version: 14.1.4
+  resolution: "expo-haptics@npm:14.1.4"
+  peerDependencies:
+    expo: "*"
+  checksum: 432c27b13df6f332a33df51564a978a57d734d13a49d4b6fc8975e24d110ca82f9764ec1f27dbe8e679a09478b70e3f8c98192c4199ab07dddcc9e69318eb87e
+  languageName: node
+  linkType: hard
+
 "expo-json-utils@npm:~0.15.0":
   version: 0.15.0
   resolution: "expo-json-utils@npm:0.15.0"
@@ -16010,6 +16019,7 @@ __metadata:
     expo-build-properties: ^0.14.8
     expo-clipboard: ~7.1.5
     expo-constants: ~17.1.7
+    expo-haptics: ^14.1.4
     expo-local-authentication: ~16.0.5
     expo-navigation-bar: ~4.2.7
     expo-secure-store: ~14.2.3
