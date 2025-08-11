@@ -4175,6 +4175,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ide/backoff@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@ide/backoff@npm:1.0.0"
+  checksum: 05860fd05952c83e7bc2f23e5f25b9301a60d99254ee4a8d63f5907da0f908af9db718c9027dd2cdaec8203fa05e9dd6afaca767e7e69cefd0a0eef33d9a17ea
+  languageName: node
+  linkType: hard
+
 "@irys/arweave@npm:^0.0.2":
   version: 0.0.2
   resolution: "@irys/arweave@npm:0.0.2"
@@ -7555,7 +7562,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"assert@npm:^2.1.0":
+"assert@npm:^2.0.0, assert@npm:^2.1.0":
   version: 2.1.0
   resolution: "assert@npm:2.1.0"
   dependencies:
@@ -7886,6 +7893,13 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0
   checksum: aa4ff2a8a728d9d698ed521e3461a109a1e66202b13d3494e41eea30729a5e7cc03b3a2d56c594423a135429c37bf63a9fa8b0b9ce275298be3095a88c69f6fb
+  languageName: node
+  linkType: hard
+
+"badgin@npm:^1.1.5":
+  version: 1.2.3
+  resolution: "badgin@npm:1.2.3"
+  checksum: 8c53fb0c35ec0bbf25a84be42e56e1291c958138182cdf91693ade955d7f52f36fd282ed00f31b741024aec6bdb10080bbe20a73138aac14a096838aaac76d95
   languageName: node
   linkType: hard
 
@@ -10125,6 +10139,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-application@npm:~6.1.5":
+  version: 6.1.5
+  resolution: "expo-application@npm:6.1.5"
+  peerDependencies:
+    expo: "*"
+  checksum: d3a86e0841c3626dc7819bd3e35f313ad682f13705be2b640adc5aa96acab837e80cabf025768a082ed1cf2ad8190ce9c5e627cc9f5a3ed09886b42ea7443c3b
+  languageName: node
+  linkType: hard
+
 "expo-asset@npm:~11.1.7":
   version: 11.1.7
   resolution: "expo-asset@npm:11.1.7"
@@ -10283,6 +10306,25 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 542db5d639585fb5537c02a8b23cdb78e0df3ef7586078fbf1616351774cba7d9f62a7e6d4a0b1cb33ae935c73f553319ca978cb913eb0afe7fd668b14f5e0ce
+  languageName: node
+  linkType: hard
+
+"expo-notifications@npm:~0.31.4":
+  version: 0.31.4
+  resolution: "expo-notifications@npm:0.31.4"
+  dependencies:
+    "@expo/image-utils": ^0.7.6
+    "@ide/backoff": ^1.0.0
+    abort-controller: ^3.0.0
+    assert: ^2.0.0
+    badgin: ^1.1.5
+    expo-application: ~6.1.5
+    expo-constants: ~17.1.7
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: f4fd1e2ff73f086c2add8fc7a850441b9738dd9afcbfa347420ad77dbcdbb7b5abff5ccb0078fb56b916657f1ce38e9c08432a8ffd51ca316b4227832879e993
   languageName: node
   linkType: hard
 
@@ -16012,6 +16054,7 @@ __metadata:
     expo-constants: ~17.1.7
     expo-local-authentication: ~16.0.5
     expo-navigation-bar: ~4.2.7
+    expo-notifications: ~0.31.4
     expo-secure-store: ~14.2.3
     expo-splash-screen: ~0.30.10
     expo-status-bar: ^2.2.3

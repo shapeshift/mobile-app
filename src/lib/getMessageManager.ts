@@ -1,5 +1,6 @@
 /* Register message handlers and injected JavaScript */
 import * as Clipboard from 'expo-clipboard'
+import * as Notifications from 'expo-notifications'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
 
@@ -60,6 +61,17 @@ export const getMessageManager = once(() => {
 
   // clipboard
   messageManager.on('setClipboard', evt => Clipboard.setStringAsync(evt.key))
+
+  // expo token for push notifications
+  messageManager.on('getExpoToken', async () => {
+    try {
+      const token = await Notifications.getExpoPushTokenAsync()
+      return token.data
+    } catch (error) {
+      console.error('[App] Error getting Expo push token:', error)
+      return null
+    }
+  })
 
   /**
    * this handler allows use to do the webview equivalent of window.location.reload()

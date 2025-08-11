@@ -26,6 +26,7 @@
     "expo-constants": "~17.1.7",
     "expo-local-authentication": "~16.0.5",
     "expo-navigation-bar": "~4.2.7",
+    "expo-notifications": "~0.31.4",
     "expo-secure-store": "~14.2.3",
     "expo-splash-screen": "~0.30.10",
     "expo-status-bar": "^2.2.3",
