@@ -13,8 +13,10 @@ type EncryptedWalletInfo = {
   [k: string]: string
 }
 
+type HapticLevel = 'light' | 'medium' | 'heavy' | 'soft' | 'rigid'
+
 type HapticEvent = {
-  level: 'light' | 'medium' | 'heavy' | 'soft' | 'rigid'
+  level: HapticLevel
 }
 
 export const getMessageManager = once(() => {
@@ -81,6 +83,9 @@ export const getMessageManager = once(() => {
         return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft)
       case 'rigid':
         return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid)
+      default:
+        console.warn('[haptics] Unknown or missing level:', level, '- defaulting to Medium')
+        return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
     }
   })
 
