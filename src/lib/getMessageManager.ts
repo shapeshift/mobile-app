@@ -7,9 +7,16 @@ import { onConsole } from './console'
 import { makeKey } from './crypto/crypto'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
+import * as Haptics from 'expo-haptics'
 
 type EncryptedWalletInfo = {
   [k: string]: string
+}
+
+type HapticLevel = 'light' | 'medium' | 'heavy' | 'soft' | 'rigid'
+
+type HapticEvent = {
+  level: HapticLevel
 }
 
 export const getMessageManager = once(() => {
@@ -60,6 +67,27 @@ export const getMessageManager = once(() => {
 
   // clipboard
   messageManager.on('setClipboard', evt => Clipboard.setStringAsync(evt.key))
+
+  // haptics
+  messageManager.on('vibrate', evt => {
+    const { level } = evt as unknown as HapticEvent
+
+    switch (level) {
+      case 'light':
+        return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+      case 'medium':
+        return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+      case 'heavy':
+        return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+      case 'soft':
+        return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft)
+      case 'rigid':
+        return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid)
+      default:
+        console.warn('[haptics] Unknown or missing level:', level, '- defaulting to Medium')
+        return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+    }
+  })
 
   /**
    * this handler allows use to do the webview equivalent of window.location.reload()

@@ -24,6 +24,7 @@
     "expo-build-properties": "^0.14.8",
     "expo-clipboard": "~7.1.5",
     "expo-constants": "~17.1.7",
+    "expo-haptics": "^14.1.4",
     "expo-local-authentication": "~16.0.5",
     "expo-navigation-bar": "~4.2.7",
     "expo-secure-store": "~14.2.3",
