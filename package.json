@@ -10,6 +10,7 @@
     "start": "expo start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "type-check": "tsc --project ./tsconfig.json --noEmit"
   },
   "dependencies": {

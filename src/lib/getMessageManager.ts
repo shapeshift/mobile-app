@@ -90,8 +90,20 @@ export const getMessageManager = once(() => {
     }
   })
 
-  messageManager.on('requestStoreReview', () => {
-    return StoreReview.requestReview()
+  messageManager.on('requestStoreReview', async() => {
+    try {
+      const available = await StoreReview.isAvailableAsync()
+      const hasAction = await StoreReview.hasAction()
+
+      if (!available) return false
+      if (!hasAction) return false
+
+      await StoreReview.requestReview()
+      return true
+    } catch (e) {
+      console.error('[requestStoreReview:Error]', e)
+      return false
+    }
   })
 
   /**
