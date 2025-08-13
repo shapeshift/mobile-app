@@ -2,7 +2,7 @@
 import * as Clipboard from 'expo-clipboard'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
-import * as StoreReview from 'expo-store-review';
+import * as StoreReview from 'expo-store-review'
 
 import { onConsole } from './console'
 import { makeKey } from './crypto/crypto'
