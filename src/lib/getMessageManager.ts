@@ -2,6 +2,7 @@
 import * as Clipboard from 'expo-clipboard'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
+import * as StoreReview from 'expo-store-review';
 
 import { onConsole } from './console'
 import { makeKey } from './crypto/crypto'
@@ -87,6 +88,10 @@ export const getMessageManager = once(() => {
         console.warn('[haptics] Unknown or missing level:', level, '- defaulting to Medium')
         return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
     }
+  })
+
+  messageManager.on('requestStoreReview', () => {
+    return StoreReview.requestReview()
   })
 
   /**

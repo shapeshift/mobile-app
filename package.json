@@ -30,6 +30,7 @@
     "expo-secure-store": "~14.2.3",
     "expo-splash-screen": "~0.30.10",
     "expo-status-bar": "^2.2.3",
+    "expo-store-review": "~8.1.5",
     "expo-updates": "~0.28.17",
     "lodash.memoize": "^4.1.2",
     "lodash.once": "^4.1.1",
