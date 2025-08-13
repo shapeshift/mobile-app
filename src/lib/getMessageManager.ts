@@ -90,7 +90,7 @@ export const getMessageManager = once(() => {
     }
   })
 
-  messageManager.on('requestStoreReview', async() => {
+  messageManager.on('requestStoreReview', async () => {
     try {
       const available = await StoreReview.isAvailableAsync()
       const hasAction = await StoreReview.hasAction()
