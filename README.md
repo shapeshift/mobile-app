@@ -103,6 +103,18 @@ EAS supports auto incrementing builds. Every time we submit a build, the patch v
 If we add some native library, we will need to prevent the old applications from receiving the Over-The-Air (OTA) updates:
 - The process is the same as updating to a major or minor version, but you also need to update the `runtimeVersion`, which is used by Expo to check if the `runtimeVersion` of the update is the same as the current OTA. If it differs, the application will not accept the OTA to avoid crash issues due to missing native files.
 
+### Pushing Over-The-Air Updates (OTAs)
+
+To deliver an OTA for the current version, run:
+
+```shell
+eas update --channel production --message "[message]"
+```
+
+We currently only use the production channel.
+Updates are delivered only to devices whose installed app has the same `runtimeVersion` as the update. Devices with an older `runtimeVersion` won't receive the OTA.
+See the [Expo docs on runtimeVersion](https://docs.expo.dev/eas-update/runtime-versions/) for details.
+
 ### Allow for OPS to test before releasing an OTA
 The more practical way is to update the `runtimeVersion` and push this particular build to android testing channels and flightests, but this will require a store update.
 
