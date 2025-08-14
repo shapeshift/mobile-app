@@ -19,6 +19,14 @@
       }
     ],
     [
+      "expo-notifications",
+      {
+        "icon": "./src/static/icon.png",
+        "color": "#181C27",
+        "enableBackgroundRemoteNotifications": true
+      }
+    ],
+    [
       "expo-build-properties",
       {
         "android": {

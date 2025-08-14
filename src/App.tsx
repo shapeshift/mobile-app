@@ -27,6 +27,7 @@ const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
 import { LogBox } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { registerForPushNotificationsAsync } from './lib/notifications'
 
 // disable bottom toast in app simulators - read the console instead
 LogBox.ignoreAllLogs()
@@ -92,6 +93,10 @@ const App = () => {
       keyboardDidShowListener.remove()
       keyboardDidHideListener.remove()
     }
+  }, [])
+
+  useEffect(() => {
+    registerForPushNotificationsAsync()
   }, [])
 
   useEffect(() => {
