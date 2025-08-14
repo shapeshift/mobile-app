@@ -3,6 +3,7 @@ import * as Clipboard from 'expo-clipboard'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
 import * as StoreReview from 'expo-store-review'
+import * as Application from 'expo-application';
 
 import { onConsole } from './console'
 import { makeKey } from './crypto/crypto'
@@ -103,6 +104,13 @@ export const getMessageManager = once(() => {
     } catch (e) {
       console.error('[requestStoreReview:Error]', e)
       return false
+    }
+  })
+
+  messageManager.on('getAppVersion', () => {
+    return {
+      version: Application.nativeApplicationVersion,
+      buildNumber: Application.nativeBuildVersion,
     }
   })
 

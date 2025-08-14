@@ -10125,6 +10125,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-application@npm:^6.1.5":
+  version: 6.1.5
+  resolution: "expo-application@npm:6.1.5"
+  peerDependencies:
+    expo: "*"
+  checksum: d3a86e0841c3626dc7819bd3e35f313ad682f13705be2b640adc5aa96acab837e80cabf025768a082ed1cf2ad8190ce9c5e627cc9f5a3ed09886b42ea7443c3b
+  languageName: node
+  linkType: hard
+
 "expo-asset@npm:~11.1.7":
   version: 11.1.7
   resolution: "expo-asset@npm:11.1.7"
@@ -16026,6 +16035,7 @@ __metadata:
     eslint-plugin-react: ^7.31.8
     eslint-plugin-react-native: ^4.0.0
     expo: ^53.0.20
+    expo-application: ^6.1.5
     expo-build-properties: ^0.14.8
     expo-clipboard: ~7.1.5
     expo-constants: ~17.1.7
