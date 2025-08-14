@@ -10,6 +10,11 @@ import { makeKey } from './crypto/crypto'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
 import * as Haptics from 'expo-haptics'
+import Constants from 'expo-constants'
+
+import * as appJson from '../../app.json'
+
+const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
 type EncryptedWalletInfo = {
   [k: string]: string
@@ -109,8 +114,10 @@ export const getMessageManager = once(() => {
 
   messageManager.on('getAppVersion', () => {
     return {
-      version: Application.nativeApplicationVersion,
-      buildNumber: Application.nativeBuildVersion,
+      version: isRunningInExpoGo ? appJson.version : Application.nativeApplicationVersion,
+      buildNumber: isRunningInExpoGo
+        ? undefined // not supported in expo go
+        : Application.nativeBuildVersion,
     }
   })
 
