@@ -3,9 +3,6 @@ name: Lint
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
 jobs:
   lint:
     runs-on: ubuntu-latest
