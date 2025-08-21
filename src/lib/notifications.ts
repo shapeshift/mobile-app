@@ -12,9 +12,21 @@ Notifications.setNotificationHandler({
   }),
 })
 
-export async function registerForPushNotificationsAsync() {
-  let token
+export async function getExpoToken() {
+  const projectId = Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId
 
+  if (!projectId) {
+    throw new Error('Project ID not found')
+  }
+
+  return (
+    await Notifications.getExpoPushTokenAsync({
+      projectId,
+    })
+  ).data
+}
+
+export async function registerForPushNotificationsAsync() {
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('shapeshiftAndroidChannel', {
       name: 'A channel is needed for the permissions prompt to appear',
@@ -38,22 +50,13 @@ export async function registerForPushNotificationsAsync() {
     // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
     // EAS projectId is used here.
     try {
-      const projectId =
-        Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId
-      if (!projectId) {
-        throw new Error('Project ID not found')
-      }
-      token = (
-        await Notifications.getExpoPushTokenAsync({
-          projectId,
-        })
-      ).data
+      const token = await getExpoToken()
+
+      return token
     } catch (e) {
-      token = `${e}`
+      return
     }
   } else {
     console.log('Must use physical device for Push Notifications')
   }
-
-  return token
 }

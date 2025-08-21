@@ -1,6 +1,5 @@
 /* Register message handlers and injected JavaScript */
 import * as Clipboard from 'expo-clipboard'
-import * as Notifications from 'expo-notifications'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
 
@@ -9,6 +8,9 @@ import { makeKey } from './crypto/crypto'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
 import * as Haptics from 'expo-haptics'
+
+import { getExpoToken } from './notifications'
+
 
 type EncryptedWalletInfo = {
   [k: string]: string
@@ -72,8 +74,7 @@ export const getMessageManager = once(() => {
   // expo token for push notifications
   messageManager.on('getExpoToken', async () => {
     try {
-      const token = await Notifications.getExpoPushTokenAsync()
-      return token.data
+      return await getExpoToken()
     } catch (error) {
       console.error('[App] Error getting Expo push token:', error)
       return null
