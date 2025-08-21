@@ -11,7 +11,6 @@ import * as Haptics from 'expo-haptics'
 
 import { getExpoToken } from './notifications'
 
-
 type EncryptedWalletInfo = {
   [k: string]: string
 }
