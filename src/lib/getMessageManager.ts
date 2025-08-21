@@ -16,6 +16,8 @@ import * as appJson from '../../app.json'
 
 const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
+import { getExpoToken } from './notifications'
+
 type EncryptedWalletInfo = {
   [k: string]: string
 }
@@ -74,6 +76,16 @@ export const getMessageManager = once(() => {
 
   // clipboard
   messageManager.on('setClipboard', evt => Clipboard.setStringAsync(evt.key))
+
+  // expo token for push notifications
+  messageManager.on('getExpoToken', async () => {
+    try {
+      return await getExpoToken()
+    } catch (error) {
+      console.error('[App] Error getting Expo push token:', error)
+      return null
+    }
+  })
 
   // haptics
   messageManager.on('vibrate', evt => {

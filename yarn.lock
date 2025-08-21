@@ -4175,6 +4175,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ide/backoff@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@ide/backoff@npm:1.0.0"
+  checksum: 05860fd05952c83e7bc2f23e5f25b9301a60d99254ee4a8d63f5907da0f908af9db718c9027dd2cdaec8203fa05e9dd6afaca767e7e69cefd0a0eef33d9a17ea
+  languageName: node
+  linkType: hard
+
 "@irys/arweave@npm:^0.0.2":
   version: 0.0.2
   resolution: "@irys/arweave@npm:0.0.2"
@@ -7555,7 +7562,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"assert@npm:^2.1.0":
+"assert@npm:^2.0.0, assert@npm:^2.1.0":
   version: 2.1.0
   resolution: "assert@npm:2.1.0"
   dependencies:
@@ -7886,6 +7893,13 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0
   checksum: aa4ff2a8a728d9d698ed521e3461a109a1e66202b13d3494e41eea30729a5e7cc03b3a2d56c594423a135429c37bf63a9fa8b0b9ce275298be3095a88c69f6fb
+  languageName: node
+  linkType: hard
+
+"badgin@npm:^1.1.5":
+  version: 1.2.3
+  resolution: "badgin@npm:1.2.3"
+  checksum: 8c53fb0c35ec0bbf25a84be42e56e1291c958138182cdf91693ade955d7f52f36fd282ed00f31b741024aec6bdb10080bbe20a73138aac14a096838aaac76d95
   languageName: node
   linkType: hard
 
@@ -10125,7 +10139,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-application@npm:^6.1.5":
+"expo-application@npm:^6.1.5, expo-application@npm:~6.1.5":
   version: 6.1.5
   resolution: "expo-application@npm:6.1.5"
   peerDependencies:
@@ -10181,6 +10195,17 @@ __metadata:
     expo: "*"
     react-native: "*"
   checksum: c477819c5fb9cd442efa9be0fd32ea5d49cd252c85a7e2ae593ca9afccfbfc1fc8d1b0a743c42c1aa6d0497958dae883c21314caff4d51f71f017ee615f1bd85
+  languageName: node
+  linkType: hard
+
+"expo-device@npm:~7.1.4":
+  version: 7.1.4
+  resolution: "expo-device@npm:7.1.4"
+  dependencies:
+    ua-parser-js: ^0.7.33
+  peerDependencies:
+    expo: "*"
+  checksum: 64e207e343fb26604eab5c08a89c1cbc1d4d8af7f14305d1542abdf81ba9ea71d5d9648cbb7cf1f24aef81f42fa0f5918159ed2c376d734568309efc611bb8b0
   languageName: node
   linkType: hard
 
@@ -10301,6 +10326,25 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 542db5d639585fb5537c02a8b23cdb78e0df3ef7586078fbf1616351774cba7d9f62a7e6d4a0b1cb33ae935c73f553319ca978cb913eb0afe7fd668b14f5e0ce
+  languageName: node
+  linkType: hard
+
+"expo-notifications@npm:~0.31.4":
+  version: 0.31.4
+  resolution: "expo-notifications@npm:0.31.4"
+  dependencies:
+    "@expo/image-utils": ^0.7.6
+    "@ide/backoff": ^1.0.0
+    abort-controller: ^3.0.0
+    assert: ^2.0.0
+    badgin: ^1.1.5
+    expo-application: ~6.1.5
+    expo-constants: ~17.1.7
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: f4fd1e2ff73f086c2add8fc7a850441b9738dd9afcbfa347420ad77dbcdbb7b5abff5ccb0078fb56b916657f1ce38e9c08432a8ffd51ca316b4227832879e993
   languageName: node
   linkType: hard
 
@@ -16039,9 +16083,11 @@ __metadata:
     expo-build-properties: ^0.14.8
     expo-clipboard: ~7.1.5
     expo-constants: ~17.1.7
+    expo-device: ~7.1.4
     expo-haptics: ^14.1.4
     expo-local-authentication: ~16.0.5
     expo-navigation-bar: ~4.2.7
+    expo-notifications: ~0.31.4
     expo-secure-store: ~14.2.3
     expo-splash-screen: ~0.30.10
     expo-status-bar: ^2.2.3
@@ -16900,6 +16946,15 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 1b503525a88ff0ff5952e95870971c4fb2118c17364d60302c21935dedcd6c37e6a0a692f350892bafcef6f4a16d09073fe461158547978d2f16fbe4cb18581c
+  languageName: node
+  linkType: hard
+
+"ua-parser-js@npm:^0.7.33":
+  version: 0.7.40
+  resolution: "ua-parser-js@npm:0.7.40"
+  bin:
+    ua-parser-js: script/cli.js
+  checksum: c8f69573c336cbf0f4341e7fe93a8d7082acf39dba4e135b704f06ad240f585d4b38fb44fd3cad92c97a015128e9fe2e653b39c3b6c0919f8a8af3be02d79cc2
   languageName: node
   linkType: hard
 
