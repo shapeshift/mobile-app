@@ -2,12 +2,19 @@
 import * as Clipboard from 'expo-clipboard'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
+import * as StoreReview from 'expo-store-review'
+import * as Application from 'expo-application'
 
 import { onConsole } from './console'
 import { makeKey } from './crypto/crypto'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
 import * as Haptics from 'expo-haptics'
+import Constants from 'expo-constants'
+
+import * as appJson from '../../app.json'
+
+const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
 import { getExpoToken } from './notifications'
 
@@ -98,6 +105,31 @@ export const getMessageManager = once(() => {
       default:
         console.warn('[haptics] Unknown or missing level:', level, '- defaulting to Medium')
         return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+    }
+  })
+
+  messageManager.on('requestStoreReview', async () => {
+    try {
+      const available = await StoreReview.isAvailableAsync()
+      const hasAction = await StoreReview.hasAction()
+
+      if (!available) return false
+      if (!hasAction) return false
+
+      await StoreReview.requestReview()
+      return true
+    } catch (e) {
+      console.error('[requestStoreReview:Error]', e)
+      return false
+    }
+  })
+
+  messageManager.on('getAppVersion', () => {
+    return {
+      version: isRunningInExpoGo ? appJson.version : Application.nativeApplicationVersion,
+      buildNumber: isRunningInExpoGo
+        ? undefined // not supported in expo go
+        : Application.nativeBuildVersion,
     }
   })
 
