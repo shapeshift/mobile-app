@@ -216,6 +216,7 @@ const App = () => {
             javaScriptEnabled
             bounces={false}
             domStorageEnabled
+            limitsNavigationsToAppBoundDomains={true}
             scalesPageToFit
             originWhitelist={['*']}
             overScrollMode='never'

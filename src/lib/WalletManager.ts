@@ -1,6 +1,5 @@
 import { deleteItemAsync, getItemAsync, setItemAsync, WHEN_UNLOCKED } from 'expo-secure-store'
 import { authenticateAsync, getEnrolledLevelAsync } from 'expo-local-authentication'
-import { decrypt } from './crypto'
 import { isValidDeviceId, StoredWallet, StoredWalletWithMnemonic, Wallet } from './Wallet'
 
 const getKey = (key: string) => {
@@ -187,18 +186,5 @@ export class WalletManager {
       }
     }
     return null
-  }
-
-  async decryptWallet(encryptedWalletInfo: {
-    email: string
-    password: string
-    encryptedWallet: string
-  }) {
-    const { email, password, encryptedWallet } = encryptedWalletInfo
-    try {
-      return await decrypt({ email, password, encryptedWallet })
-    } catch (e) {
-      throw new Error('Native wallet decryption failed: ' + e)
-    }
   }
 }
