@@ -1,6 +1,6 @@
 {
   "name": "ShapeShift",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "displayName": "ShapeShift",
   "icon": "./src/static/icon.png",
   "scheme": "shapeshift",
@@ -30,7 +30,7 @@
       "expo-build-properties",
       {
         "android": {
-          "targetSdkVersion": 35
+          "targetSdkVersion": 36
         }
       }
     ],
@@ -66,5 +66,5 @@
   "updates": {
     "url": "https://u.expo.dev/5fc55e72-5e61-41f2-be9b-01a77afc388e"
   },
-  "runtimeVersion": "3.4.0"
+  "runtimeVersion": "3.5.0"
 }
