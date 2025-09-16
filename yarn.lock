@@ -3385,16 +3385,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@craftzdog/react-native-buffer@npm:^6.0.5":
-  version: 6.0.5
-  resolution: "@craftzdog/react-native-buffer@npm:6.0.5"
-  dependencies:
-    ieee754: ^1.2.1
-    react-native-quick-base64: ^2.0.5
-  checksum: 921b8bc7f84778e355e81e475792399276d611a346a7e51b6266a45cf4aa82194beb3a8106af796ed143d958c8476070c59e3720c0eec0a3c31e368fbb08b350
-  languageName: node
-  linkType: hard
-
 "@eslint/eslintrc@npm:^1.3.2":
   version: 1.3.2
   resolution: "@eslint/eslintrc@npm:1.3.2"
@@ -5702,18 +5692,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@seald-io/react-native-scrypt@npm:^1.2.3":
-  version: 1.2.3
-  resolution: "@seald-io/react-native-scrypt@npm:1.2.3"
-  dependencies:
-    "@types/node": ^14.14.35
-    buffer: ^5.6.0
-  peerDependencies:
-    react-native: "*"
-  checksum: c5aa910ed3b738bed4e31f8de02a4fc571c749e96d588a554eb11aaae899400d148ee25a6c0cd1aa253bb55cabb803190df4e90d1d6630e7c670268d0257444c
-  languageName: node
-  linkType: hard
-
 "@sinclair/typebox@npm:^0.24.1":
   version: 0.24.27
   resolution: "@sinclair/typebox@npm:0.24.27"
@@ -6881,13 +6859,6 @@ __metadata:
   version: 12.20.55
   resolution: "@types/node@npm:12.20.55"
   checksum: e4f86785f4092706e0d3b0edff8dca5a13b45627e4b36700acd8dfe6ad53db71928c8dee914d4276c7fd3b6ccd829aa919811c9eb708a2c8e4c6eb3701178c37
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^14.14.35":
-  version: 14.18.29
-  resolution: "@types/node@npm:14.18.29"
-  checksum: 43481c1c066dd01578ff137f437a8a901f8fcd3cdc068c36047c444861ab4aac8a62fb4eb6d03738df02006336c90619bfc7860d4e5b259916956942d2e68e88
   languageName: node
   linkType: hard
 
@@ -8435,7 +8406,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer@npm:^5.4.3, buffer@npm:^5.5.0, buffer@npm:^5.6.0":
+"buffer@npm:^5.4.3, buffer@npm:^5.5.0":
   version: 5.7.1
   resolution: "buffer@npm:5.7.1"
   dependencies:
@@ -15349,18 +15320,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-quick-base64@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "react-native-quick-base64@npm:2.0.5"
-  dependencies:
-    base64-js: ^1.5.1
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 964599ad68d54dd741357850c72b4a5e08f247fa294590f18866896662107b734b6810703fdd972560cee8087095f14f06fc6ef69944c59c41dbbd885a7832bb
-  languageName: node
-  linkType: hard
-
 "react-native-safe-area-context@npm:5.6.0":
   version: 5.6.0
   resolution: "react-native-safe-area-context@npm:5.6.0"
@@ -15395,16 +15354,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-webview@npm:13.15.0":
-  version: 13.15.0
-  resolution: "react-native-webview@npm:13.15.0"
+"react-native-webview@npm:13.13.5":
+  version: 13.13.5
+  resolution: "react-native-webview@npm:13.13.5"
   dependencies:
     escape-string-regexp: ^4.0.0
     invariant: 2.2.4
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 1c843206108358faef5cd8e25834de729a90319c3fa3f765923536fdd99b86b07a3e850b89ebe6503725a022dd9dddd5de76ef6e102d290cc5935dcf9c60198d
+  checksum: 7f3bce1b37d6be9b2f07f0f7481181d5344f9e58022645b0d20dc58cd66056bb6efecacb231963959db6283cc66d977593db62a403c7c151f83568f83041c2eb
   languageName: node
   linkType: hard
 
@@ -16245,12 +16204,10 @@ __metadata:
     "@babel/core": ^7.26.0
     "@babel/preset-env": ^7.19.3
     "@babel/runtime": ^7.19.0
-    "@craftzdog/react-native-buffer": ^6.0.5
     "@react-hook/async": ^3.1.1
     "@react-native-async-storage/async-storage": 2.2.0
     "@react-native-community/eslint-config": ^3.1.0
     "@react-native/metro-config": 0.79.1
-    "@seald-io/react-native-scrypt": ^1.2.3
     "@solana-mobile/dapp-store-cli": ^0.11.0
     "@tanstack/react-query": ^5.75.4
     "@tsconfig/react-native": ^2.0.2
@@ -16298,7 +16255,7 @@ __metadata:
     react-native-safe-area-context: 5.6.0
     react-native-simple-crypto: latest
     react-native-svg: 15.12.1
-    react-native-webview: 13.15.0
+    react-native-webview: 13.13.5
     react-test-renderer: 18.2.0
     typescript: ~5.9.2
   languageName: unknown
