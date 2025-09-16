@@ -8017,7 +8017,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base64-js@npm:^1.2.3, base64-js@npm:^1.3.0, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
+"base64-js@npm:^1.2.3, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: 669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
@@ -11434,13 +11434,6 @@ __metadata:
   dependencies:
     hermes-estree: 0.29.1
   checksum: 3a7cd5cbdb191579f521dcb17edf199e24631314b9f69d043007e91762b53cd1f38eeb7688571f5be378b1c118e99af42040139e5f00e74a7cfd5c52c9d262e0
-  languageName: node
-  linkType: hard
-
-"hex-lite@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "hex-lite@npm:1.5.0"
-  checksum: 1bfff10cb37e826343de20f3da80c990c54b3f73500bc83457df16e401f43ee8fb16489f74282e320e0586a0e101800810ca2dfb357a1a36cdad6d258ba15bb5
   languageName: node
   linkType: hard
 
@@ -15330,16 +15323,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-simple-crypto@npm:latest":
-  version: 0.2.15
-  resolution: "react-native-simple-crypto@npm:0.2.15"
-  dependencies:
-    base64-js: ^1.3.0
-    hex-lite: ^1.5.0
-  checksum: 761c0c3a708897ec29779501bbaa08167d66fa833065d2c108e265bd6e1e82af3f2c8f0e8045c2628f853067300167a0587f7459ecfd5b2accec860da9ec860b
-  languageName: node
-  linkType: hard
-
 "react-native-svg@npm:15.12.1":
   version: 15.12.1
   resolution: "react-native-svg@npm:15.12.1"
@@ -15354,16 +15337,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-webview@npm:13.13.5":
-  version: 13.13.5
-  resolution: "react-native-webview@npm:13.13.5"
+"react-native-webview@npm:13.16.0":
+  version: 13.16.0
+  resolution: "react-native-webview@npm:13.16.0"
   dependencies:
     escape-string-regexp: ^4.0.0
     invariant: 2.2.4
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 7f3bce1b37d6be9b2f07f0f7481181d5344f9e58022645b0d20dc58cd66056bb6efecacb231963959db6283cc66d977593db62a403c7c151f83568f83041c2eb
+  checksum: a6fefc1bc977c1d121057c91696edb08ca170421a6d6ad5a9bcda279a20eca84aaaf553eca3a8e51b621e22fd473afa8bc994888807fb7db154eb9d7acb87928
   languageName: node
   linkType: hard
 
@@ -16253,9 +16236,8 @@ __metadata:
     react-native-error-boundary: latest
     react-native-get-random-values: ~1.11.0
     react-native-safe-area-context: 5.6.0
-    react-native-simple-crypto: latest
     react-native-svg: 15.12.1
-    react-native-webview: 13.13.5
+    react-native-webview: 13.16.0
     react-test-renderer: 18.2.0
     typescript: ~5.9.2
   languageName: unknown
