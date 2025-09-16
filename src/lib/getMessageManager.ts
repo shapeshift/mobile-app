@@ -6,7 +6,6 @@ import * as StoreReview from 'expo-store-review'
 import * as Application from 'expo-application'
 
 import { onConsole } from './console'
-import { makeKey } from './crypto/crypto'
 import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
 import * as Haptics from 'expo-haptics'
@@ -17,10 +16,6 @@ import * as appJson from '../../app.json'
 const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
 import { getExpoToken } from './notifications'
-
-type EncryptedWalletInfo = {
-  [k: string]: string
-}
 
 type HapticLevel = 'light' | 'medium' | 'heavy' | 'soft' | 'rigid'
 
@@ -54,25 +49,6 @@ export const getMessageManager = once(() => {
       mnemonic: String(evt.mnemonic),
     }),
   )
-  messageManager.on('hashPassword', async evt => {
-    const { email, password } = evt as EncryptedWalletInfo
-    try {
-      const key = await makeKey(password, email)
-      return key.hashKeyB64
-    } catch (e) {
-      console.error('[hashPassword:Error]', e)
-      return null
-    }
-  })
-  messageManager.on('decryptWallet', evt => {
-    const { email, password, encryptedWallet } = evt as EncryptedWalletInfo
-    try {
-      return walletManager.decryptWallet({ email, password, encryptedWallet })
-    } catch (e) {
-      console.error('[decryptWallet:Error]', e)
-      return null
-    }
-  })
 
   // clipboard
   messageManager.on('setClipboard', evt => Clipboard.setStringAsync(evt.key))
