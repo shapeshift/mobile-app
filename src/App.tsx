@@ -50,28 +50,34 @@ const App = () => {
     // This issue has never been fixed: https://github.com/react-native-webview/react-native-webview/issues/155
     const injectedSafeAreaJs = `
       ;(function() {
-        const temporaryElement = document.createElement('div');
-        temporaryElement.style.position = 'absolute';
-        temporaryElement.style.top = '0';
-        temporaryElement.style.left = '0';
-        temporaryElement.style.height = '0';
-        temporaryElement.style.width = '0';
-        temporaryElement.style.visibility = 'hidden';
-        temporaryElement.style.paddingTop = 'env(safe-area-inset-top)';
-        temporaryElement.style.paddingBottom = 'env(safe-area-inset-bottom)';
-        document.body.appendChild(temporaryElement);
+        setTimeout(() => {
+          const temporaryElement = document.createElement('div');
+          temporaryElement.style.position = 'absolute';
+          temporaryElement.style.top = '0';
+          temporaryElement.style.left = '0';
+          temporaryElement.style.height = '0';
+          temporaryElement.style.width = '0';
+          temporaryElement.style.visibility = 'hidden';
+          temporaryElement.style.paddingTop = 'env(safe-area-inset-top)';
+          temporaryElement.style.paddingBottom = 'env(safe-area-inset-bottom)';
+          document.body.appendChild(temporaryElement);
 
-        const computedTop = window.getComputedStyle(temporaryElement).paddingTop;
-        const computedBottom = window.getComputedStyle(temporaryElement).paddingBottom;
+          const computedTop = window.getComputedStyle(temporaryElement).paddingTop;
+          const computedBottom = window.getComputedStyle(temporaryElement).paddingBottom;
 
-        if (computedTop === '0px') {
-          document.body.style.setProperty('--safe-area-inset-top', '${insets.top}px');
-        }
-        if (computedBottom === '0px') {
-          document.body.style.setProperty('--safe-area-inset-bottom', '${insets.bottom}px');
-        }
+          if (computedTop === '0px') {
+            document.body.style.setProperty('--safe-area-inset-top', '${insets.top}px');
+          } else {
+            document.body.style.setProperty('--safe-area-inset-top', '0px');
+          }
+          if (computedBottom === '0px') {
+            document.body.style.setProperty('--safe-area-inset-bottom', '${insets.bottom}px');
+          } else {
+            document.body.style.setProperty('--safe-area-inset-bottom', '0px');
+          }
 
-        document.body.removeChild(temporaryElement);
+          document.body.removeChild(temporaryElement);
+        }, 1000)
       })();
     `
 
