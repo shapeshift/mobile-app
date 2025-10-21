@@ -130,8 +130,20 @@ const App = () => {
        * ?Date.now() tricks the webview into navigating to a different url.
        * without it, the urls are the same, even if the webview has routed
        * to some other page within the webview.
+       *
+       * We need to check if the path already contains query params to avoid
+       * creating invalid URLs with multiple '?' characters.
+       *
+       * Examples:
+       * Input:  shapeshift://trade
+       * Output: http://192.168.1.111:3000/#/trade?1761049856014
+       *
+       * Input:  shapeshift://wc?uri=wc%3A123...
+       * Before: http://192.168.1.111:3000/#/wc?uri=wc%3A123...?1761049856014 (INVALID - two ?)
+       * After:  http://192.168.1.111:3000/#/wc?uri=wc%3A123...&1761049856014 (VALID - uses &)
        */
-      const newUri = `${settings?.EXPO_PUBLIC_SHAPESHIFT_URI}/#/${path}?${Date.now()}`
+      const timestampParam = path.includes('?') ? '&' : '?'
+      const newUri = `${settings?.EXPO_PUBLIC_SHAPESHIFT_URI}/#/${path}${timestampParam}${Date.now()}`
       console.log('newUri', newUri, URL_DELIMITER, url)
       setUri(newUri)
     }
