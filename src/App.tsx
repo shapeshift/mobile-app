@@ -127,7 +127,10 @@ const App = () => {
       if (url.startsWith('wc://') || url.startsWith('wc:')) {
         const encodedUri = encodeURIComponent(url)
         const newUrl = `shapeshift://wc?uri=${encodedUri}`
-        console.log('[WalletConnect] Converting wc:// to shapeshift://', { original: url, converted: newUrl })
+        console.log('[WalletConnect] Converting wc:// to shapeshift://', {
+          original: url,
+          converted: newUrl,
+        })
         return deepLinkHandler({ url: newUrl })
       }
 
