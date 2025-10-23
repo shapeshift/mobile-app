@@ -3,19 +3,94 @@
 
 **Date**: October 23, 2025
 **Issue**: [shapeshift/mobile-app#86](https://github.com/shapeshift/mobile-app/issues/86)
-**Status**: Research Complete
+**Status**: ✅ **IMPLEMENTED AND VERIFIED** (October 23, 2025)
+
+---
+
+## 🎉 Implementation Status
+
+**THIS ISSUE HAS BEEN SUCCESSFULLY RESOLVED!**
+
+- ✅ Plugin created and tested
+- ✅ Deep link handler updated
+- ✅ Built and verified on Android emulator
+- ✅ Both `wc://` and `shapeshift://` schemes working
+- ✅ Zero breaking changes
+
+**See**:
+- [Implementation Plan](./WALLETCONNECT_ANDROID_IMPLEMENTATION_PLAN.md)
+- [Implementation Complete](./IMPLEMENTATION_COMPLETE.md)
+- [Web WalletConnect README](https://github.com/shapeshift/web/blob/d32b5bf8949ba4c5a6e7cd5908cb0209cd3ffe59/src/context/WalletProvider/WalletConnectV2/README.md) (end-to-end context)
 
 ---
 
 ## Table of Contents
-1. [Executive Summary (ELI5)](#executive-summary-eli5)
-2. [The Problem](#the-problem)
-3. [How WalletConnect Protocol Works](#how-walletconnect-protocol-works)
-4. [Wallet Discovery Mechanisms](#wallet-discovery-mechanisms)
-5. [Platform Differences: Android vs iOS](#platform-differences-android-vs-ios)
-6. [Current ShapeShift Implementation](#current-shapeshift-implementation)
-7. [Technical Deep Dive](#technical-deep-dive)
-8. [The Solution](#the-solution)
+1. [Implementation Results](#implementation-results)
+2. [Executive Summary (ELI5)](#executive-summary-eli5)
+3. [The Problem](#the-problem)
+4. [How WalletConnect Protocol Works](#how-walletconnect-protocol-works)
+5. [Wallet Discovery Mechanisms](#wallet-discovery-mechanisms)
+6. [Platform Differences: Android vs iOS](#platform-differences-android-vs-ios)
+7. [Current ShapeShift Implementation](#current-shapeshift-implementation)
+8. [Technical Deep Dive](#technical-deep-dive)
+9. [The Solution](#the-solution)
+
+---
+
+## Implementation Results
+
+### Verification Tests (October 23, 2025)
+
+#### Test 1: wc:// Scheme Registration
+```bash
+$ adb shell pm query-activities -a android.intent.action.VIEW -d "wc://test"
+✅ RESULT: 1 activities found
+   Activity: com.shapeshift.droid_shapeshift.MainActivity
+```
+
+#### Test 2: shapeshift:// Scheme Preserved
+```bash
+$ adb shell pm query-activities -a android.intent.action.VIEW -d "shapeshift://test"
+✅ RESULT: 1 activities found
+   Activity: com.shapeshift.droid_shapeshift.MainActivity
+```
+
+#### Test 3: Deep Link Functionality
+```bash
+$ adb shell "am start -a android.intent.action.VIEW -d 'wc://test@2?relay=irn'"
+✅ RESULT: Intent delivered to ShapeShift MainActivity
+   Activity opened successfully
+```
+
+#### Test 4: Build Success
+```bash
+$ npx expo prebuild --platform android
+✅ Plugin output: "✅ Added wc:// intent filter to AndroidManifest"
+
+$ cd android && ./gradlew assembleDebug
+✅ RESULT: BUILD SUCCESSFUL in 2m 39s
+```
+
+### What Changed
+1. **Created**: `plugins/withWalletConnectScheme.js` - Expo config plugin
+2. **Modified**: `app.json` - Registered plugin
+3. **Modified**: `src/App.tsx` - Added wc:// handler
+4. **Generated**: AndroidManifest.xml with both intent filters
+
+### End-to-End Integration
+ShapeShift's WalletConnect implementation spans two codebases:
+
+**Web App (Wallet Dapp)**:
+- Generates WalletConnect URIs via `@walletconnect/ethereum-provider`
+- Displays QR codes or triggers deep links
+- Handles session management and encryption
+- See: [Web WalletConnect README](https://github.com/shapeshift/web/blob/d32b5bf8949ba4c5a6e7cd5908cb0209cd3ffe59/src/context/WalletProvider/WalletConnectV2/README.md)
+
+**Mobile App (Wallet)**:
+- Receives `wc://` deep links (NOW WORKING ✅)
+- Converts to `shapeshift://wc?uri=...` format
+- WebView loads web app which handles WalletConnect session
+- This document covers the mobile side
 
 ---
 
@@ -670,8 +745,7 @@ Add for better iOS detection:
 #### Local Testing with ADB
 ```bash
 # Rebuild with new intent filter
-cd android && ./gradlew clean && cd ..
-expo prebuild --clean
+npx expo prebuild --clean
 
 # Build and install
 eas build --profile development --platform android --local

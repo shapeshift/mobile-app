@@ -122,6 +122,15 @@ const App = () => {
       // We don't support deep linking through Expo Go as expo go is an app by itself
       if (isRunningInExpoGo) return
 
+      // Handle native WalletConnect URIs (wc://)
+      // Convert to shapeshift://wc?uri=... format for WebView handling
+      if (url.startsWith('wc://') || url.startsWith('wc:')) {
+        const encodedUri = encodeURIComponent(url)
+        const newUrl = `shapeshift://wc?uri=${encodedUri}`
+        console.log('[WalletConnect] Converting wc:// to shapeshift://', { original: url, converted: newUrl })
+        return deepLinkHandler({ url: newUrl })
+      }
+
       // Expo Go uses exp://, so we need to handle it differently
       const URL_DELIMITER = url.includes('expo-development-client')
         ? 'shapeshift://expo-development-client/'
