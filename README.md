@@ -132,41 +132,4 @@ npx @solana-mobile/dapp-store-cli validate -k keypair.json -b ~/Library/Android/
 
 ## WalletConnect Deep Linking
 
-ShapeShift supports WalletConnect v2 for connecting to dApps on both Android and iOS.
-
-### How It Works
-- **Android**: The app registers both `wc://` and `shapeshift://` URI schemes via intent filters
-- **iOS**: The app handles `shapeshift://` deep links
-- Both platforms convert WalletConnect URIs to internal format for the WebView
-- The web app (loaded in WebView) handles the actual WalletConnect protocol
-
-### Implementation Details
-See the comprehensive documentation in the `docs/` folder:
-- [Investigation Report](./docs/WALLETCONNECT_ANDROID_DEEP_LINKING_INVESTIGATION.md) - Deep dive into how WalletConnect deep linking works
-- [Implementation Plan](./docs/WALLETCONNECT_ANDROID_IMPLEMENTATION_PLAN.md) - Complete implementation strategy
-- [Implementation Complete](./docs/IMPLEMENTATION_COMPLETE.md) - Summary and end-to-end flow
-- [Web WalletConnect README](https://github.com/shapeshift/web/blob/develop/src/context/WalletProvider/WalletConnectV2/README.md) - Web app side implementation
-
-### Testing WalletConnect Deep Links
-
-**Android**:
-```bash
-# Test wc:// scheme
-adb shell pm query-activities -a android.intent.action.VIEW -d "wc://test"
-
-# Test deep link
-adb shell "am start -a android.intent.action.VIEW -d 'wc://test@2?relay=irn'"
-```
-
-**iOS**:
-```bash
-# Test shapeshift:// scheme
-xcrun simctl openurl booted "shapeshift://wc?uri=wc%3A%2F%2Ftest"
-```
-
-### Architecture Notes
-- Mobile app is a WebView wrapper around `app.shapeshift.com`
-- Deep links are intercepted by native code (`src/App.tsx`)
-- URI is converted to internal format and passed to WebView
-- WebView navigates to `/#/wc?uri=...` which triggers web app's WalletConnect handler
-- Web app uses `@walletconnect/ethereum-provider` for the actual WalletConnect protocol
+ShapeShift supports WalletConnect v2 for connecting to dApps. See [docs/walletconnect.md](./docs/walletconnect.md) for implementation details, testing, and troubleshooting.
