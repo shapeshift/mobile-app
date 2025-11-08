@@ -15285,6 +15285,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-attribution-token@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "react-native-attribution-token@npm:1.0.5"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 003947019a919978bb9393418fd65976c8e07daa845b5352fcf4dfde1afd587a1f993c73c88e7337f2c555afeb9ff90ef9f38347751e54c2827e98dc7ff58d62
+  languageName: node
+  linkType: hard
+
 "react-native-error-boundary@npm:latest":
   version: 1.2.4
   resolution: "react-native-error-boundary@npm:1.2.4"
@@ -16250,6 +16260,7 @@ __metadata:
     prettier: ^2.7.1
     react: 19.1.0
     react-native: 0.81.4
+    react-native-attribution-token: ^1.0.5
     react-native-error-boundary: latest
     react-native-get-random-values: ~1.11.0
     react-native-safe-area-context: 5.6.0

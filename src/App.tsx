@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
+  Alert,
   BackHandler,
   Keyboard,
   KeyboardAvoidingView,
@@ -167,6 +168,10 @@ const App = () => {
     if (!defaultUrl) return
     setUri(defaultUrl)
   }, [defaultUrl])
+
+  useEffect(() => {
+    Alert.alert(uri ?? '')
+  }, [uri])
 
   if (!settings?.EXPO_PUBLIC_SHAPESHIFT_URI)
     return (
