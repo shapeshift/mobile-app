@@ -129,3 +129,7 @@ npx @solana-mobile/dapp-store-cli validate -k keypair.json -b ~/Library/Android/
 ```
 3. Download the APK from our Expo dashboard (the build using the solana-dapp configuration profile), add it to the `solanaStoreMedia` folder named as `shapeshift-vX.X.X-signed.apk`
 4. Create the release and submit it using [this link](https://docs.solanamobile.com/dapp-publishing/submit).
+
+## WalletConnect Deep Linking
+
+ShapeShift supports WalletConnect v2 for connecting to dApps. See [docs/walletconnect.md](./docs/walletconnect.md) for implementation details, testing, and troubleshooting.
