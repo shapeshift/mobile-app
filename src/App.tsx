@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
-  Alert,
   BackHandler,
   Keyboard,
   KeyboardAvoidingView,
@@ -29,7 +28,6 @@ const isRunningInExpoGo = Constants.appOwnership === 'expo'
 import { LogBox } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { registerForPushNotificationsAsync } from './lib/notifications'
-import { getAttributionToken } from './lib/adservices'
 
 // disable bottom toast in app simulators - read the console instead
 LogBox.ignoreAllLogs()
@@ -187,16 +185,6 @@ const App = () => {
     if (!defaultUrl) return
     setUri(defaultUrl)
   }, [defaultUrl])
-
-  useEffect(() => {
-    ;(async () => {
-      Alert.alert(
-        JSON.stringify({
-          token: await getAttributionToken(),
-        }),
-      )
-    })()
-  }, [])
 
   if (!settings?.EXPO_PUBLIC_SHAPESHIFT_URI)
     return (
