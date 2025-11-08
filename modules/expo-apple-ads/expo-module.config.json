@@ -1,0 +1,10 @@
+{
+  "platforms": ["ios", "android"],
+  "apple": {
+    "modules": ["ExpoAppleAdsModule"],
+    "podspecPath": "ExpoAppleAds.podspec"
+  },
+  "android": {
+    "modules": ["expo.modules.appleads.ExpoAppleAdsModule"]
+  }
+}

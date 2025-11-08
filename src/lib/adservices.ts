@@ -1,6 +1,6 @@
-import { Platform } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { getAttributionToken as getNativeAttributionToken } from 'react-native-attribution-token'
+import { getAttributionToken as getAppleAdsToken, getCampaignData as getAppleCampaignData, type CampaignData } from '../../modules/expo-apple-ads/src'
 
 export async function getAttributionToken(): Promise<string | null> {
   // AdServices is only available on iOS 14.3+
@@ -12,22 +12,15 @@ export async function getAttributionToken(): Promise<string | null> {
   // Native modules are not available in Expo Go
   const isRunningInExpoGo = Constants.appOwnership === 'expo'
   if (isRunningInExpoGo) {
-    console.log('in expo go')
+    console.log('Not running in development build')
     return null
   }
 
   try {
-    const token = await getNativeAttributionToken()
+    const token = await getAppleAdsToken()
+    Alert.alert(JSON.stringify({token}))
     return token
-  } catch (error: any) {
-    // This is expected if:
-    // - Running in simulator
-    // - App wasn't installed from an ad campaign
-    // - User hasn't clicked an Apple Search Ad
-    if (error?.code === 'ERROR_FETCHING_TOKEN') {
-      console.log('No attribution token available (expected if not installed via ad)')
-      return null
-    }
+  } catch (error) {
     console.error('Error getting Apple Ads attribution token:', error)
     return null
   }
