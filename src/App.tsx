@@ -29,6 +29,7 @@ const isRunningInExpoGo = Constants.appOwnership === 'expo'
 import { LogBox } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { registerForPushNotificationsAsync } from './lib/notifications'
+import { getAttributionToken } from './lib/adservices'
 
 // disable bottom toast in app simulators - read the console instead
 LogBox.ignoreAllLogs()
@@ -188,8 +189,14 @@ const App = () => {
   }, [defaultUrl])
 
   useEffect(() => {
-    Alert.alert(uri ?? '')
-  }, [uri])
+    ;(async () => {
+      Alert.alert(
+        JSON.stringify({
+          token: await getAttributionToken(),
+        }),
+      )
+    })()
+  }, [])
 
   if (!settings?.EXPO_PUBLIC_SHAPESHIFT_URI)
     return (
