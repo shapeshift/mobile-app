@@ -1,5 +1,5 @@
 {
-  "platforms": ["ios", "android"],
+  "platforms": ["apple", "android"],
   "apple": {
     "modules": ["ExpoAppleAdsModule"],
     "podspecPath": "ExpoAppleAds.podspec"
