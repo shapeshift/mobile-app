@@ -16,6 +16,7 @@ import * as appJson from '../../app.json'
 const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
 import { getExpoToken } from './notifications'
+import { getAttributionToken } from './adservices'
 
 type HapticLevel = 'light' | 'medium' | 'heavy' | 'soft' | 'rigid'
 
@@ -59,6 +60,15 @@ export const getMessageManager = once(() => {
       return await getExpoToken()
     } catch (error) {
       console.error('[App] Error getting Expo push token:', error)
+      return null
+    }
+  })
+
+  messageManager.on('getAppleAttributionToken', async () => {
+    try {
+      return await getAttributionToken()
+    } catch (error) {
+      console.error('[App] Error getting attribution token:', error)
       return null
     }
   })
