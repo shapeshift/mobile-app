@@ -1,6 +1,6 @@
-import { Alert, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { getAttributionToken as getAppleAdsToken, getCampaignData as getAppleCampaignData, type CampaignData } from '../../modules/expo-apple-ads/src'
+import { getAttributionToken as getAppleAdsToken } from '../../modules/expo-apple-ads/src'
 
 export async function getAttributionToken(): Promise<string | null> {
   if (Platform.OS !== 'ios') {

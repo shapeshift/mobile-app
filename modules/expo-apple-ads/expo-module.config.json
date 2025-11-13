@@ -1,8 +1,7 @@
 {
-  "platforms": ["ios", "android"],
+  "platforms": ["apple"],
   "apple": {
-    "modules": ["ExpoAppleAdsModule"],
-    "podspecPath": "ExpoAppleAds.podspec"
+    "modules": ["ExpoAppleAdsModule"]
   },
   "android": {
     "modules": ["expo.modules.appleads.ExpoAppleAdsModule"]
