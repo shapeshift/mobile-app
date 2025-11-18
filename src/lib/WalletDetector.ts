@@ -4,107 +4,29 @@ export interface WalletScheme {
   id: string
   name: string
   scheme: string
-  androidPackage?: string
 }
 
-export interface DetectedWallet {
-  id: string
-  name: string
-  scheme: string
+export interface DetectedWallet extends WalletScheme {
   isInstalled: boolean
-  androidPackage?: string
 }
 
-// Wallet schemes for iOS and Android package names
-// Based on WalletConnect Explorer and common wallet deep link formats
+// Wallet URL schemes for detection
 export const WALLET_SCHEMES: WalletScheme[] = [
-  {
-    id: 'metamask',
-    name: 'MetaMask',
-    scheme: 'metamask',
-    androidPackage: 'io.metamask',
-  },
-  {
-    id: 'trust',
-    name: 'Trust Wallet',
-    scheme: 'trust',
-    androidPackage: 'com.wallet.crypto.trustapp',
-  },
-  {
-    id: 'zerion',
-    name: 'Zerion',
-    scheme: 'zerion',
-    androidPackage: 'io.zerion.android',
-  },
-  {
-    id: 'rainbow',
-    name: 'Rainbow',
-    scheme: 'rainbow',
-    androidPackage: 'me.rainbow',
-  },
-  {
-    id: 'ledgerlive',
-    name: 'Ledger Live',
-    scheme: 'ledgerlive',
-    androidPackage: 'com.ledger.live',
-  },
-  {
-    id: 'coinbase',
-    name: 'Coinbase Wallet',
-    scheme: 'cbwallet',
-    androidPackage: 'org.toshi',
-  },
-  {
-    id: 'phantom',
-    name: 'Phantom',
-    scheme: 'phantom',
-    androidPackage: 'app.phantom',
-  },
-  {
-    id: 'argent',
-    name: 'Argent',
-    scheme: 'argent',
-    androidPackage: 'im.argent.contractwalletclient',
-  },
-  {
-    id: 'imtoken',
-    name: 'imToken',
-    scheme: 'imtoken',
-    androidPackage: 'im.token.app',
-  },
-  {
-    id: 'spot',
-    name: 'Spot',
-    scheme: 'spot',
-  },
-  {
-    id: 'omni',
-    name: 'Omni',
-    scheme: 'omni',
-  },
-  {
-    id: 'onto',
-    name: 'ONTO',
-    scheme: 'onto',
-    androidPackage: 'com.github.ontio.onto',
-  },
-  {
-    id: 'safe',
-    name: 'Safe',
-    scheme: 'safe',
-  },
-  {
-    id: 'tokenpocket',
-    name: 'TokenPocket',
-    scheme: 'tokenpocket',
-    androidPackage: 'vip.mytokenpocket',
-  },
-  {
-    id: 'exodus',
-    name: 'Exodus',
-    scheme: 'exodus',
-    androidPackage: 'exodusmovement.exodus',
-  },
+  { id: 'metamask', name: 'MetaMask', scheme: 'metamask' },
+  { id: 'trust', name: 'Trust Wallet', scheme: 'trust' },
+  { id: 'zerion', name: 'Zerion', scheme: 'zerion' },
+  { id: 'rainbow', name: 'Rainbow', scheme: 'rainbow' },
+  { id: 'ledgerlive', name: 'Ledger Live', scheme: 'ledgerlive' },
+  { id: 'coinbase', name: 'Coinbase Wallet', scheme: 'cbwallet' },
+  { id: 'phantom', name: 'Phantom', scheme: 'phantom' },
+  { id: 'argent', name: 'Argent', scheme: 'argent' },
+  { id: 'imtoken', name: 'imToken', scheme: 'imtoken' },
+  { id: 'spot', name: 'Spot', scheme: 'spot' },
+  { id: 'omni', name: 'Omni', scheme: 'omni' },
+  { id: 'onto', name: 'ONTO', scheme: 'onto' },
+  { id: 'safe', name: 'Safe', scheme: 'safe' },
+  { id: 'tokenpocket', name: 'TokenPocket', scheme: 'tokenpocket' },
+  { id: 'exodus', name: 'Exodus', scheme: 'exodus' },
 ]
 
 /**
@@ -113,14 +35,7 @@ export const WALLET_SCHEMES: WalletScheme[] = [
 export const detectWallet = async (wallet: WalletScheme): Promise<DetectedWallet> => {
   const url = `${wallet.scheme}://`
 
-  console.log(`[WalletDetector] 🔍 Checking wallet: ${wallet.name}`)
-  console.log(`[WalletDetector]    - ID: ${wallet.id}`)
-  console.log(`[WalletDetector]    - URL scheme: ${url}`)
-  console.log(`[WalletDetector]    - Platform: ${Platform.OS}`)
-
-  if (wallet.androidPackage) {
-    console.log(`[WalletDetector]    - Android package: ${wallet.androidPackage}`)
-  }
+  console.log(`[WalletDetector] 🔍 Checking: ${wallet.name} (${url})`)
 
   try {
     const canOpen = await Linking.canOpenURL(url)
@@ -128,7 +43,7 @@ export const detectWallet = async (wallet: WalletScheme): Promise<DetectedWallet
     if (canOpen) {
       console.log(`[WalletDetector] ✅ ${wallet.name} IS INSTALLED!`)
     } else {
-      console.log(`[WalletDetector] ❌ ${wallet.name} is not installed`)
+      console.log(`[WalletDetector] ❌ ${wallet.name} not installed`)
     }
 
     return {
@@ -179,37 +94,4 @@ export const detectInstalledWallets = async (): Promise<DetectedWallet[]> => {
   }
 
   return results
-}
-
-// Cache for wallet detection results
-let cachedDetection: DetectedWallet[] | null = null
-let cacheTimestamp = 0
-const CACHE_DURATION = 30000 // 30 seconds
-
-/**
- * Get cached wallet detection or perform new detection
- */
-export const getCachedWalletDetection = async (): Promise<DetectedWallet[]> => {
-  const now = Date.now()
-
-  if (cachedDetection && (now - cacheTimestamp) < CACHE_DURATION) {
-    console.log('[WalletDetector] 💾 Using cached detection results')
-    console.log(`[WalletDetector] Cache age: ${Math.round((now - cacheTimestamp) / 1000)}s`)
-    return cachedDetection
-  }
-
-  console.log('[WalletDetector] 🔄 Cache expired or empty, performing fresh detection')
-  cachedDetection = await detectInstalledWallets()
-  cacheTimestamp = now
-
-  return cachedDetection
-}
-
-/**
- * Clear the detection cache
- */
-export const clearDetectionCache = () => {
-  console.log('[WalletDetector] 🗑️  Clearing detection cache')
-  cachedDetection = null
-  cacheTimestamp = 0
 }

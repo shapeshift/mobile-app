@@ -10,7 +10,7 @@ import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
 import * as Haptics from 'expo-haptics'
 import Constants from 'expo-constants'
-import { getCachedWalletDetection } from './WalletDetector'
+import { detectInstalledWallets } from './WalletDetector'
 
 import * as appJson from '../../app.json'
 
@@ -126,11 +126,13 @@ export const getMessageManager = once(() => {
   /**
    * Detect installed crypto wallet apps
    * Returns array of wallet IDs that are installed on the device
+   *
+   * TODO: Wire this up in shapeshiftWeb to call from WalletConnect flow
    */
   messageManager.on('detectWallets', async () => {
     console.log('[MessageManager] 📱 detectWallets handler called from web')
     try {
-      const detectedWallets = await getCachedWalletDetection()
+      const detectedWallets = await detectInstalledWallets()
       const installedWalletIds = detectedWallets
         .filter(w => w.isInstalled)
         .map(w => w.id)
