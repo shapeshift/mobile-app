@@ -1,7 +1,6 @@
 import { Linking, Platform } from 'react-native'
 
 export interface WalletScheme {
-  id: string
   name: string
   scheme: string
 }
@@ -12,21 +11,21 @@ export interface DetectedWallet extends WalletScheme {
 
 // Wallet URL schemes for detection
 export const WALLET_SCHEMES: WalletScheme[] = [
-  { id: 'metamask', name: 'MetaMask', scheme: 'metamask' },
-  { id: 'trust', name: 'Trust Wallet', scheme: 'trust' },
-  { id: 'zerion', name: 'Zerion', scheme: 'zerion' },
-  { id: 'rainbow', name: 'Rainbow', scheme: 'rainbow' },
-  { id: 'ledgerlive', name: 'Ledger Live', scheme: 'ledgerlive' },
-  { id: 'coinbase', name: 'Coinbase Wallet', scheme: 'cbwallet' },
-  { id: 'phantom', name: 'Phantom', scheme: 'phantom' },
-  { id: 'argent', name: 'Argent', scheme: 'argent' },
-  { id: 'imtoken', name: 'imToken', scheme: 'imtoken' },
-  { id: 'spot', name: 'Spot', scheme: 'spot' },
-  { id: 'omni', name: 'Omni', scheme: 'omni' },
-  { id: 'onto', name: 'ONTO', scheme: 'onto' },
-  { id: 'safe', name: 'Safe', scheme: 'safe' },
-  { id: 'tokenpocket', name: 'TokenPocket', scheme: 'tokenpocket' },
-  { id: 'exodus', name: 'Exodus', scheme: 'exodus' },
+  { name: 'MetaMask', scheme: 'metamask' },
+  { name: 'Trust Wallet', scheme: 'trust' },
+  { name: 'Zerion', scheme: 'zerion' },
+  { name: 'Rainbow', scheme: 'rainbow' },
+  { name: 'Ledger Live', scheme: 'ledgerlive' },
+  { name: 'Coinbase Wallet', scheme: 'cbwallet' },
+  { name: 'Phantom', scheme: 'phantom' },
+  { name: 'Argent', scheme: 'argent' },
+  { name: 'imToken', scheme: 'imtoken' },
+  { name: 'Spot', scheme: 'spot' },
+  { name: 'Omni', scheme: 'omni' },
+  { name: 'ONTO', scheme: 'onto' },
+  { name: 'Safe', scheme: 'safe' },
+  { name: 'TokenPocket', scheme: 'tokenpocket' },
+  { name: 'Exodus', scheme: 'exodus' },
 ]
 
 /**
@@ -85,7 +84,7 @@ export const detectInstalledWallets = async (): Promise<DetectedWallet[]> => {
     results
       .filter(w => w.isInstalled)
       .forEach(w => {
-        console.log(`[WalletDetector]    ✓ ${w.name} (${w.id})`)
+        console.log(`[WalletDetector]    ✓ ${w.name} (${w.scheme})`)
       })
   } else {
     console.log('[WalletDetector] 📱 No wallets detected')
