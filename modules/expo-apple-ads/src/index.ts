@@ -1,6 +1,5 @@
 import { requireNativeModule } from 'expo-modules-core'
 
-
 export async function getAttributionToken(): Promise<string | null> {
   try {
     const ExpoAppleAdsModule = requireNativeModule('ExpoAppleAds')

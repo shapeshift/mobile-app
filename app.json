@@ -36,7 +36,13 @@
     ],
     ["./plugins/withCustomGradleProperties"],
     ["./plugins/withWalletConnectScheme"],
-    ["./plugins/withAttributionToken"]
+    ["./plugins/withAttributionToken"],
+    [
+      "expo-dev-client",
+      {
+        "launchMode": "most-recent"
+      }
+    ]
   ],
   "android": {
     "versionCode": 329,
