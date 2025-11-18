@@ -34,9 +34,15 @@
         }
       }
     ],
-    ["./plugins/withCustomGradleProperties"],
-    ["./plugins/withWalletConnectScheme"],
-    ["./plugins/withAttributionToken"],
+    [
+      "./plugins/withCustomGradleProperties"
+    ],
+    [
+      "./plugins/withWalletConnectScheme"
+    ],
+    [
+      "./plugins/withAttributionToken"
+    ],
     [
       "expo-dev-client",
       {
@@ -53,8 +59,12 @@
       "backgroundColor": "#181C27"
     },
     "softwareKeyboardLayoutMode": "pan",
-    "blockedPermissions": ["android.permission.ACTIVITY_RECOGNITION"],
-    "permissions": ["android.permission.CAMERA"]
+    "blockedPermissions": [
+      "android.permission.ACTIVITY_RECOGNITION"
+    ],
+    "permissions": [
+      "android.permission.CAMERA"
+    ]
   },
   "ios": {
     "bundleIdentifier": "com.shapeShift.shapeShift",
@@ -62,7 +72,8 @@
     "infoPlist": {
       "ITSAppUsesNonExemptEncryption": false,
       "NSCameraUsageDescription": "This app uses the camera to scan QR codes for addresses."
-    }
+    },
+    "appleTeamId": "7882V35EPB"
   },
   "extra": {
     "eas": {
