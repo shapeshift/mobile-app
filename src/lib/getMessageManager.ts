@@ -10,6 +10,7 @@ import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
 import * as Haptics from 'expo-haptics'
 import Constants from 'expo-constants'
+import { getCachedWalletDetection } from './WalletDetector'
 
 import * as appJson from '../../app.json'
 
@@ -120,6 +121,26 @@ export const getMessageManager = once(() => {
   messageManager.on('reloadWebview', () => {
     console.log('[App] Reloading webview')
     messageManager.webviewRef?.reload()
+  })
+
+  /**
+   * Detect installed crypto wallet apps
+   * Returns array of wallet IDs that are installed on the device
+   */
+  messageManager.on('detectWallets', async () => {
+    console.log('[MessageManager] 📱 detectWallets handler called from web')
+    try {
+      const detectedWallets = await getCachedWalletDetection()
+      const installedWalletIds = detectedWallets
+        .filter(w => w.isInstalled)
+        .map(w => w.id)
+
+      console.log('[MessageManager] 📤 Returning detected wallet IDs:', installedWalletIds)
+      return installedWalletIds
+    } catch (error) {
+      console.error('[MessageManager] ❌ Error in detectWallets handler:', error)
+      return []
+    }
   })
 
   return messageManager
