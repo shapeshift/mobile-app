@@ -2,8 +2,5 @@
   "platforms": ["apple"],
   "apple": {
     "modules": ["ExpoAppleAdsModule"]
-  },
-  "android": {
-    "modules": ["expo.modules.appleads.ExpoAppleAdsModule"]
   }
 }
