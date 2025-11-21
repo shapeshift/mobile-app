@@ -110,9 +110,9 @@ struct MediumWidgetView: View {
                             .foregroundColor(Color(hex: "#5B8DEE"))
                             .font(.system(size: 10))
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
-                    .padding(.bottom, 8)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 10)
+                    .padding(.bottom, 6)
 
                     // Token List
                     VStack(spacing: 0) {
@@ -152,15 +152,15 @@ struct TokenRowView: View {
                     // Token Name and Symbol
                     VStack(alignment: .leading, spacing: 1) {
                         Text(token.name)
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(.system(size: 12, weight: .semibold))
                             .foregroundColor(.white)
                             .lineLimit(1)
                         Text(token.symbol.uppercased())
-                            .font(.system(size: 11, weight: .regular))
+                            .font(.system(size: 10, weight: .regular))
                             .foregroundColor(Color.white.opacity(0.6))
                     }
                 }
-                .frame(width: 110, alignment: .leading)
+                .frame(width: 95, alignment: .leading)
 
                 // Sparkline
                 if let sparkline = token.sparkline, !sparkline.isEmpty {
@@ -169,10 +169,10 @@ struct TokenRowView: View {
                         isPositive: token.isPriceUp,
                         lineWidth: 1.5
                     )
-                    .frame(width: 80, height: 24)
+                    .frame(width: 70, height: 22)
                 }
 
-                Spacer(minLength: 4)
+                Spacer(minLength: 2)
 
                 // Price + Change
                 VStack(alignment: .trailing, spacing: 1) {
@@ -180,7 +180,8 @@ struct TokenRowView: View {
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.white)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.8)
+                        .minimumScaleFactor(0.7)
+                        .fixedSize(horizontal: false, vertical: true)
 
                     HStack(spacing: 2) {
                         Image(systemName: token.isPriceUp ? "arrow.up" : "arrow.down")
@@ -191,13 +192,13 @@ struct TokenRowView: View {
                     .foregroundColor(token.isPriceUp ? Color(hex: "#16C784") : Color(hex: "#EA3943"))
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 12)
             .padding(.vertical, 8)
 
             if !isLast {
                 Divider()
                     .background(Color.white.opacity(0.08))
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 12)
             }
         }
     }
