@@ -28,6 +28,7 @@ const isRunningInExpoGo = Constants.appOwnership === 'expo'
 import { LogBox } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { registerForPushNotificationsAsync } from './lib/notifications'
+import { startLiveActivity } from '../modules/expo-live-activity/src'
 
 // disable bottom toast in app simulators - read the console instead
 LogBox.ignoreAllLogs()
@@ -103,6 +104,21 @@ const App = () => {
 
   useEffect(() => {
     registerForPushNotificationsAsync()
+
+    // Start Live Activity demo on app launch
+    if (Platform.OS === 'ios') {
+      startLiveActivity('ShapeShift Live Activity POC - This will disappear in 2 minutes')
+        .then(result => {
+          if (result.success) {
+            console.log('[Live Activity] Started successfully:', result.activityId)
+          } else {
+            console.log('[Live Activity] Failed to start:', result.error)
+          }
+        })
+        .catch(error => {
+          console.error('[Live Activity] Error:', error)
+        })
+    }
   }, [])
 
   useEffect(() => {
