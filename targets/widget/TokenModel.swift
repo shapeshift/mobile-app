@@ -154,4 +154,11 @@ class WidgetDataManager {
             return WidgetData()
         }
     }
+
+    func isShowingSelection() -> Bool {
+        guard let defaults = sharedDefaults else {
+            return false
+        }
+        return defaults.bool(forKey: "widgetShowingSelection")
+    }
 }

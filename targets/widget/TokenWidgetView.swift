@@ -93,22 +93,38 @@ struct MediumWidgetView: View {
     let entry: TokenEntry
 
     var body: some View {
-        if entry.tokens.isEmpty {
+        // Check if we should show the selection view
+        let showingSelection = WidgetDataManager.shared.isShowingSelection()
+
+        if showingSelection {
+            DataSourceSelectionView()
+        } else if entry.tokens.isEmpty {
             PlaceholderView(message: "No tokens available")
         } else {
             ZStack {
                 Color(hex: "#0F1419")
 
                 VStack(alignment: .leading, spacing: 0) {
-                    // Header
+                    // Header with settings button
                     HStack {
                         Text(entry.dataSource.displayName)
                             .font(.system(size: 12, weight: .semibold))
                             .foregroundColor(.white)
                         Spacer()
-                        Image(systemName: "chart.line.uptrend.xyaxis")
-                            .foregroundColor(Color(hex: "#5B8DEE"))
-                            .font(.system(size: 10))
+
+                        if #available(iOS 17.0, *) {
+                            Button(intent: ShowSelectionIntent()) {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color(hex: "#5B8DEE").opacity(0.2))
+                                        .frame(width: 24, height: 24)
+                                    Image(systemName: "gearshape.fill")
+                                        .foregroundColor(Color(hex: "#5B8DEE"))
+                                        .font(.system(size: 11, weight: .semibold))
+                                }
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
                     .padding(.horizontal, 12)
                     .padding(.top, 10)
@@ -251,6 +267,103 @@ struct PlaceholderView: View {
             .padding()
         }
         .widgetURL(URL(string: "shapeshift://"))
+    }
+}
+
+// MARK: - Data Source Selection View
+@available(iOS 17.0, *)
+struct DataSourceSelectionView: View {
+    var body: some View {
+        ZStack {
+            Color(hex: "#0F1419")
+
+            VStack(spacing: 0) {
+                // Header
+                HStack {
+                    Text("Select Data Source")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.white)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 12)
+
+                // Options
+                VStack(spacing: 8) {
+                    // Market Cap Option
+                    Button(intent: SelectDataSourceIntent(dataSource: "market_cap")) {
+                        HStack(spacing: 12) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color(hex: "#3861FB").opacity(0.2))
+                                    .frame(width: 40, height: 40)
+                                Image(systemName: "chart.bar.fill")
+                                    .foregroundColor(Color(hex: "#3861FB"))
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Market Cap")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(.white)
+                                Text("Top tokens by market cap")
+                                    .font(.system(size: 11, weight: .regular))
+                                    .foregroundColor(Color.white.opacity(0.6))
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color.white.opacity(0.4))
+                                .font(.system(size: 12, weight: .semibold))
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
+                        .background(Color.white.opacity(0.05))
+                        .cornerRadius(12)
+                    }
+                    .buttonStyle(.plain)
+
+                    // Trading Volume Option
+                    Button(intent: SelectDataSourceIntent(dataSource: "trading_volume")) {
+                        HStack(spacing: 12) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color(hex: "#16C784").opacity(0.2))
+                                    .frame(width: 40, height: 40)
+                                Image(systemName: "chart.line.uptrend.xyaxis")
+                                    .foregroundColor(Color(hex: "#16C784"))
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Trading Volume")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(.white)
+                                Text("Top tokens by 24h volume")
+                                    .font(.system(size: 11, weight: .regular))
+                                    .foregroundColor(Color.white.opacity(0.6))
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color.white.opacity(0.4))
+                                .font(.system(size: 12, weight: .semibold))
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
+                        .background(Color.white.opacity(0.05))
+                        .cornerRadius(12)
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding(.horizontal, 16)
+
+                Spacer()
+            }
+        }
     }
 }
 

@@ -6,19 +6,140 @@ struct ShapeShiftWidget: Widget {
     let kind: String = "ShapeShiftWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: TokenProvider()) { entry in
-            TokenWidgetView(entry: entry)
-                .containerBackground(for: .widget) {
-                    Color(hex: "#181C27")
-                }
+        if #available(iOS 17.0, *) {
+            return AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: AppIntentTokenProvider()) { entry in
+                TokenWidgetView(entry: entry)
+                    .containerBackground(for: .widget) {
+                        Color(hex: "#0F1419")
+                    }
+            }
+            .configurationDisplayName("ShapeShift Tokens")
+            .description("Track crypto prices with configurable data source")
+            .supportedFamilies([.systemSmall, .systemMedium])
+        } else {
+            return StaticConfiguration(kind: kind, provider: TokenProvider()) { entry in
+                TokenWidgetView(entry: entry)
+                    .containerBackground(for: .widget) {
+                        Color(hex: "#0F1419")
+                    }
+            }
+            .configurationDisplayName("ShapeShift Tokens")
+            .description("Track crypto prices by market cap or trading volume")
+            .supportedFamilies([.systemSmall, .systemMedium])
         }
-        .configurationDisplayName("ShapeShift Tokens")
-        .description("Track crypto prices by market cap or trading volume")
-        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
-// Timeline Provider
+// App Intent Timeline Provider (iOS 17+)
+@available(iOS 17.0, *)
+struct AppIntentTokenProvider: AppIntentTimelineProvider {
+    func placeholder(in context: Context) -> TokenEntry {
+        TokenEntry(
+            date: Date(),
+            tokens: [
+                Token(
+                    id: "bitcoin",
+                    symbol: "BTC",
+                    name: "Bitcoin",
+                    price: 43250.50,
+                    priceChange24h: 2.45,
+                    iconUrl: nil,
+                    sparkline: Array(repeating: 0.0, count: 168).enumerated().map { index, _ in
+                        40000 + Double(index) * 20 + Double.random(in: -500...500)
+                    }
+                )
+            ],
+            dataSource: .marketCap
+        )
+    }
+
+    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> TokenEntry {
+        // Check if there's a data source selected via button intents
+        let defaults = UserDefaults(suiteName: "group.com.shapeShift.shapeShift")
+
+        var dataSource: TokenDataSource
+        if let savedDataSourceString = defaults?.string(forKey: "widgetDataSource"),
+           let savedDataSource = TokenDataSource(rawValue: savedDataSourceString) {
+            dataSource = savedDataSource
+        } else {
+            dataSource = mapIntentToDataSource(configuration.dataSource)
+        }
+
+        let data = WidgetDataManager.shared.loadWidgetData()
+        return TokenEntry(
+            date: Date(),
+            tokens: data.tokens.isEmpty ? [placeholder(in: context).tokens[0]] : data.tokens,
+            dataSource: dataSource
+        )
+    }
+
+    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<TokenEntry> {
+        // Check if there's a data source selected via button intents
+        let defaults = UserDefaults(suiteName: "group.com.shapeShift.shapeShift")
+
+        var dataSource: TokenDataSource
+        if let savedDataSourceString = defaults?.string(forKey: "widgetDataSource"),
+           let savedDataSource = TokenDataSource(rawValue: savedDataSourceString) {
+            // Use data source from button selection
+            dataSource = savedDataSource
+            print("[Widget] Using button-selected data source: \(savedDataSource.rawValue)")
+        } else {
+            // Fall back to configuration data source
+            dataSource = mapIntentToDataSource(configuration.dataSource)
+            defaults?.set(dataSource.rawValue, forKey: "widgetDataSource")
+            defaults?.synchronize()
+            print("[Widget] Using config data source: \(dataSource.rawValue)")
+        }
+
+        return await fetchTimelineForDataSource(dataSource: dataSource)
+    }
+
+    private func mapIntentToDataSource(_ intentDataSource: DataSourceAppEnum) -> TokenDataSource {
+        switch intentDataSource {
+        case .marketCap:
+            return .marketCap
+        case .tradingVolume:
+            return .tradingVolume
+        }
+    }
+
+    private func fetchTimelineForDataSource(dataSource: TokenDataSource) async -> Timeline<TokenEntry> {
+        let savedData = WidgetDataManager.shared.loadWidgetData()
+        let currentDate = Date()
+        let dataAge = currentDate.timeIntervalSince(savedData.lastUpdated)
+        let isStale = dataAge > 600
+
+        var tokens = savedData.tokens
+
+        if savedData.tokens.isEmpty || isStale || savedData.dataSource != dataSource {
+            do {
+                let freshTokens: [Token]
+                switch dataSource {
+                case .marketCap:
+                    freshTokens = try await CoinGeckoService.shared.fetchTopTokensByMarketCap(limit: 10)
+                case .tradingVolume:
+                    freshTokens = try await CoinGeckoService.shared.fetchTopTokensByVolume(limit: 10)
+                case .watchlist:
+                    let tokenIds = savedData.tokens.map { $0.id }
+                    freshTokens = tokenIds.isEmpty ? [] : try await CoinGeckoService.shared.fetchTokensByIds(tokenIds)
+                }
+
+                if !freshTokens.isEmpty {
+                    tokens = freshTokens
+                    WidgetDataManager.shared.saveWidgetData(WidgetData(tokens: freshTokens, dataSource: dataSource))
+                }
+            } catch {
+                print("[Widget] Error fetching: \(error)")
+            }
+        }
+
+        let entry = TokenEntry(date: currentDate, tokens: tokens, dataSource: dataSource)
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
+        return Timeline(entries: [entry], policy: .after(nextUpdate))
+    }
+}
+
+// Timeline Provider (iOS 16 and below)
 struct TokenProvider: TimelineProvider {
     func placeholder(in context: Context) -> TokenEntry {
         TokenEntry(
