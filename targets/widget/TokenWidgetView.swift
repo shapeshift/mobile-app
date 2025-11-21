@@ -81,7 +81,7 @@ struct SmallWidgetView: View {
                 }
                 .padding(16)
             }
-            .widgetURL(URL(string: "shapeshift://token/\(token.id)"))
+            .widgetURL(URL(string: CaipMapping.shared.getShapeShiftUrl(forCoinGeckoId: token.id) ?? CaipMapping.shared.getFallbackUrl()))
         } else {
             PlaceholderView(message: "No tokens available")
         }
@@ -133,7 +133,8 @@ struct MediumWidgetView: View {
                     // Token List
                     VStack(spacing: 0) {
                         ForEach(Array(entry.tokens.prefix(3).enumerated()), id: \.element.id) { index, token in
-                            Link(destination: URL(string: "shapeshift://token/\(token.id)")!) {
+                            let urlString = CaipMapping.shared.getShapeShiftUrl(forCoinGeckoId: token.id) ?? CaipMapping.shared.getFallbackUrl()
+                            Link(destination: URL(string: urlString)!) {
                                 TokenRowView(token: token, isLast: index == min(2, entry.tokens.count - 1))
                             }
                         }
