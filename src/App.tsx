@@ -16,6 +16,7 @@ import { useKeepAlive } from './hooks/useKeepAlive'
 import { useSettings } from './hooks/useSettings'
 import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
+import { detectInstalledWallets } from './lib/WalletDetector'
 import { styles } from './styles'
 import Constants from 'expo-constants'
 import { Platform } from 'react-native'
@@ -103,6 +104,11 @@ const App = () => {
 
   useEffect(() => {
     registerForPushNotificationsAsync()
+  }, [])
+
+  // Run wallet detection on app mount
+  useEffect(() => {
+    detectInstalledWallets()
   }, [])
 
   useEffect(() => {
