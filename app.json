@@ -36,7 +36,13 @@
     ],
     ["./plugins/withCustomGradleProperties"],
     ["./plugins/withWalletConnectScheme"],
-    ["./plugins/withAttributionToken"]
+    ["./plugins/withAttributionToken"],
+    [
+      "@bacons/apple-targets",
+      {
+        "appleTeamId": "7882V35EPB"
+      }
+    ]
   ],
   "android": {
     "versionCode": 329,
@@ -56,7 +62,11 @@
     "infoPlist": {
       "ITSAppUsesNonExemptEncryption": false,
       "NSCameraUsageDescription": "This app uses the camera to scan QR codes for addresses."
-    }
+    },
+    "entitlements": {
+      "com.apple.security.application-groups": ["group.com.shapeShift.shapeShift"]
+    },
+    "appleTeamId": "7882V35EPB"
   },
   "extra": {
     "eas": {
