@@ -136,21 +136,14 @@ export const getMessageManager = once(() => {
   /**
    * Detect installed crypto wallet apps
    * Returns array of wallet schemes that are installed on the device
-   *
-   * TODO: Wire this up in shapeshiftWeb to call from WalletConnect flow
    */
   messageManager.on('detectWallets', async () => {
-    console.log('[MessageManager] 📱 detectWallets handler called from web')
     try {
       const detectedWallets = await detectInstalledWallets()
-      const installedSchemes = detectedWallets
+      return detectedWallets
         .filter(w => w.isInstalled)
         .map(w => w.scheme)
-
-      console.log('[MessageManager] 📤 Returning detected wallet schemes:', installedSchemes)
-      return installedSchemes
     } catch (error) {
-      console.error('[MessageManager] ❌ Error in detectWallets handler:', error)
       return []
     }
   })
