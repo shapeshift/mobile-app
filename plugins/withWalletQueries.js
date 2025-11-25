@@ -1,5 +1,5 @@
 // Based on https://github.com/expo/config-plugins/issues/123#issuecomment-1746757954
-// and https://docs.reown.com/appkit/react-native/core/installation#android
+// See also: https://docs.reown.com/appkit/react-native/core/installation#android
 
 const {
   withAndroidManifest,
@@ -70,19 +70,22 @@ const walletQueries = {
  */
 const withWalletQueriesManifest = (config) => {
   return withAndroidManifest(config, (config) => {
-    const { manifest } = config.modResults;
+    const oldManifest = config.modResults.manifest;
 
-    // Add queries section to manifest
-    if (!manifest.queries) {
-      manifest.queries = [walletQueries];
-    } else {
-      // Merge with existing queries if they exist
-      if (!manifest.queries[0].package) {
-        manifest.queries[0].package = [];
+    // Properly merge queries as object (not array)
+    // Pattern from: https://github.com/expo/config-plugins/issues/123#issuecomment-1746757954
+    const manifest = {
+      ...oldManifest,
+      queries: {
+        ...(oldManifest.queries ?? {}),
+        package: [
+          ...(oldManifest.queries?.package ?? []),
+          ...walletQueries.package
+        ]
       }
-      manifest.queries[0].package.push(...walletQueries.package);
-    }
+    };
 
+    config.modResults.manifest = manifest;
     return config;
   });
 };
