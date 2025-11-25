@@ -70,22 +70,11 @@ const walletQueries = {
  */
 const withWalletQueriesManifest = (config) => {
   return withAndroidManifest(config, (config) => {
-    const oldManifest = config.modResults.manifest;
-
-    // Properly merge queries as object (not array)
     // Pattern from: https://github.com/expo/config-plugins/issues/123#issuecomment-1746757954
-    const manifest = {
-      ...oldManifest,
-      queries: {
-        ...(oldManifest.queries ?? {}),
-        package: [
-          ...(oldManifest.queries?.package ?? []),
-          ...walletQueries.package
-        ]
-      }
+    config.modResults.manifest = {
+      ...config.modResults.manifest,
+      queries: [walletQueries]
     };
-
-    config.modResults.manifest = manifest;
     return config;
   });
 };
