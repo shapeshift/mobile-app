@@ -35,7 +35,8 @@
       }
     ],
     ["./plugins/withCustomGradleProperties"],
-    ["./plugins/withWalletConnectScheme"]
+    ["./plugins/withWalletConnectScheme"],
+    ["./plugins/withWalletQueries"]
   ],
   "android": {
     "versionCode": 329,
