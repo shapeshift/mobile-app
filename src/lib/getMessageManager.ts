@@ -10,6 +10,7 @@ import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
 import * as Haptics from 'expo-haptics'
 import Constants from 'expo-constants'
+import { detectInstalledWallets } from './WalletDetector'
 
 import * as appJson from '../../app.json'
 
@@ -130,6 +131,21 @@ export const getMessageManager = once(() => {
   messageManager.on('reloadWebview', () => {
     console.log('[App] Reloading webview')
     messageManager.webviewRef?.reload()
+  })
+
+  /**
+   * Detect installed crypto wallet apps
+   * Returns array of wallet schemes that are installed on the device
+   */
+  messageManager.on('detectWallets', async () => {
+    try {
+      const detectedWallets = await detectInstalledWallets()
+      return detectedWallets
+        .filter(w => w.isInstalled)
+        .map(w => w.scheme)
+    } catch (error) {
+      return []
+    }
   })
 
   return messageManager

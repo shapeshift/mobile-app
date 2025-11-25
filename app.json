@@ -36,6 +36,7 @@
     ],
     ["./plugins/withCustomGradleProperties"],
     ["./plugins/withWalletConnectScheme"],
+    ["./plugins/withWalletQueries"],
     ["./plugins/withAttributionToken"]
   ],
   "android": {
@@ -55,7 +56,24 @@
     "supportsTablet": true,
     "infoPlist": {
       "ITSAppUsesNonExemptEncryption": false,
-      "NSCameraUsageDescription": "This app uses the camera to scan QR codes for addresses."
+      "NSCameraUsageDescription": "This app uses the camera to scan QR codes for addresses.",
+      "LSApplicationQueriesSchemes": [
+        "metamask",
+        "trust",
+        "zerion",
+        "rainbow",
+        "ledgerlive",
+        "cbwallet",
+        "phantom",
+        "argent",
+        "imtoken",
+        "spot",
+        "omni",
+        "onto",
+        "safe",
+        "tokenpocket",
+        "exodus"
+      ]
     }
   },
   "extra": {
