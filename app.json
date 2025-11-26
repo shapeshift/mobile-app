@@ -37,7 +37,13 @@
     ["./plugins/withCustomGradleProperties"],
     ["./plugins/withWalletConnectScheme"],
     ["./plugins/withWalletQueries"],
-    ["./plugins/withAttributionToken"]
+    ["./plugins/withAttributionToken"],
+    [
+      "expo-dev-client",
+      {
+        "launchMode": "most-recent"
+      }
+    ]
   ],
   "android": {
     "versionCode": 329,
@@ -74,7 +80,8 @@
         "tokenpocket",
         "exodus"
       ]
-    }
+    },
+    "appleTeamId": "7882V35EPB"
   },
   "extra": {
     "eas": {
