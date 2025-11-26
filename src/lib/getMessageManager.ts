@@ -140,9 +140,7 @@ export const getMessageManager = once(() => {
   messageManager.on('detectWallets', async () => {
     try {
       const detectedWallets = await detectInstalledWallets()
-      return detectedWallets
-        .filter(w => w.isInstalled)
-        .map(w => w.scheme)
+      return detectedWallets.filter(w => w.isInstalled).map(w => w.scheme)
     } catch (error) {
       return []
     }
