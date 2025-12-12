@@ -228,6 +228,7 @@ const App = () => {
             style={loading ? styles.containerLoading : styles.container}
             allowsInlineMediaPlayback={true}
             mediaPlaybackRequiresUserAction={false}
+            mediaCapturePermissionGrantType='grantIfSameHostElsePrompt'
             pullToRefreshEnabled={false}
             decelerationRate={0.998}
             startInLoadingState
