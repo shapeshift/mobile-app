@@ -96,8 +96,8 @@ web-build/
 expo-env.d.ts
 # @end expo-cli
 
-android
-ios
+/android
+/ios
 
 # Keypair to publish to solana store
 keypair.json
