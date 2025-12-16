@@ -5,9 +5,9 @@
   },
   "build": {
     "development": {
+      "autoIncrement": true,
       "channel": "development",
-      "developmentClient": true,
-      "distribution": "internal"
+      "developmentClient": true
     },
     "preview": {
       "channel": "staging",
