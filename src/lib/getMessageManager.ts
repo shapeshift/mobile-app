@@ -10,13 +10,15 @@ import { getWalletManager } from './getWalletManager'
 import { EventData, MessageManager } from './MessageManager'
 import * as Haptics from 'expo-haptics'
 import Constants from 'expo-constants'
+import { detectInstalledWallets } from './WalletDetector'
 
 import * as appJson from '../../app.json'
 
 const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
 import { getExpoToken } from './notifications'
-import { getAttributionToken } from './adservices'
+import { getAppleAttributionData, getAttributionToken } from './adservices'
+import { queryClient } from '../Root'
 
 type HapticLevel = 'light' | 'medium' | 'heavy' | 'soft' | 'rigid'
 
@@ -64,13 +66,19 @@ export const getMessageManager = once(() => {
     }
   })
 
-  messageManager.on('getAppleAttributionToken', async () => {
-    try {
-      return await getAttributionToken()
-    } catch (error) {
-      console.error('[App] Error getting attribution token:', error)
-      return null
-    }
+  messageManager.on('getAppleAttributionData', async () => {
+    const attributionToken = await getAttributionToken()
+
+    if (!attributionToken) return null
+
+    const attributionData = await queryClient.fetchQuery({
+      queryKey: ['appleAttributionData'],
+      queryFn: () => getAppleAttributionData(attributionToken),
+      retry: 3,
+      retryDelay: 5000,
+    })
+
+    return attributionData
   })
 
   // haptics
@@ -130,6 +138,19 @@ export const getMessageManager = once(() => {
   messageManager.on('reloadWebview', () => {
     console.log('[App] Reloading webview')
     messageManager.webviewRef?.reload()
+  })
+
+  /**
+   * Detect installed crypto wallet apps
+   * Returns array of wallet schemes that are installed on the device
+   */
+  messageManager.on('detectWallets', async () => {
+    try {
+      const detectedWallets = await detectInstalledWallets()
+      return detectedWallets.filter(w => w.isInstalled).map(w => w.scheme)
+    } catch (error) {
+      return []
+    }
   })
 
   return messageManager

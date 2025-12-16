@@ -49,7 +49,14 @@
     ],
     ["./plugins/withCustomGradleProperties"],
     ["./plugins/withWalletConnectScheme"],
-    ["./plugins/withAttributionToken"]
+    ["./plugins/withWalletQueries"],
+    ["./plugins/withAttributionToken"],
+    [
+      "expo-dev-client",
+      {
+        "launchMode": "most-recent"
+      }
+    ]
   ],
   "android": {
     "versionCode": 329,
@@ -69,7 +76,24 @@
     "infoPlist": {
       "ITSAppUsesNonExemptEncryption": false,
       "NSCameraUsageDescription": "This app uses the camera to scan QR codes for addresses.",
-      "NSSupportsLiveActivities": true
+      "NSSupportsLiveActivities": true,
+      "LSApplicationQueriesSchemes": [
+        "metamask",
+        "trust",
+        "zerion",
+        "rainbow",
+        "ledgerlive",
+        "cbwallet",
+        "phantom",
+        "argent",
+        "imtoken",
+        "spot",
+        "omni",
+        "onto",
+        "safe",
+        "tokenpocket",
+        "exodus"
+      ]
     },
     "appleTeamId": "7882V35EPB"
   },
