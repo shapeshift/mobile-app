@@ -153,5 +153,14 @@ export const getMessageManager = once(() => {
     }
   })
 
+  /**
+   * Open the native QR scanner modal
+   * The actual scanning result is sent back via messageManager.postMessage in App.tsx
+   */
+  messageManager.on('openNativeQRScanner', () => {
+    // This returns undefined - the actual result comes via postMessage
+    // The App.tsx component will handle the visibility state
+  })
+
   return messageManager
 })

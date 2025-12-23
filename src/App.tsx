@@ -11,6 +11,7 @@ import ErrorBoundary from 'react-native-error-boundary'
 import { WebView } from 'react-native-webview'
 import { DeveloperModeModal } from './components/DeveloperModeModal'
 import ErrorPage from './components/ErrorPage'
+import { NativeQRScanner } from './components/NativeQRScanner'
 import { useImportWallet } from './hooks/useImportWallet'
 import { useKeepAlive } from './hooks/useKeepAlive'
 import { useSettings } from './hooks/useSettings'
@@ -38,6 +39,7 @@ const App = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [isDebugModalVisible, setIsDebugModalVisible] = useState(false)
+  const [isQRScannerVisible, setIsQRScannerVisible] = useState(false)
   const webviewRef = useRef<WebView>(null)
   const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
@@ -107,7 +109,18 @@ const App = () => {
 
   useEffect(() => {
     messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
+    messageManager.on('openNativeQRScanner', () => setIsQRScannerVisible(true))
   }, [messageManager])
+
+  const handleQRScanSuccess = (data: string) => {
+    messageManager.postMessage({ type: 'qrScanResult', data })
+    setIsQRScannerVisible(false)
+  }
+
+  const handleQRScannerClose = () => {
+    messageManager.postMessage({ type: 'qrScanCancelled' })
+    setIsQRScannerVisible(false)
+  }
 
   // https://reactnative.dev/docs/linking?syntax=android#handling-deep-links
   useEffect(() => {
@@ -212,6 +225,11 @@ const App = () => {
         visible={isDebugModalVisible}
         onClose={() => setIsDebugModalVisible(false)}
         onSelect={url => setSetting('EXPO_PUBLIC_SHAPESHIFT_URI', url)}
+      />
+      <NativeQRScanner
+        visible={isQRScannerVisible}
+        onClose={handleQRScannerClose}
+        onScanSuccess={handleQRScanSuccess}
       />
       {error ? (
         <ErrorPage onTryAgain={() => setError(false)} />

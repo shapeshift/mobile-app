@@ -10342,6 +10342,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-camera@npm:~17.0.8":
+  version: 17.0.10
+  resolution: "expo-camera@npm:17.0.10"
+  dependencies:
+    invariant: ^2.2.4
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native-web:
+      optional: true
+  checksum: 5cae1769e8483e2d8f0fe52e18083040a52a6beb0178470cb28d7669f9ec6565be6861223842e82b1b8a20ab7178987e969cf295958b0a28bfdd6e5ad1e1ddc8
+  languageName: node
+  linkType: hard
+
 "expo-clipboard@npm:~8.0.7":
   version: 8.0.7
   resolution: "expo-clipboard@npm:8.0.7"
@@ -16498,6 +16515,7 @@ __metadata:
     expo: ~54.0.16
     expo-application: ^7.0.7
     expo-build-properties: ~1.0.9
+    expo-camera: ~17.0.8
     expo-clipboard: ~8.0.7
     expo-constants: ~18.0.9
     expo-dev-client: ^6.0.17
