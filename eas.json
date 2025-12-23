@@ -7,15 +7,52 @@
     "development": {
       "autoIncrement": true,
       "channel": "development",
-      "developmentClient": true
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "appExtensions": [
+          {
+            "targetName": "widget",
+            "bundleIdentifier": "com.shapeShift.shapeShift.widget"
+          },
+          {
+            "targetName": "live-activity",
+            "bundleIdentifier": "com.shapeShift.shapeShift.live-activity"
+          }
+        ]
+      }
     },
     "preview": {
       "channel": "staging",
-      "distribution": "internal"
+      "distribution": "internal",
+      "ios": {
+        "appExtensions": [
+          {
+            "targetName": "widget",
+            "bundleIdentifier": "com.shapeShift.shapeShift.widget"
+          },
+          {
+            "targetName": "live-activity",
+            "bundleIdentifier": "com.shapeShift.shapeShift.live-activity"
+          }
+        ]
+      }
     },
     "production": {
       "autoIncrement": true,
-      "channel": "production"
+      "channel": "production",
+      "ios": {
+        "appExtensions": [
+          {
+            "targetName": "widget",
+            "bundleIdentifier": "com.shapeShift.shapeShift.widget"
+          },
+          {
+            "targetName": "live-activity",
+            "bundleIdentifier": "com.shapeShift.shapeShift.live-activity"
+          }
+        ]
+      }
     },
     "dapp-store": {
       "autoIncrement": true,
