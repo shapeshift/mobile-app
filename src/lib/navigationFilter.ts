@@ -38,6 +38,12 @@ export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
     return true
   }
 
+  // Handle blob URLs - these are handled by injected JavaScript in download.ts
+  // which intercepts URL.createObjectURL and sends file data via postMessage
+  if (request.url.startsWith('blob:')) {
+    return false
+  }
+
   // External navigation
   openBrowser(request.url).catch(r => {
     console.error(`rejection opening in browser url "${request.url}": `, r)
