@@ -10458,6 +10458,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-file-system@npm:~19.0.21":
+  version: 19.0.21
+  resolution: "expo-file-system@npm:19.0.21"
+  peerDependencies:
+    expo: "*"
+    react-native: "*"
+  checksum: 26b4c95c8d30580723995bf8e32287b72eadf0e3442ca14854c15dc47021c4c22eefbc490ab4fadf98b3f0b14847eba3012dfe663c8a8b42de7b1587f6811d8f
+  languageName: node
+  linkType: hard
+
 "expo-font@npm:~14.0.9":
   version: 14.0.9
   resolution: "expo-font@npm:14.0.9"
@@ -10595,6 +10605,15 @@ __metadata:
   version: 1.0.2
   resolution: "expo-server@npm:1.0.2"
   checksum: c74a6dbcbd437d1cd64aa67f7f5d82640937e49fa2a3e68093003a1a82018eaf2b07ed0136d82b5dc06994990ec39799eff702b75d875315a7933eb15adc36f5
+  languageName: node
+  linkType: hard
+
+"expo-sharing@npm:~14.0.8":
+  version: 14.0.8
+  resolution: "expo-sharing@npm:14.0.8"
+  peerDependencies:
+    expo: "*"
+  checksum: 8ac54d82328141dc67add5b9db3f16253b42e0e0aa2d39589fffd4d9cf15067e10262b0ab21837b184caae2799de81d74f8b2d129886c50e25550ef4fc6919f3
   languageName: node
   linkType: hard
 
@@ -16520,11 +16539,13 @@ __metadata:
     expo-constants: ~18.0.9
     expo-dev-client: ^6.0.17
     expo-device: ~8.0.9
+    expo-file-system: ~19.0.21
     expo-haptics: ^15.0.7
     expo-local-authentication: ~17.0.7
     expo-navigation-bar: ~5.0.8
     expo-notifications: ~0.32.12
     expo-secure-store: ~15.0.7
+    expo-sharing: ~14.0.8
     expo-splash-screen: ~31.0.10
     expo-status-bar: ^3.0.8
     expo-store-review: ~9.0.8
