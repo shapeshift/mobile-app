@@ -14,6 +14,7 @@ import ErrorPage from './components/ErrorPage'
 import { NativeQRScanner } from './components/NativeQRScanner'
 import { useImportWallet } from './hooks/useImportWallet'
 import { useKeepAlive } from './hooks/useKeepAlive'
+import { useSeekerWallet } from './hooks/useSeekerWallet'
 import { useSettings } from './hooks/useSettings'
 import { getMessageManager } from './lib/getMessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
@@ -87,6 +88,7 @@ const App = () => {
   }, [insets])
 
   useKeepAlive()
+  useSeekerWallet() // Initialize Seeker wallet message handlers
   const { startImport } = useImportWallet()
 
   useEffect(() => {
