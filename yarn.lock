@@ -3378,6 +3378,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bacons/apple-targets@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "@bacons/apple-targets@npm:3.0.5"
+  dependencies:
+    "@bacons/xcode": 1.0.0-alpha.27
+    "@react-native/normalize-colors": ^0.79.2
+    debug: ^4.3.4
+    glob: ^10.4.2
+  checksum: 24617985142c164eb76a8f2c5c86f65f2eef6622393a87a9670d208e400257faf6e1d1d5ac8871f8f6d4b33ea620d085ebbbc7a23a1892210e4e2c94f8f445b3
+  languageName: node
+  linkType: hard
+
+"@bacons/xcode@npm:1.0.0-alpha.27":
+  version: 1.0.0-alpha.27
+  resolution: "@bacons/xcode@npm:1.0.0-alpha.27"
+  dependencies:
+    "@expo/plist": ^0.0.18
+    debug: ^4.3.4
+    uuid: ^8.3.2
+  checksum: 39808b21ff9575baa5fa9dbcdca86d9466daa366e07665f5803406b1af269208ca8329ad1687ed41ab1df747e098dad3b41d99bdb29faa0dd04ba59483e1270c
+  languageName: node
+  linkType: hard
+
 "@bcoe/v8-coverage@npm:^0.2.3":
   version: 0.2.3
   resolution: "@bcoe/v8-coverage@npm:0.2.3"
@@ -4166,6 +4189,17 @@ __metadata:
     ora: ^3.4.0
     resolve-workspace-root: ^2.0.0
   checksum: 5cf20840416aa9c9ce477a0bcdd74ec42dcdce193079d8a32eb2d8493149fec4b233426f16fd232d630ddd94bfa1b13636e1b21432dcefa46db6736f4aeebec2
+  languageName: node
+  linkType: hard
+
+"@expo/plist@npm:^0.0.18":
+  version: 0.0.18
+  resolution: "@expo/plist@npm:0.0.18"
+  dependencies:
+    "@xmldom/xmldom": ~0.7.0
+    base64-js: ^1.2.3
+    xmlbuilder: ^14.0.0
+  checksum: 42f5743fcd2a07b55a9f048d27cf0f273510ab35dde1f7030b22dc8c30ab2cfb65c6e68f8aa58fbcfa00177fdc7c9696d0004083c9a47c36fd4ac7fea27d6ccc
   languageName: node
   linkType: hard
 
@@ -5695,6 +5729,13 @@ __metadata:
   version: 0.81.4
   resolution: "@react-native/normalize-colors@npm:0.81.4"
   checksum: 6fe040efc98127b8a1072d0e5b822097cdfb61e620ac37704b27affa6948c244e1349ac8b8f705f5efa15bd1a04ef7c9620ee5140eb0e13a62bc2dbf0f206178
+  languageName: node
+  linkType: hard
+
+"@react-native/normalize-colors@npm:^0.79.2":
+  version: 0.79.7
+  resolution: "@react-native/normalize-colors@npm:0.79.7"
+  checksum: 0c9420bbacb93965c50d872ab65edc17669a51ba7404ae845a6ee51356d0ef5c616c41782bb7b0af7b795f0a63e579ae28145450788fbcf053abf423038c2389
   languageName: node
   linkType: hard
 
@@ -7242,6 +7283,13 @@ __metadata:
   version: 0.8.10
   resolution: "@xmldom/xmldom@npm:0.8.10"
   checksum: 4c136aec31fb3b49aaa53b6fcbfe524d02a1dc0d8e17ee35bd3bf35e9ce1344560481cd1efd086ad1a4821541482528672306d5e37cdbd187f33d7fadd3e2cf0
+  languageName: node
+  linkType: hard
+
+"@xmldom/xmldom@npm:~0.7.0":
+  version: 0.7.13
+  resolution: "@xmldom/xmldom@npm:0.7.13"
+  checksum: b4054078530e5fa8ede9677425deff0fce6d965f4c477ca73f8490d8a089e60b8498a15560425a1335f5ff99ecb851ed2c734b0a9a879299a5694302f212f37a
   languageName: node
   linkType: hard
 
@@ -16489,6 +16537,7 @@ __metadata:
     "@babel/core": ^7.26.0
     "@babel/preset-env": ^7.19.3
     "@babel/runtime": ^7.19.0
+    "@bacons/apple-targets": ^3.0.5
     "@react-hook/async": ^3.1.1
     "@react-native-async-storage/async-storage": 2.2.0
     "@react-native-community/eslint-config": ^3.1.0
@@ -18010,6 +18059,13 @@ __metadata:
     sax: ">=0.6.0"
     xmlbuilder: ~11.0.0
   checksum: 437f353fd66d367bf158e9555a0625df9965d944e499728a5c6bc92a54a2763179b144f14b7e1c725040f56bbd22b0fa6cfcb09ec4faf39c45ce01efe631f40b
+  languageName: node
+  linkType: hard
+
+"xmlbuilder@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "xmlbuilder@npm:14.0.0"
+  checksum: 9e93d3c73957dbb21acde63afa5d241b19057bdbdca9d53534d8351e70f1d5c9db154e3ca19bd3e9ea84c082539ab6e7845591c8778a663e8b5d3470d5427a8b
   languageName: node
   linkType: hard
 
