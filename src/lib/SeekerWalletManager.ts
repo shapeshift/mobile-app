@@ -1,4 +1,4 @@
-import { VersionedTransaction } from '@solana/web3.js'
+import { PublicKey, VersionedTransaction } from '@solana/web3.js'
 
 /**
  * Seeker Wallet Manager - POC Implementation
@@ -109,11 +109,15 @@ export class SeekerWalletManager {
       })
 
       return {
-        accounts: authResult.accounts.map(account => ({
-          address: account.address,
-          label: account.label,
-          publicKey: new Uint8Array(Buffer.from(account.address, 'base64')),
-        })),
+        accounts: authResult.accounts.map(account => {
+          const publicKeyBytes = new Uint8Array(Buffer.from(account.address, 'base64'))
+          const base58Address = new PublicKey(publicKeyBytes).toBase58()
+          return {
+            address: base58Address,
+            label: account.label,
+            publicKey: publicKeyBytes,
+          }
+        }),
         authToken: authResult.auth_token,
         walletUriBase: authResult.wallet_uri_base,
       }
@@ -144,11 +148,15 @@ export class SeekerWalletManager {
         })
 
         return {
-          accounts: authResult.accounts.map(account => ({
-            address: account.address,
-            label: account.label,
-            publicKey: new Uint8Array(Buffer.from(account.address, 'base64')),
-          })),
+          accounts: authResult.accounts.map(account => {
+            const publicKeyBytes = new Uint8Array(Buffer.from(account.address, 'base64'))
+            const base58Address = new PublicKey(publicKeyBytes).toBase58()
+            return {
+              address: base58Address,
+              label: account.label,
+              publicKey: publicKeyBytes,
+            }
+          }),
           authToken: authResult.auth_token,
           walletUriBase: authResult.wallet_uri_base,
         }

@@ -1,3 +1,7 @@
+// Buffer polyfill for Solana libraries
+import { Buffer } from 'buffer'
+global.Buffer = Buffer
+
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
