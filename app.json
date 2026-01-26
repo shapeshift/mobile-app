@@ -8,6 +8,14 @@
   "primaryColor": "#181C27",
   "backgroundColor": "#181C27",
   "plugins": [
+    [
+      "expo-camera",
+      {
+        "cameraPermission": "Allow ShapeShift to access your camera",
+        "microphonePermission": "Allow ShapeShift to access your microphone",
+        "recordAudioAndroid": false
+      }
+    ],
     "expo-secure-store",
     [
       "expo-splash-screen",
