@@ -1,6 +1,6 @@
 {
   "name": "ShapeShift",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "displayName": "ShapeShift",
   "icon": "./src/static/icon.png",
   "scheme": "shapeshift",
@@ -100,5 +100,5 @@
   "updates": {
     "url": "https://u.expo.dev/5fc55e72-5e61-41f2-be9b-01a77afc388e"
   },
-  "runtimeVersion": "3.6.2"
+  "runtimeVersion": "3.6.3"
 }
