@@ -11,8 +11,7 @@
     [
       "expo-camera",
       {
-        "cameraPermission": "Allow ShapeShift to access your camera",
-        "microphonePermission": "Allow ShapeShift to access your microphone",
+        "cameraPermission": "Allow ShapeShift to access your camera to scan QR codes for addresses.",
         "recordAudioAndroid": false
       }
     ],
