@@ -1,6 +1,6 @@
 {
   "name": "ShapeShift",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "displayName": "ShapeShift",
   "icon": "./src/static/icon.png",
   "scheme": "shapeshift",
@@ -8,6 +8,13 @@
   "primaryColor": "#181C27",
   "backgroundColor": "#181C27",
   "plugins": [
+    [
+      "expo-camera",
+      {
+        "cameraPermission": "Allow ShapeShift to access your camera to scan QR codes for addresses.",
+        "recordAudioAndroid": false
+      }
+    ],
     "expo-secure-store",
     [
       "expo-splash-screen",
@@ -93,5 +100,5 @@
   "updates": {
     "url": "https://u.expo.dev/5fc55e72-5e61-41f2-be9b-01a77afc388e"
   },
-  "runtimeVersion": "3.6.2"
+  "runtimeVersion": "3.6.3"
 }
