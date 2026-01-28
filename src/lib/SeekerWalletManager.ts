@@ -266,6 +266,44 @@ export class SeekerWalletManager {
   }
 
   /**
+   * Get a public key for a custom derivation path from Seed Vault
+   * This is used for multi-chain support (e.g., NEAR uses m/44'/397'/0')
+   *
+   * @param derivationPath BIP32 URI format (e.g., "bip32:/m/44'/397'/0'")
+   * @returns Base58-encoded public key
+   */
+  public async getPublicKey(derivationPath: string): Promise<string> {
+    if (!this.isAuthorized) {
+      throw new Error('Not authorized with Seeker wallet')
+    }
+
+    const { transact } = await import('@solana-mobile/mobile-wallet-adapter-protocol-web3js')
+
+    const publicKey = await transact(async wallet => {
+      // Reauthorize within the transaction session
+      await wallet.authorize({
+        identity: APP_IDENTITY,
+        auth_token: this.#authResult!.authToken,
+      })
+
+      // Request public key for custom derivation path from Seed Vault
+      // Note: This requires the Seed Vault SDK extension
+      // @ts-expect-error - requestPublicKey is not in standard MWA types but is supported by Seed Vault
+      const result = await wallet.requestPublicKey({
+        derivation_path: derivationPath,
+      })
+
+      // Convert the public key bytes to base58
+      const publicKeyBytes = new Uint8Array(Buffer.from(result.public_key, 'base64'))
+      const base58PublicKey = new PublicKey(publicKeyBytes).toBase58()
+
+      return base58PublicKey
+    })
+
+    return publicKey
+  }
+
+  /**
    * Export authorization info (without sensitive data)
    * This can be sent to the web app for display purposes
    */

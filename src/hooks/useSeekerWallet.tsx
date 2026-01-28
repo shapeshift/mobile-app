@@ -12,6 +12,7 @@ import { getSeekerWalletManager } from '../lib/getSeekerWalletManager'
  * - seekerGetAddress: Get the authorized Solana address
  * - seekerSignTransaction: Sign a transaction via Seeker
  * - seekerSignAndSendTransaction: Sign and send a transaction via Seeker
+ * - seekerGetPublicKey: Get public key for custom derivation path (multi-chain support)
  */
 export const useSeekerWallet = () => {
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null)
@@ -139,6 +140,30 @@ export const useSeekerWallet = () => {
         return {
           success: false,
           error: e instanceof Error ? e.message : 'Sign and send transaction failed',
+        }
+      }
+    })
+
+    /**
+     * Get a public key for a custom derivation path from Seed Vault
+     * This enables multi-chain support (e.g., NEAR uses m/44'/397'/0')
+     * Expects: { derivationPath: string } in BIP32 URI format
+     * Returns: { publicKey: string } - base58-encoded public key
+     */
+    messageManager.on('seekerGetPublicKey', async evt => {
+      try {
+        const derivationPath = evt.derivationPath as string
+        if (!derivationPath) {
+          return { success: false, error: 'Derivation path is required' }
+        }
+
+        const publicKey = await seekerManager.getPublicKey(derivationPath)
+        return { publicKey }
+      } catch (e) {
+        console.error('[useSeekerWallet] Get public key failed:', e)
+        return {
+          success: false,
+          error: e instanceof Error ? e.message : 'Get public key failed',
         }
       }
     })
