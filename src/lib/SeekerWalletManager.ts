@@ -1,4 +1,5 @@
 import { PublicKey, VersionedTransaction } from '@solana/web3.js'
+import { requestPublicKey as requestPublicKeyFromVault } from '../../../modules/expo-seed-vault/src/index'
 
 /**
  * Seeker Wallet Manager - POC Implementation
@@ -267,40 +268,36 @@ export class SeekerWalletManager {
 
   /**
    * Get a public key for a custom derivation path from Seed Vault
-   * This is used for multi-chain support (e.g., NEAR uses m/44'/397'/0')
+   *
+   * Uses the native Seed Vault SDK directly via Expo module, bypassing MWA protocol limitations.
+   * This enables multi-chain support with custom derivation paths.
    *
    * @param derivationPath BIP32 URI format (e.g., "bip32:/m/44'/397'/0'")
    * @returns Base58-encoded public key
+   * @throws Error if not authorized or request fails
    */
   public async getPublicKey(derivationPath: string): Promise<string> {
     if (!this.isAuthorized) {
       throw new Error('Not authorized with Seeker wallet')
     }
 
-    const { transact } = await import('@solana-mobile/mobile-wallet-adapter-protocol-web3js')
+    try {
+      const result = await requestPublicKeyFromVault(this.#authResult!.authToken, derivationPath)
 
-    const publicKey = await transact(async wallet => {
-      // Reauthorize within the transaction session
-      await wallet.authorize({
-        identity: APP_IDENTITY,
-        auth_token: this.#authResult!.authToken,
-      })
-
-      // Request public key for custom derivation path from Seed Vault
-      // Note: This requires the Seed Vault SDK extension
-      // @ts-expect-error - requestPublicKey is not in standard MWA types but is supported by Seed Vault
-      const result = await wallet.requestPublicKey({
-        derivation_path: derivationPath,
-      })
-
-      // Convert the public key bytes to base58
-      const publicKeyBytes = new Uint8Array(Buffer.from(result.public_key, 'base64'))
+      const publicKeyBytes = new Uint8Array(Buffer.from(result.publicKey, 'base64'))
       const base58PublicKey = new PublicKey(publicKeyBytes).toBase58()
 
       return base58PublicKey
-    })
-
-    return publicKey
+    } catch (error) {
+      console.error('[SeekerWalletManager] getPublicKey failed:', {
+        derivationPath,
+        error,
+        message: error instanceof Error ? error.message : 'Unknown error',
+      })
+      throw new Error(
+        `Failed to get public key from Seed Vault: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      )
+    }
   }
 
   /**
