@@ -64,8 +64,15 @@ export class SeekerWalletManager {
   #seedAuthTokens: Map<string, string> = new Map()
   #seedVaultAuthToken: string | null = null
   #seedVaultAuthTokenLoaded: boolean = false
+  #seedVaultQueue: Promise<void> = Promise.resolve()
 
   public readonly [Symbol.toStringTag]: string = 'SeekerWalletManager'
+
+  private withSeedVaultQueue<T>(fn: () => Promise<T>): Promise<T> {
+    const queued = this.#seedVaultQueue.then(fn, fn)
+    this.#seedVaultQueue = queued.then(() => {}, () => {})
+    return queued
+  }
 
   private async loadSeedVaultAuthToken(): Promise<void> {
     if (this.#seedVaultAuthTokenLoaded) return
@@ -375,6 +382,10 @@ export class SeekerWalletManager {
        throw new Error('Not authorized with Seeker wallet')
      }
 
+     return this.withSeedVaultQueue(() => this.getPublicKeyInternal(derivationPath))
+  }
+
+  private async getPublicKeyInternal(derivationPath: string): Promise<{ publicKey: string }> {
      const hasPermission = await checkSeedVaultPermission()
 
      if (!hasPermission) {
@@ -448,6 +459,10 @@ export class SeekerWalletManager {
        throw new Error('Not authorized with Seeker wallet')
      }
 
+     return this.withSeedVaultQueue(() => this.signMessageInternal(message, derivationPath))
+  }
+
+  private async signMessageInternal(message: string, derivationPath: string): Promise<{ signature: string }> {
      const hasPermission = await checkSeedVaultPermission()
 
      if (!hasPermission) {
