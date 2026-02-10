@@ -63,63 +63,71 @@ export class SeekerWalletManager {
   #isAvailable: boolean | null = null
   #seedAuthTokens: Map<string, string> = new Map()
   #seedVaultAuthToken: string | null = null
-  #seedVaultAuthTokenLoaded: boolean = false
+  #seedVaultAuthTokenLoaded = false
   #seedVaultQueue: Promise<void> = Promise.resolve()
 
   public readonly [Symbol.toStringTag]: string = 'SeekerWalletManager'
 
   private withSeedVaultQueue<T>(fn: () => Promise<T>): Promise<T> {
     const queued = this.#seedVaultQueue.then(fn, fn)
-    this.#seedVaultQueue = queued.then(() => {}, () => {})
+    this.#seedVaultQueue = queued.then(
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      () => {},
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      () => {},
+    )
     return queued
   }
 
   private async loadSeedVaultAuthToken(): Promise<void> {
     if (this.#seedVaultAuthTokenLoaded) return
 
-     try {
-       const token = await SecureStore.getItemAsync(SEED_VAULT_AUTH_TOKEN_KEY)
-       if (token) {
-         this.#seedVaultAuthToken = token
-       }
-     } catch (error) {
-       console.warn('[SeekerWalletManager] Failed to load seed vault auth token:', error)
-     }
-     this.#seedVaultAuthTokenLoaded = true
+    try {
+      const token = await SecureStore.getItemAsync(SEED_VAULT_AUTH_TOKEN_KEY)
+      if (token) {
+        this.#seedVaultAuthToken = token
+      }
+    } catch (error) {
+      console.warn('[SeekerWalletManager] Failed to load seed vault auth token:', error)
+    }
+    this.#seedVaultAuthTokenLoaded = true
   }
 
-   private async saveSeedVaultAuthToken(token: string): Promise<void> {
-     try {
-       await SecureStore.setItemAsync(SEED_VAULT_AUTH_TOKEN_KEY, token)
-       this.#seedVaultAuthToken = token
-     } catch (error) {
-       console.error('[SeekerWalletManager] Failed to save seed vault auth token:', error)
-       this.#seedVaultAuthToken = token
-     }
-   }
+  private async saveSeedVaultAuthToken(token: string): Promise<void> {
+    try {
+      await SecureStore.setItemAsync(SEED_VAULT_AUTH_TOKEN_KEY, token)
+      this.#seedVaultAuthToken = token
+    } catch (error) {
+      console.error('[SeekerWalletManager] Failed to save seed vault auth token:', error)
+      this.#seedVaultAuthToken = token
+    }
+  }
 
-   private async clearSeedVaultAuthToken(): Promise<void> {
-     try {
-       await SecureStore.deleteItemAsync(SEED_VAULT_AUTH_TOKEN_KEY)
-     } catch (error) {
-       console.warn('[SeekerWalletManager] Failed to clear seed vault auth token:', error)
-     }
-     this.#seedVaultAuthToken = null
-   }
+  private async clearSeedVaultAuthToken(): Promise<void> {
+    try {
+      await SecureStore.deleteItemAsync(SEED_VAULT_AUTH_TOKEN_KEY)
+    } catch (error) {
+      console.warn('[SeekerWalletManager] Failed to clear seed vault auth token:', error)
+    }
+    this.#seedVaultAuthToken = null
+  }
 
-   // authorizeSeed() shows an empty modal when the seed is already authorized — check existing authorizations first
-   private async getOrAuthorizeSeedToken(): Promise<string> {
-     try {
-       const authorizedSeeds = await getAuthorizedSeeds(PURPOSE_SIGN_SOLANA_TRANSACTION)
-       if (authorizedSeeds.length > 0) {
-         return authorizedSeeds[0].authToken
-       }
-     } catch (error) {
-       console.warn('[SeekerWalletManager] Failed to get authorized seeds, will request new authorization:', error)
-     }
+  // authorizeSeed() shows an empty modal when the seed is already authorized — check existing authorizations first
+  private async getOrAuthorizeSeedToken(): Promise<string> {
+    try {
+      const authorizedSeeds = await getAuthorizedSeeds(PURPOSE_SIGN_SOLANA_TRANSACTION)
+      if (authorizedSeeds.length > 0) {
+        return authorizedSeeds[0].authToken
+      }
+    } catch (error) {
+      console.warn(
+        '[SeekerWalletManager] Failed to get authorized seeds, will request new authorization:',
+        error,
+      )
+    }
 
-     return await authorizeSeed(PURPOSE_SIGN_SOLANA_TRANSACTION)
-   }
+    return await authorizeSeed(PURPOSE_SIGN_SOLANA_TRANSACTION)
+  }
 
   /**
    * Check if MWA/Seeker wallet is available on this device
@@ -129,18 +137,18 @@ export class SeekerWalletManager {
       return this.#isAvailable
     }
 
-     try {
-       // Dynamic import - will fail if not in React Native environment with MWA
-       const { transact } = await import('@solana-mobile/mobile-wallet-adapter-protocol-web3js')
+    try {
+      // Dynamic import - will fail if not in React Native environment with MWA
+      const { transact } = await import('@solana-mobile/mobile-wallet-adapter-protocol-web3js')
 
-       // Try a quick transact to see if any wallet responds
-       // This will open the wallet selector if available
-       this.#isAvailable = typeof transact === 'function'
-       return this.#isAvailable
-     } catch (e) {
-       this.#isAvailable = false
-       return false
-     }
+      // Try a quick transact to see if any wallet responds
+      // This will open the wallet selector if available
+      this.#isAvailable = typeof transact === 'function'
+      return this.#isAvailable
+    } catch (e) {
+      this.#isAvailable = false
+      return false
+    }
   }
 
   /**
@@ -168,7 +176,9 @@ export class SeekerWalletManager {
    * Authorize with Seeker wallet via MWA
    * This will open the Seeker wallet UI for user approval
    */
-   public async authorize(cluster: MwaCluster = DEFAULT_CLUSTER): Promise<SeekerAuthorizationResult> {
+  public async authorize(
+    cluster: MwaCluster = DEFAULT_CLUSTER,
+  ): Promise<SeekerAuthorizationResult> {
     const { transact } = await import('@solana-mobile/mobile-wallet-adapter-protocol-web3js')
 
     const result = await transact(async wallet => {
@@ -190,24 +200,25 @@ export class SeekerWalletManager {
         authToken: authResult.auth_token,
         walletUriBase: authResult.wallet_uri_base,
       }
-     })
+    })
 
-     this.#authResult = result
-     return result
+    this.#authResult = result
+    return result
   }
 
   /**
    * Reauthorize using cached auth token
    * Faster than full authorization if token is still valid
    */
-  public async reauthorize(cluster: MwaCluster = DEFAULT_CLUSTER): Promise<SeekerAuthorizationResult | null> {
+  public async reauthorize(
+    _cluster: MwaCluster = DEFAULT_CLUSTER,
+  ): Promise<SeekerAuthorizationResult | null> {
     if (!this.#authResult?.authToken) {
       console.warn('[SeekerWalletManager] No auth token for reauthorization')
       return null
     }
 
     try {
-
       const result = await transact(async wallet => {
         const authResult = await wallet.authorize({
           identity: APP_IDENTITY,
@@ -335,37 +346,41 @@ export class SeekerWalletManager {
     return this.address
   }
 
-   /**
-    * Clear all seed authorizations from Seed Vault
-    *
-    * Deauthorizes all previously authorized seeds for the current app.
-    * This is useful for cleaning up cached authorizations.
-    */
-   public async clearSeedAuthorizations(): Promise<void> {
-     try {
-       const authorizedSeeds = await getAuthorizedSeeds(PURPOSE_SIGN_SOLANA_TRANSACTION)
+  /**
+   * Clear all seed authorizations from Seed Vault
+   *
+   * Deauthorizes all previously authorized seeds for the current app.
+   * This is useful for cleaning up cached authorizations.
+   */
+  public async clearSeedAuthorizations(): Promise<void> {
+    try {
+      const authorizedSeeds = await getAuthorizedSeeds(PURPOSE_SIGN_SOLANA_TRANSACTION)
 
-       for (const seed of authorizedSeeds) {
-         try {
-           await deauthorizeSeed(seed.authToken)
-         } catch (error) {
-           console.warn('[SeekerWalletManager] Failed to deauthorize seed:', seed.authToken, error)
-         }
-       }
-     } catch (error) {
-       console.warn('[SeekerWalletManager] Failed to get authorized seeds:', error)
-     }
+      for (const seed of authorizedSeeds) {
+        try {
+          await deauthorizeSeed(seed.authToken)
+        } catch (error) {
+          console.warn('[SeekerWalletManager] Failed to deauthorize seed:', seed.authToken, error)
+        }
+      }
+    } catch (error) {
+      console.warn('[SeekerWalletManager] Failed to get authorized seeds:', error)
+    }
 
-     for (const [derivationPath, authToken] of this.#seedAuthTokens.entries()) {
-       try {
-         await deauthorizeSeed(authToken)
-       } catch (error) {
-         console.warn('[SeekerWalletManager] Failed to deauthorize cached seed for path:', derivationPath, error)
-       }
-     }
+    for (const [derivationPath, authToken] of this.#seedAuthTokens.entries()) {
+      try {
+        await deauthorizeSeed(authToken)
+      } catch (error) {
+        console.warn(
+          '[SeekerWalletManager] Failed to deauthorize cached seed for path:',
+          derivationPath,
+          error,
+        )
+      }
+    }
 
-     this.#seedAuthTokens.clear()
-   }
+    this.#seedAuthTokens.clear()
+  }
 
   /**
    * Get a public key for a custom derivation path from Seed Vault
@@ -377,60 +392,63 @@ export class SeekerWalletManager {
    * @returns Object containing base58-encoded public key
    * @throws Error if not authorized or request fails
    */
-   public async getPublicKey(derivationPath: string): Promise<{ publicKey: string }> {
-     if (!this.isAuthorized) {
-       throw new Error('Not authorized with Seeker wallet')
-     }
+  public async getPublicKey(derivationPath: string): Promise<{ publicKey: string }> {
+    if (!this.isAuthorized) {
+      throw new Error('Not authorized with Seeker wallet')
+    }
 
-     return this.withSeedVaultQueue(() => this.getPublicKeyInternal(derivationPath))
+    return this.withSeedVaultQueue(() => this.getPublicKeyInternal(derivationPath))
   }
 
   private async getPublicKeyInternal(derivationPath: string): Promise<{ publicKey: string }> {
-     const hasPermission = await checkSeedVaultPermission()
+    const hasPermission = await checkSeedVaultPermission()
 
-     if (!hasPermission) {
-       const granted = await requestSeedVaultPermission()
+    if (!hasPermission) {
+      const granted = await requestSeedVaultPermission()
 
-       if (!granted) {
-         throw new Error('Seed Vault permission denied by user')
-       }
+      if (!granted) {
+        throw new Error('Seed Vault permission denied by user')
+      }
 
-       await new Promise<void>(resolve => setTimeout(resolve, 500))
-     }
+      await new Promise<void>(resolve => setTimeout(resolve, 500))
+    }
 
-     try {
-       await this.loadSeedVaultAuthToken()
-       const cachedAuthToken = this.#seedVaultAuthToken
+    try {
+      await this.loadSeedVaultAuthToken()
+      const cachedAuthToken = this.#seedVaultAuthToken
 
-       if (cachedAuthToken) {
-         try {
-           const result = await requestPublicKeyFromVault(cachedAuthToken, derivationPath)
+      if (cachedAuthToken) {
+        try {
+          const result = await requestPublicKeyFromVault(cachedAuthToken, derivationPath)
 
-           if (result.authToken) {
-             await this.saveSeedVaultAuthToken(result.authToken)
-           }
+          if (result.authToken) {
+            await this.saveSeedVaultAuthToken(result.authToken)
+          }
 
-           const publicKeyBytes = new Uint8Array(Buffer.from(result.publicKey, 'base64'))
-           const base58PublicKey = new PublicKey(publicKeyBytes).toBase58()
+          const publicKeyBytes = new Uint8Array(Buffer.from(result.publicKey, 'base64'))
+          const base58PublicKey = new PublicKey(publicKeyBytes).toBase58()
 
-           return { publicKey: base58PublicKey }
-         } catch (error) {
-           console.warn('[SeekerWalletManager] Cached auth token failed, will request new authorization:', error)
-           await this.clearSeedVaultAuthToken()
-         }
-       }
+          return { publicKey: base58PublicKey }
+        } catch (error) {
+          console.warn(
+            '[SeekerWalletManager] Cached auth token failed, will request new authorization:',
+            error,
+          )
+          await this.clearSeedVaultAuthToken()
+        }
+      }
 
-       const authToken = await this.getOrAuthorizeSeedToken()
+      const authToken = await this.getOrAuthorizeSeedToken()
 
-       const result = await requestPublicKeyFromVault(authToken, derivationPath)
+      const result = await requestPublicKeyFromVault(authToken, derivationPath)
 
-       const tokenToSave = result.authToken || authToken
-       await this.saveSeedVaultAuthToken(tokenToSave)
+      const tokenToSave = result.authToken || authToken
+      await this.saveSeedVaultAuthToken(tokenToSave)
 
-       const publicKeyBytes = new Uint8Array(Buffer.from(result.publicKey, 'base64'))
-       const base58PublicKey = new PublicKey(publicKeyBytes).toBase58()
+      const publicKeyBytes = new Uint8Array(Buffer.from(result.publicKey, 'base64'))
+      const base58PublicKey = new PublicKey(publicKeyBytes).toBase58()
 
-       return { publicKey: base58PublicKey }
+      return { publicKey: base58PublicKey }
     } catch (error) {
       console.error('[SeekerWalletManager] getPublicKey failed:', {
         derivationPath,
@@ -438,7 +456,9 @@ export class SeekerWalletManager {
         message: error instanceof Error ? error.message : 'Unknown error',
       })
       throw new Error(
-        `Failed to get public key from Seed Vault: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Failed to get public key from Seed Vault: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       )
     }
   }
@@ -454,54 +474,63 @@ export class SeekerWalletManager {
    * @returns Object containing base64-encoded signature
    * @throws Error if not authorized or signing fails
    */
-   public async signMessage(message: string, derivationPath: string): Promise<{ signature: string }> {
-     if (!this.isAuthorized) {
-       throw new Error('Not authorized with Seeker wallet')
-     }
+  public async signMessage(
+    message: string,
+    derivationPath: string,
+  ): Promise<{ signature: string }> {
+    if (!this.isAuthorized) {
+      throw new Error('Not authorized with Seeker wallet')
+    }
 
-     return this.withSeedVaultQueue(() => this.signMessageInternal(message, derivationPath))
+    return this.withSeedVaultQueue(() => this.signMessageInternal(message, derivationPath))
   }
 
-  private async signMessageInternal(message: string, derivationPath: string): Promise<{ signature: string }> {
-     const hasPermission = await checkSeedVaultPermission()
+  private async signMessageInternal(
+    message: string,
+    derivationPath: string,
+  ): Promise<{ signature: string }> {
+    const hasPermission = await checkSeedVaultPermission()
 
-     if (!hasPermission) {
-       const granted = await requestSeedVaultPermission()
+    if (!hasPermission) {
+      const granted = await requestSeedVaultPermission()
 
-       if (!granted) {
-         throw new Error('Seed Vault permission denied by user')
-       }
+      if (!granted) {
+        throw new Error('Seed Vault permission denied by user')
+      }
 
-       await new Promise<void>(resolve => setTimeout(resolve, 500))
-     }
+      await new Promise<void>(resolve => setTimeout(resolve, 500))
+    }
 
-     try {
-       await this.loadSeedVaultAuthToken()
-       const cachedAuthToken = this.#seedVaultAuthToken
+    try {
+      await this.loadSeedVaultAuthToken()
+      const cachedAuthToken = this.#seedVaultAuthToken
 
-       if (cachedAuthToken) {
-         try {
-           const result = await signMessageWithVault(cachedAuthToken, message, derivationPath)
+      if (cachedAuthToken) {
+        try {
+          const result = await signMessageWithVault(cachedAuthToken, message, derivationPath)
 
-           if (result.authToken) {
-             await this.saveSeedVaultAuthToken(result.authToken)
-           }
+          if (result.authToken) {
+            await this.saveSeedVaultAuthToken(result.authToken)
+          }
 
-           return { signature: result.signature }
-         } catch (error) {
-           console.warn('[SeekerWalletManager] Cached auth token failed for signing, will request new authorization:', error)
-           await this.clearSeedVaultAuthToken()
-         }
-       }
+          return { signature: result.signature }
+        } catch (error) {
+          console.warn(
+            '[SeekerWalletManager] Cached auth token failed for signing, will request new authorization:',
+            error,
+          )
+          await this.clearSeedVaultAuthToken()
+        }
+      }
 
-       const authToken = await this.getOrAuthorizeSeedToken()
+      const authToken = await this.getOrAuthorizeSeedToken()
 
-       const result = await signMessageWithVault(authToken, message, derivationPath)
+      const result = await signMessageWithVault(authToken, message, derivationPath)
 
-       const tokenToSave = result.authToken || authToken
-       await this.saveSeedVaultAuthToken(tokenToSave)
+      const tokenToSave = result.authToken || authToken
+      await this.saveSeedVaultAuthToken(tokenToSave)
 
-       return { signature: result.signature }
+      return { signature: result.signature }
     } catch (error) {
       console.error('[SeekerWalletManager] signMessage failed:', {
         derivationPath,
@@ -509,7 +538,9 @@ export class SeekerWalletManager {
         message: error instanceof Error ? error.message : 'Unknown error',
       })
       throw new Error(
-        `Failed to sign message with Seed Vault: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Failed to sign message with Seed Vault: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       )
     }
   }

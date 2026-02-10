@@ -8,16 +8,13 @@ export async function requestSeedVaultPermission(): Promise<boolean> {
   }
 
   try {
-    const granted = await PermissionsAndroid.request(
-      SEED_VAULT_PERMISSION as any,
-      {
-        title: 'Seed Vault Access',
-        message: 'This app needs access to Seed Vault to support NEAR and other blockchains.',
-        buttonNeutral: 'Ask Me Later',
-        buttonNegative: 'Cancel',
-        buttonPositive: 'OK',
-      }
-    )
+    const granted = await PermissionsAndroid.request(SEED_VAULT_PERMISSION as any, {
+      title: 'Seed Vault Access',
+      message: 'This app needs access to Seed Vault to support NEAR and other blockchains.',
+      buttonNeutral: 'Ask Me Later',
+      buttonNegative: 'Cancel',
+      buttonPositive: 'OK',
+    })
 
     return granted === PermissionsAndroid.RESULTS.GRANTED
   } catch (error) {
