@@ -157,13 +157,32 @@ export const useSeekerWallet = () => {
           return { success: false, error: 'Derivation path is required' }
         }
 
-        const publicKey = await seekerManager.getPublicKey(derivationPath)
-        return { publicKey }
+        const result = await seekerManager.getPublicKey(derivationPath)
+        return result
       } catch (e) {
         console.error('[useSeekerWallet] Get public key failed:', e)
         return {
           success: false,
           error: e instanceof Error ? e.message : 'Get public key failed',
+        }
+      }
+    })
+
+    messageManager.on('seekerSignMessage', async evt => {
+      try {
+        const message = evt.message as string
+        const derivationPath = evt.derivationPath as string
+        if (!message || !derivationPath) {
+          return { success: false, error: 'Message and derivation path are required' }
+        }
+
+        const { signature } = await seekerManager.signMessage(message, derivationPath)
+        return { signature }
+      } catch (e) {
+        console.error('[useSeekerWallet] Sign message failed:', e)
+        return {
+          success: false,
+          error: e instanceof Error ? e.message : 'Sign message failed',
         }
       }
     })

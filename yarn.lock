@@ -10890,6 +10890,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-seed-vault@file:./modules/expo-seed-vault::locator=shapeshift%40workspace%3A.":
+  version: 1.0.0
+  resolution: "expo-seed-vault@file:./modules/expo-seed-vault#./modules/expo-seed-vault::hash=852890&locator=shapeshift%40workspace%3A."
+  checksum: 36cef517647bffa9d655c4e2c78b98ee013f3915313643c6c1b211bf25fa90be7b1ed397212b37c8c28a2665cbcdb27a4b7c34c9737883451078c70680c3b6c9
+  languageName: node
+  linkType: hard
+
 "expo-server@npm:^1.0.2":
   version: 1.0.2
   resolution: "expo-server@npm:1.0.2"
@@ -16834,6 +16841,7 @@ __metadata:
     expo-navigation-bar: ~5.0.8
     expo-notifications: ~0.32.12
     expo-secure-store: ~15.0.7
+    expo-seed-vault: "file:./modules/expo-seed-vault"
     expo-splash-screen: ~31.0.10
     expo-status-bar: ^3.0.8
     expo-store-review: ~9.0.8

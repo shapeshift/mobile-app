@@ -1,6 +1,6 @@
 {
   "platforms": ["android"],
   "android": {
-    "modules": ["ExpoSeedVault"]
+    "modules": ["expo.modules.ExpoSeedVault"]
   }
 }

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-group = 'expo.modules.seedvault'
+group = 'expo.modules'
 version = '1.0.0'
 
 buildscript {
