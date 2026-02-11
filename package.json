@@ -51,6 +51,7 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.19.3",
     "@babel/runtime": "^7.19.0",
+    "@bacons/apple-targets": "^3.0.5",
     "@react-native-community/eslint-config": "^3.1.0",
     "@react-native/metro-config": "0.79.1",
     "@tsconfig/react-native": "^2.0.2",
