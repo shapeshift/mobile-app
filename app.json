@@ -1,6 +1,6 @@
 {
   "name": "ShapeShift",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "displayName": "ShapeShift",
   "icon": "./src/static/icon.png",
   "scheme": "shapeshift",
@@ -62,7 +62,7 @@
     },
     "softwareKeyboardLayoutMode": "pan",
     "blockedPermissions": ["android.permission.ACTIVITY_RECOGNITION"],
-    "permissions": ["android.permission.CAMERA"]
+    "permissions": ["android.permission.CAMERA", "com.solanamobile.seedvault.ACCESS_SEED_VAULT"]
   },
   "ios": {
     "bundleIdentifier": "com.shapeShift.shapeShift",
@@ -100,5 +100,5 @@
   "updates": {
     "url": "https://u.expo.dev/5fc55e72-5e61-41f2-be9b-01a77afc388e"
   },
-  "runtimeVersion": "3.6.3"
+  "runtimeVersion": "3.7.0"
 }
