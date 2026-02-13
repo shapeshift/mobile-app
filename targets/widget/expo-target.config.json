@@ -1,0 +1,9 @@
+{
+  "type": "widget",
+  "accentColor": "#3861FB",
+  "colors": {
+    "background": "#181C27",
+    "label": "#FFFFFF"
+  },
+  "frameworks": ["WidgetKit", "SwiftUI"]
+}
