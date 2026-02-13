@@ -8,6 +8,13 @@
   "primaryColor": "#181C27",
   "backgroundColor": "#181C27",
   "plugins": [
+    [
+      "expo-camera",
+      {
+        "cameraPermission": "Allow ShapeShift to access your camera to scan QR codes for addresses.",
+        "recordAudioAndroid": false
+      }
+    ],
     "expo-secure-store",
     [
       "expo-splash-screen",
