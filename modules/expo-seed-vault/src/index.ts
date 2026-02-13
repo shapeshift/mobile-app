@@ -12,7 +12,9 @@ type SignMessageResult = {
 
 export const PURPOSE_SIGN_SOLANA_TRANSACTION = 0
 
-export async function authorizeSeed(purpose: number = PURPOSE_SIGN_SOLANA_TRANSACTION): Promise<string> {
+export async function authorizeSeed(
+  purpose: number = PURPOSE_SIGN_SOLANA_TRANSACTION,
+): Promise<string> {
   try {
     const ExpoSeedVaultModule = requireNativeModule('ExpoSeedVault')
     return await ExpoSeedVaultModule.authorizeSeed(purpose)
@@ -65,7 +67,9 @@ export type AuthorizedSeed = {
   purpose: number
 }
 
-export async function getAuthorizedSeeds(purpose: number = PURPOSE_SIGN_SOLANA_TRANSACTION): Promise<AuthorizedSeed[]> {
+export async function getAuthorizedSeeds(
+  purpose: number = PURPOSE_SIGN_SOLANA_TRANSACTION,
+): Promise<AuthorizedSeed[]> {
   try {
     const ExpoSeedVaultModule = requireNativeModule('ExpoSeedVault')
     return await ExpoSeedVaultModule.getAuthorizedSeeds(purpose)
