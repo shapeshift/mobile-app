@@ -8,7 +8,7 @@ import {
   deauthorizeSeed,
   getAuthorizedSeeds,
   PURPOSE_SIGN_SOLANA_TRANSACTION,
-} from 'expo-seed-vault'
+} from '../../modules/expo-seed-vault/src'
 import { checkSeedVaultPermission, requestSeedVaultPermission } from './requestSeedVaultPermission'
 import { transact } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js'
 
