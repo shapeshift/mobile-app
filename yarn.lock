@@ -10983,8 +10983,8 @@ __metadata:
 
 "expo-seed-vault@file:./modules/expo-seed-vault::locator=shapeshift%40workspace%3A.":
   version: 1.0.0
-  resolution: "expo-seed-vault@file:./modules/expo-seed-vault#./modules/expo-seed-vault::hash=ac2f23&locator=shapeshift%40workspace%3A."
-  checksum: bb91eb56a4535051b0002187b869b060d7f90ee878429b7634a39987b9c7784ae851021015ee0227b46f7aaadb2cef5e8f689f3ffb2ad1ed7516a062049d3de1
+  resolution: "expo-seed-vault@file:./modules/expo-seed-vault#./modules/expo-seed-vault::hash=3dba19&locator=shapeshift%40workspace%3A."
+  checksum: bfbe0f890dcac4991e3047b1f86d2808fb836b5322c0f1866faa89a84bde4c73fe5434840a0e048a543768d56d81148cca1adcc3e9ed0172da769b91c434080d
   languageName: node
   linkType: hard
 
