@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getMessageManager } from '../lib/getMessageManager'
 import { getSeekerWalletManager } from '../lib/getSeekerWalletManager'
+import { Platform } from 'react-native'
 
 /**
  * Hook to handle Seeker wallet communication with the WebView
@@ -21,6 +22,10 @@ export const useSeekerWallet = () => {
   const seekerManager = getSeekerWalletManager()
 
   useEffect(() => {
+    if (Platform.OS !== 'android') {
+      return
+    }
+
     // Check availability on mount
     void seekerManager.checkAvailability().then(available => {
       setIsAvailable(available)
@@ -29,6 +34,10 @@ export const useSeekerWallet = () => {
   }, [seekerManager])
 
   useEffect(() => {
+    if (Platform.OS !== 'android') {
+      return
+    }
+
     /**
      * Check if Seeker/MWA wallet is available on this device
      */
