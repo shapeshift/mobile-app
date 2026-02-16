@@ -35,7 +35,6 @@
     "expo-navigation-bar": "~5.0.8",
     "expo-notifications": "~0.32.12",
     "expo-secure-store": "~15.0.7",
-    "expo-seed-vault": "file:./modules/expo-seed-vault",
     "expo-splash-screen": "~31.0.10",
     "expo-status-bar": "^3.0.8",
     "expo-store-review": "~9.0.8",
