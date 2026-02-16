@@ -49,6 +49,11 @@
       "path": "./solanaStoreMedia/shapeshift-v3.3.0-signed.apk",
       "sha256": "s2As0LHvk/Eu8+mKJcoxRDjf98+ULNIXSwiNS6jmjp0=",
       "uri": "https://arweave.net/durL8K8PVKmkZ5TvR-ImhTw_RB6ShH2IJsjPrqV23oQ"
+    },
+    "./solanaStoreMedia/shapeshift-v3.7.1-signed.apk": {
+      "path": "./solanaStoreMedia/shapeshift-v3.7.1-signed.apk",
+      "sha256": "kiUpJlLJQT9mJP0Vr1xJxmlb2e6/1mYfVeSV2tGVJGU=",
+      "uri": "https://arweave.net/H-X4xB6m2nBedvrgcVb2zdQChlDDHHNZSaelDrKwRok"
     }
   }
 }
