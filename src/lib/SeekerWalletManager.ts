@@ -10,7 +10,8 @@ import {
   PURPOSE_SIGN_SOLANA_TRANSACTION,
 } from '../../modules/expo-seed-vault/src'
 import { checkSeedVaultPermission, requestSeedVaultPermission } from './requestSeedVaultPermission'
-import { transact } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js'
+// NOTE: @solana-mobile/mobile-wallet-adapter-protocol-web3js is Android-only.
+// Always use dynamic import() to avoid crashing on iOS at module load time.
 
 /**
  * Seeker Wallet Manager - POC Implementation
@@ -219,6 +220,8 @@ export class SeekerWalletManager {
     }
 
     try {
+      const { transact } = await import('@solana-mobile/mobile-wallet-adapter-protocol-web3js')
+
       const result = await transact(async wallet => {
         const authResult = await wallet.authorize({
           identity: APP_IDENTITY,
