@@ -19,7 +19,7 @@ app:
     - purpose: icon
       uri: ./src/static/icon-512.png
 release:
-  address: D2FJEEDSm8ZfDBHKLQt6YMXhxy3RUjqm7uiztzJe3FfY
+  address: 579xQyvA6nd5CGS7cjv3nkDcUv5HcUrqP8WdjAAeZacj
   media:
     - purpose: icon
       uri: ./src/static/icon-512.png
@@ -41,7 +41,7 @@ release:
       uri: ./solanaStoreMedia/7.png
   files:
     - purpose: install
-      uri: ./solanaStoreMedia/shapeshift-v3.3.0-signed.apk
+      uri: ./solanaStoreMedia/shapeshift-v3.7.1-signed.apk
   catalog:
     en-US:
       name: 'ShapeShift: Crypto Platform'
@@ -60,6 +60,99 @@ release:
         Whether you're swapping Dogecoin, exploring DeFi on Arbitrum, or stacking sats via THORChain, ShapeShift gives you the most powerful mobile DEX experience — with the best routes and zero middlemen.
 
         Download ShapeShift and trade Bitcoin, Ethereum, stablecoins, and altcoins — on your terms.
+  android_details:
+    cert_fingerprint: a94bd24546617ea514165d874107d2ac27530db618c115dd2cfa44fb486581b2
+    min_sdk: 24
+    version: 3.7.1
+    version_code: 405
+    locales:
+      - en-US
+      - af
+      - am
+      - ar
+      - as
+      - az
+      - be
+      - bg
+      - bn
+      - bs
+      - ca
+      - cs
+      - da
+      - de
+      - el
+      - en-AU
+      - en-CA
+      - en-GB
+      - en-IN
+      - en-XC
+      - es
+      - es-ES
+      - es-US
+      - et
+      - eu
+      - fa
+      - fi
+      - fr
+      - fr-CA
+      - gl
+      - gu
+      - hi
+      - hr
+      - hu
+      - hy
+      - in
+      - is
+      - it
+      - iw
+      - ja
+      - ka
+      - kk
+      - km
+      - kn
+      - ko
+      - ky
+      - lo
+      - lt
+      - lv
+      - mk
+      - ml
+      - mn
+      - mr
+      - ms
+      - my
+      - nb
+      - ne
+      - nl
+      - or
+      - pa
+      - pl
+      - pt
+      - pt-BR
+      - pt-PT
+      - ro
+      - ru
+      - si
+      - sk
+      - sl
+      - sq
+      - sr
+      - sr-Latn
+      - sv
+      - sw
+      - ta
+      - te
+      - th
+      - tl
+      - tr
+      - uk
+      - ur
+      - uz
+      - vi
+      - zh-CN
+      - zh-HK
+      - zh-TW
+      - zu
 solana_mobile_dapp_publisher_portal:
   google_store_package: com.shapeshift.droid_shapeshift
   testing_instructions: Create a wallet, then visit the app and see if you can buy crypto, send, receive, and trade.
@@ -67,8 +160,8 @@ solana_mobile_dapp_publisher_portal:
     - address: 6HYauFSi8D3m3ZvquJhQQdTDvRPRu8n9pRRNu5U4du1b
       comment: Neo
 lastSubmittedVersionOnChain:
-  address: D2FJEEDSm8ZfDBHKLQt6YMXhxy3RUjqm7uiztzJe3FfY
-  version_code: 351
-  apk_hash: s2As0LHvk/Eu8+mKJcoxRDjf98+ULNIXSwiNS6jmjp0=
+  address: 579xQyvA6nd5CGS7cjv3nkDcUv5HcUrqP8WdjAAeZacj
+  version_code: 405
+  apk_hash: kiUpJlLJQT9mJP0Vr1xJxmlb2e6/1mYfVeSV2tGVJGU=
 lastUpdatedVersionOnStore:
-  address: D2FJEEDSm8ZfDBHKLQt6YMXhxy3RUjqm7uiztzJe3FfY
+  address: 579xQyvA6nd5CGS7cjv3nkDcUv5HcUrqP8WdjAAeZacj
