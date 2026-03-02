@@ -1,7 +1,10 @@
 /* Register message handlers and injected JavaScript */
 import * as Clipboard from 'expo-clipboard'
+import { File as ExpoFile, Paths } from 'expo-file-system'
+import * as Sharing from 'expo-sharing'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
+import { injectedJavaScript as injectedJavaScriptDownload } from './download'
 import * as StoreReview from 'expo-store-review'
 import * as Application from 'expo-application'
 
@@ -32,6 +35,9 @@ export const getMessageManager = once(() => {
   console.log('[App] Injecting clipboard JavaScript')
   messageManager.registerInjectedJavaScript(injectedJavaScriptClipboard)
 
+  console.log('[App] Injecting download JavaScript')
+  messageManager.registerInjectedJavaScript(injectedJavaScriptDownload)
+
   const walletManager = getWalletManager()
 
   messageManager.on('console', onConsole)
@@ -55,6 +61,29 @@ export const getMessageManager = once(() => {
 
   // clipboard
   messageManager.on('setClipboard', evt => Clipboard.setStringAsync(evt.key))
+
+  // file download/sharing
+  messageManager.on('downloadFile', async evt => {
+    try {
+      const { data, filename, mimeType } = evt as unknown as {
+        data: string
+        filename: string
+        mimeType: string
+      }
+
+      const file = new ExpoFile(Paths.cache, filename)
+      file.write(data, { encoding: 'base64' })
+
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(file.uri, { mimeType })
+      }
+
+      return { success: true }
+    } catch (error) {
+      console.error('[downloadFile:Error]', error)
+      return { success: false, error: String(error) }
+    }
+  })
 
   // expo token for push notifications
   messageManager.on('getExpoToken', async () => {
