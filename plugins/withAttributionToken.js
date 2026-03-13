@@ -1,4 +1,4 @@
-const { withXcodeProject, withPodfile } = require('expo/config-plugins');
+const { withXcodeProject } = require('expo/config-plugins');
 
 function withAttributionToken(config) {
   config = withXcodeProject(config, async (config) => {

@@ -43,6 +43,13 @@
     ],
     ["./plugins/withCustomGradleProperties"],
     ["./plugins/withWalletConnectScheme"],
+    ["./plugins/withAttributionToken"],
+    [
+      "@bacons/apple-targets",
+      {
+        "appleTeamId": "7882V35EPB"
+      }
+    ],
     ["./plugins/withWalletQueries"],
     ["./plugins/withAttributionToken"],
     [
@@ -87,6 +94,9 @@
         "tokenpocket",
         "exodus"
       ]
+    },
+    "entitlements": {
+      "com.apple.security.application-groups": ["group.com.shapeShift.shapeShift"]
     },
     "appleTeamId": "7882V35EPB"
   },
