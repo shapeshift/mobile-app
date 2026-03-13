@@ -41,6 +41,19 @@
         }
       }
     ],
+    [
+      "@bacons/apple-targets",
+      {
+        "targets": [
+          {
+            "type": "widget",
+            "name": "widget",
+            "directory": "targets/widget",
+            "icon": "./src/static/icon.png"
+          }
+        ]
+      }
+    ],
     ["./plugins/withCustomGradleProperties"],
     ["./plugins/withWalletConnectScheme"],
     ["./plugins/withWalletQueries"],
@@ -70,6 +83,7 @@
     "infoPlist": {
       "ITSAppUsesNonExemptEncryption": false,
       "NSCameraUsageDescription": "This app uses the camera to scan QR codes for addresses.",
+      "NSSupportsLiveActivities": true,
       "LSApplicationQueriesSchemes": [
         "metamask",
         "trust",
