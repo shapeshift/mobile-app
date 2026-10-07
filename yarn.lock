@@ -8485,7 +8485,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base64-js@npm:^1.2.3, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
+"base64-js@npm:^1.2.3, base64-js@npm:^1.3.0, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: 669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
@@ -10808,6 +10808,17 @@ __metadata:
     expo: "*"
     react-native: "*"
   checksum: a1c4624c0f9070f45824e6aeb1aa83c09ac098e96330e7e85b3ca01a0bc88440fbe88729a8507c9cbbd598ca09438a0b436085bc612f87f27bcb4b3113137758
+  languageName: node
+  linkType: hard
+
+"expo-crypto@npm:~15.0.7":
+  version: 15.0.9
+  resolution: "expo-crypto@npm:15.0.9"
+  dependencies:
+    base64-js: ^1.3.0
+  peerDependencies:
+    expo: "*"
+  checksum: 03671427128e7fc38f7d777c43767cdd958ffd29c98ed34ca8bb06b676e4129a941689036b702491575edcba647267012b8c149a033903171958166b1f2804ba
   languageName: node
   linkType: hard
 
@@ -16088,6 +16099,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-url-polyfill@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "react-native-url-polyfill@npm:2.0.0"
+  dependencies:
+    whatwg-url-without-unicode: 8.0.0-3
+  peerDependencies:
+    react-native: "*"
+  checksum: 1a2e1030a62fd093764b5330ce0ff34d72246e581dd2892cddc347d8621931aeb2c9ea3e054960484a1259230e8461e569e1890f1ff452d3c5c0adef70190fc3
+  languageName: node
+  linkType: hard
+
 "react-native-webview@npm:13.16.0":
   version: 13.16.0
   resolution: "react-native-webview@npm:13.16.0"
@@ -16970,6 +16992,7 @@ __metadata:
     expo-camera: ~17.0.8
     expo-clipboard: ~8.0.7
     expo-constants: ~18.0.9
+    expo-crypto: ~15.0.7
     expo-dev-client: ^6.0.17
     expo-device: ~8.0.9
     expo-haptics: ^15.0.7
@@ -16993,6 +17016,7 @@ __metadata:
     react-native-get-random-values: ~1.11.0
     react-native-safe-area-context: 5.6.0
     react-native-svg: 15.12.1
+    react-native-url-polyfill: ^2.0.0
     react-native-webview: 13.16.0
     react-test-renderer: 18.2.0
     typescript: ~5.9.2

@@ -45,9 +45,11 @@ const App = () => {
   const [error, setError] = useState(false)
   const [isDebugModalVisible, setIsDebugModalVisible] = useState(false)
   const [isQRScannerVisible, setIsQRScannerVisible] = useState(false)
+  const qrGeneration = useRef(0)
   const webviewRef = useRef<WebView>(null)
   const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
+  messageManager.setAppUrl(uri)
   const [keyboardVisible, setKeyboardVisible] = useState(false)
   const insets = useSafeAreaInsets()
 
@@ -115,16 +117,19 @@ const App = () => {
 
   useEffect(() => {
     messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
-    messageManager.on('openNativeQRScanner', () => setIsQRScannerVisible(true))
+    messageManager.on('openNativeQRScanner', () => {
+      qrGeneration.current = messageManager.sessionGeneration
+      setIsQRScannerVisible(true)
+    })
   }, [messageManager])
 
   const handleQRScanSuccess = (data: string) => {
-    messageManager.postMessage({ type: 'qrScanResult', data })
+    messageManager.postMessage({ type: 'qrScanResult', data }, qrGeneration.current)
     setIsQRScannerVisible(false)
   }
 
   const handleQRScannerClose = () => {
-    messageManager.postMessage({ type: 'qrScanCancelled' })
+    messageManager.postMessage({ type: 'qrScanCancelled' }, qrGeneration.current)
     setIsQRScannerVisible(false)
   }
 
@@ -267,6 +272,9 @@ const App = () => {
             )}
             injectedJavaScriptBeforeContentLoaded={`${messageManager.injectedJavaScript}\n${injectedSafeArea}`}
             injectedJavaScript={injectedSafeArea}
+            injectedJavaScriptBeforeContentLoadedForMainFrameOnly
+            injectedJavaScriptForMainFrameOnly
+            onLoadStart={event => messageManager.beginNavigation(event.nativeEvent.url, uri)}
             onMessage={msg => messageManager.handleMessage(msg)}
             onNavigationStateChange={e => {
               console.debug('\x1b[7m onNavigationStateChange', e, '\x1b[0m')
@@ -274,12 +282,14 @@ const App = () => {
               if (loading) setLoading(e.loading)
             }}
             onContentProcessDidTerminate={() => {
+              messageManager.invalidate()
               setUri(defaultUrl)
               webviewRef.current?.reload()
             }}
-            onShouldStartLoadWithRequest={shouldLoadFilter}
+            onShouldStartLoadWithRequest={request => shouldLoadFilter(request, uri)}
             source={{ uri }}
             onError={syntheticEvent => {
+              messageManager.invalidate()
               const { nativeEvent } = syntheticEvent
               console.error('WebView onError: ', nativeEvent)
               syntheticEvent.preventDefault()
