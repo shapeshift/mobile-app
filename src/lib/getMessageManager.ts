@@ -16,6 +16,7 @@ import * as appJson from '../../app.json'
 
 const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
+import { takePushVerification } from './pushVerification'
 import { getExpoToken } from './notifications'
 import { getAppleAttributionData, getAttributionToken } from './adservices'
 import { queryClient } from '../Root'
@@ -55,6 +56,8 @@ export const getMessageManager = once(() => {
 
   // clipboard
   messageManager.on('setClipboard', evt => Clipboard.setStringAsync(evt.key))
+
+  messageManager.on('getPushVerification', evt => takePushVerification(evt.key))
 
   // expo token for push notifications
   messageManager.on('getExpoToken', async () => {
