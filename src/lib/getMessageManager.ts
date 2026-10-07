@@ -1,4 +1,5 @@
 /* Register message handlers and injected JavaScript */
+import { Alert } from 'react-native'
 import * as Clipboard from 'expo-clipboard'
 import once from 'lodash.once'
 import { injectedJavaScript as injectedJavaScriptClipboard } from './clipboard'
@@ -40,7 +41,23 @@ export const getMessageManager = once(() => {
   messageManager.on('listWallets', () => walletManager.list())
   messageManager.on('hasWallets', () => walletManager.size > 0)
   messageManager.on('getWalletCount', () => walletManager.size)
-  messageManager.on('deleteWallet', evt => walletManager.delete(evt.key))
+  messageManager.on('deleteWallet', async evt => {
+    if (typeof evt.key !== 'string' || !evt.key) throw new Error('Invalid wallet')
+    const generation = messageManager.sessionGeneration
+    const confirmed = await new Promise<boolean>(resolve =>
+      Alert.alert(
+        evt.key === '*' ? 'Delete all wallets?' : 'Delete wallet?',
+        'Make sure you have saved your recovery phrase. This removes wallet data from this device.',
+        [
+          { text: 'Cancel', style: 'cancel', onPress: () => resolve(false) },
+          { text: 'Delete', style: 'destructive', onPress: () => resolve(true) },
+        ],
+        { cancelable: true, onDismiss: () => resolve(false) },
+      ),
+    )
+    if (!confirmed || generation !== messageManager.sessionGeneration) return false
+    return walletManager.delete(evt.key)
+  })
   messageManager.on('getWallet', async evt => walletManager.getWalletWithMnemonic(evt.key))
   messageManager.on('hasWallet', evt => walletManager.has(evt.key))
   messageManager.on('updateWallet', (evt: EventData) =>
