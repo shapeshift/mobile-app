@@ -7,22 +7,26 @@
     "development": {
       "autoIncrement": true,
       "channel": "development",
-      "developmentClient": true
+      "developmentClient": true,
+      "node": "22.23.4"
     },
     "preview": {
       "channel": "staging",
-      "distribution": "internal"
+      "distribution": "internal",
+      "node": "22.23.4"
     },
     "production": {
       "autoIncrement": true,
-      "channel": "production"
+      "channel": "production",
+      "node": "22.23.4"
     },
     "dapp-store": {
       "autoIncrement": true,
       "channel": "production",
       "android": {
         "buildType": "apk"
-      }
+      },
+      "node": "22.23.4"
     }
   },
   "submit": {
