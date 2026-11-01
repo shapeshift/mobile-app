@@ -1,46 +1,55 @@
+import { URL } from 'react-native-url-polyfill'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { Linking } from 'react-native'
 
-const openBrowser = async (url: string) => {
-  if (!(await Linking.canOpenURL(url))) {
-    return
+export const getTrustedOrigin = (value: string | undefined): string | undefined => {
+  if (!value) return undefined
+  try {
+    const url = new URL(value)
+    if (url.username || url.password) return undefined
+    if (
+      url.protocol !== 'https:' &&
+      !(__DEV__ && url.protocol === 'http:' && url.hostname === 'localhost')
+    )
+      return undefined
+    if (url.protocol === 'https:' && url.port) return undefined
+    return url.origin
+  } catch {
+    return undefined
   }
-  await Linking.openURL(url)
 }
 
-export const isValidUrl = (url: string) => {
-  if (
-    url.startsWith(process.env.EXPO_PUBLIC_SHAPESHIFT_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_SHAPESHIFT_PRIVATE_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_RELEASE_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_DEVELOP_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_YEET_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_BEARD_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_CAFE_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_GOME_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_JUICE_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_WOOD_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_NEO_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_CHATWOOT_URI) ||
-    url.startsWith(process.env.EXPO_PUBLIC_WALLETCONNECT_VERIFY_SERVER) ||
-    url.startsWith(process.env.EXPO_PUBLIC_WALLETCONNECT_VERIFY_FALLBACK_SERVER) ||
-    url.startsWith(process.env.EXPO_PUBLIC_LOCAL_URI)
-  ) {
-    return true
-  }
-
-  return false
+export const isValidUrl = (value: string): boolean => {
+  const origin = getTrustedOrigin(value)
+  if (!origin) return false
+  const allowed = [process.env.EXPO_PUBLIC_SHAPESHIFT_URI]
+  if (__DEV__)
+    allowed.push(
+      process.env.EXPO_PUBLIC_SHAPESHIFT_PRIVATE_URI,
+      process.env.EXPO_PUBLIC_RELEASE_URI,
+      process.env.EXPO_PUBLIC_DEVELOP_URI,
+      process.env.EXPO_PUBLIC_YEET_URI,
+      process.env.EXPO_PUBLIC_BEARD_URI,
+      process.env.EXPO_PUBLIC_CAFE_URI,
+      process.env.EXPO_PUBLIC_GOME_URI,
+      process.env.EXPO_PUBLIC_JUICE_URI,
+      process.env.EXPO_PUBLIC_WOOD_URI,
+      process.env.EXPO_PUBLIC_NEO_URI,
+      process.env.EXPO_PUBLIC_LOCAL_URI,
+    )
+  return allowed.some(url => getTrustedOrigin(url) === origin)
 }
 
-export const shouldLoadFilter = (request: ShouldStartLoadRequest) => {
-  // Navigation within wrapped web app
-  if (isValidUrl(request.url)) {
+export const shouldLoadFilter = (request: ShouldStartLoadRequest, appUrl?: string): boolean => {
+  if (isValidUrl(request.url) && getTrustedOrigin(request.url) === getTrustedOrigin(appUrl))
     return true
+  if (request.isTopFrame === false) return false
+  try {
+    const url = new URL(request.url)
+    if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password) return false
+    Linking.openURL(request.url).catch(error => console.error('Unable to open external URL', error))
+  } catch {
+    return false
   }
-
-  // External navigation
-  openBrowser(request.url).catch(r => {
-    console.error(`rejection opening in browser url "${request.url}": `, r)
-  })
   return false
 }

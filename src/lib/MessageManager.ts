@@ -1,4 +1,6 @@
+import { getRandomValues } from 'expo-crypto'
 import { RefObject } from 'react'
+import { getTrustedOrigin, isValidUrl } from './navigationFilter'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 export type MessageCallback = (e: EventData) => undefined | unknown
@@ -11,6 +13,12 @@ export type EventData = {
 }
 
 export class MessageManager {
+  #bridgeToken = Array.from(getRandomValues(new Uint32Array(8)), value => value.toString(16)).join(
+    '-',
+  )
+  #generation = 0
+  #origin: string | undefined
+  #appOrigin: string | undefined
   #handlers = new Map<string, MessageCallback>()
   #js = ['globalThis.isShapeShiftMobile = true;']
   #webview: RefObject<WebView | null> | null = null
@@ -25,11 +33,46 @@ export class MessageManager {
     // The injected JavaScript is supposed to return a valid type
     return `;(function () {
 try {
+if (window.top !== window.self || window.location.origin !== ${JSON.stringify(
+      this.#appOrigin,
+    )}) return;
+const nativePostMessage = window.ReactNativeWebView.postMessage.bind(window.ReactNativeWebView);
+window.ReactNativeWebView.postMessage = data => nativePostMessage(JSON.stringify({
+  bridgeToken: ${JSON.stringify(this.#bridgeToken)}, data
+}));
 ${this.#js.join('\n')}
 } catch (e) {}
 })();
 
 true;`
+  }
+
+  setAppUrl(appUrl: string | undefined) {
+    const origin = appUrl && isValidUrl(appUrl) ? getTrustedOrigin(appUrl) : undefined
+    if (origin === this.#appOrigin) return
+    this.invalidate()
+    this.#appOrigin = origin
+    this.#bridgeToken = Array.from(getRandomValues(new Uint32Array(8)), value =>
+      value.toString(16),
+    ).join('-')
+  }
+
+  beginNavigation(url: string, appUrl: string | undefined) {
+    this.setAppUrl(appUrl)
+    this.#generation++
+    this.#origin =
+      isValidUrl(url) && getTrustedOrigin(url) === getTrustedOrigin(appUrl)
+        ? getTrustedOrigin(url)
+        : undefined
+  }
+
+  invalidate() {
+    this.#generation++
+    this.#origin = undefined
+  }
+
+  get sessionGeneration() {
+    return this.#generation
   }
 
   /**
@@ -74,7 +117,12 @@ true;`
    */
   async handleMessage(evt: WebViewMessageEvent) {
     try {
-      const data: EventData = JSON.parse(evt.nativeEvent.data)
+      const generation = this.#generation
+      if (!this.#origin || getTrustedOrigin(evt.nativeEvent.url) !== this.#origin) return
+      const envelope = JSON.parse(evt.nativeEvent.data)
+      if (envelope?.bridgeToken !== this.#bridgeToken || typeof envelope.data !== 'string') return
+      const data: EventData = JSON.parse(envelope.data)
+      if (!data || typeof data.cmd !== 'string' || !Number.isSafeInteger(data.id)) return
       const handler = this.#handlers.get(data.cmd)
       if (handler) {
         let result
@@ -83,19 +131,24 @@ true;`
         } catch (e) {
           result = { error: String(e) }
         }
-        this.sendResult(data.id, result)
+        if (generation === this.#generation) this.sendResult(data.id, result)
       }
-    } catch (e) {
-      console.error('[MessageManager:handleMessage] Invalid event data', e)
+    } catch {
+      console.error('[MessageManager:handleMessage] Invalid event data')
     }
   }
 
-  postMessage(data: unknown) {
+  postMessage(data: unknown, generation = this.#generation) {
+    if (!this.#origin || generation !== this.#generation) return
     try {
       // Yes, a document can post a message to itself
-      this.#webview?.current?.injectJavaScript(`window.postMessage(${JSON.stringify(data)})`)
-    } catch (e) {
-      console.error('[MessageManager:postMessage] Error sending message', { data }, e)
+      this.#webview?.current?.injectJavaScript(
+        `if (window.location.origin === ${JSON.stringify(
+          this.#origin,
+        )}) window.postMessage(${JSON.stringify(data)}, ${JSON.stringify(this.#origin)})`,
+      )
+    } catch {
+      console.error('[MessageManager:postMessage] Error sending message')
     }
   }
 
