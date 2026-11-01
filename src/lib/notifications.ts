@@ -2,13 +2,18 @@ import { Platform } from 'react-native'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 import Constants from 'expo-constants'
+import { rememberPushVerification } from './pushVerification'
+
+Notifications.addNotificationReceivedListener(notification => {
+  rememberPushVerification(notification.request.content.data)
+})
 
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
+  handleNotification: async notification => ({
     shouldPlaySound: false,
     shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
+    shouldShowBanner: !rememberPushVerification(notification.request.content.data),
+    shouldShowList: notification.request.content.data.type !== 'DEVICE_VERIFICATION',
   }),
 })
 
