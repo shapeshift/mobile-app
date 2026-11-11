@@ -24,3 +24,16 @@ export const takePushVerification = (id: string, now = Date.now()): string | nul
   pending.delete(id)
   return value && value.expiresAt > now ? value.nonce : null
 }
+
+// Background notification task payloads carry the Expo push data as JSON in `dataString`
+export const rememberPushVerificationTask = (payload: unknown, now = Date.now()): boolean => {
+  const dataString = (payload as { data?: { dataString?: unknown } } | undefined)?.data?.dataString
+  if (typeof dataString !== 'string') return false
+  try {
+    const data: unknown = JSON.parse(dataString)
+    if (!data || typeof data !== 'object') return false
+    return rememberPushVerification(data as Record<string, unknown>, now)
+  } catch {
+    return false
+  }
+}

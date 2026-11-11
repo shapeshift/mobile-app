@@ -11085,6 +11085,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-task-manager@npm:~14.0.8":
+  version: 14.0.9
+  resolution: "expo-task-manager@npm:14.0.9"
+  dependencies:
+    unimodules-app-loader: ~6.0.8
+  peerDependencies:
+    expo: "*"
+    react-native: "*"
+  checksum: c13a7ec062908de31eca4fe2fa9eb6ba47b919e694f10e7547f936bc3943f62b2e22f492b789b64e95413ed87bedbe9d412cc5e449e701bf407d439265263979
+  languageName: node
+  linkType: hard
+
 "expo-updates-interface@npm:~2.0.0":
   version: 2.0.0
   resolution: "expo-updates-interface@npm:2.0.0"
@@ -17001,6 +17013,7 @@ __metadata:
     expo-splash-screen: ~31.0.10
     expo-status-bar: ^3.0.8
     expo-store-review: ~9.0.8
+    expo-task-manager: ~14.0.8
     expo-updates: ~29.0.12
     jest: ^29.4.0
     lodash.memoize: ^4.1.2
@@ -17920,6 +17933,13 @@ __metadata:
   version: 2.0.0
   resolution: "unicode-property-aliases-ecmascript@npm:2.0.0"
   checksum: dda4d39128cbbede2ac60fbb85493d979ec65913b8a486bf7cb7a375a2346fa48cbf9dc6f1ae23376e7e8e684c2b411434891e151e865a661b40a85407db51d0
+  languageName: node
+  linkType: hard
+
+"unimodules-app-loader@npm:~6.0.8":
+  version: 6.0.8
+  resolution: "unimodules-app-loader@npm:6.0.8"
+  checksum: 7db6bdc77b0f9d529965ec5ee69defe45b92551a095183e80ce6bcc36a46635288c5ae6fa41dc6f2f9b74d724dd5673d4f65bf2761f19240150d40c0789f3109
   languageName: node
   linkType: hard
 
