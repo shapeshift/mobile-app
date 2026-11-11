@@ -1,6 +1,7 @@
-// Buffer polyfill for Solana libraries
+// Buffer polyfill for Solana libraries. This tsconfig does not declare Node's `global`;
+// Hermes exposes that same object as `globalThis`.
 import { Buffer } from 'buffer'
-global.Buffer = Buffer
+Object.assign(globalThis, { Buffer })
 
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import {
