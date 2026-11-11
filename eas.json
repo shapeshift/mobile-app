@@ -8,12 +8,18 @@
       "autoIncrement": true,
       "channel": "development",
       "developmentClient": true,
-      "node": "22.23.4"
+      "node": "22.23.4",
+      "env": {
+        "EXPO_PUBLIC_ALLOW_INTERNAL_ENVIRONMENTS": "true"
+      }
     },
     "preview": {
       "channel": "staging",
       "distribution": "internal",
-      "node": "22.23.4"
+      "node": "22.23.4",
+      "env": {
+        "EXPO_PUBLIC_ALLOW_INTERNAL_ENVIRONMENTS": "true"
+      }
     },
     "production": {
       "autoIncrement": true,

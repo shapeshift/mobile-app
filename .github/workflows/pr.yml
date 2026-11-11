@@ -35,3 +35,6 @@ jobs:
 
       - name: Type Check
         run: yarn type-check
+
+      - name: Security Tests
+        run: yarn test:security

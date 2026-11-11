@@ -3,6 +3,7 @@ import { Alert, Button, FlatList, Modal, Pressable, Text, View } from 'react-nat
 import { setItemAsync } from 'expo-secure-store'
 import { styles } from '../styles'
 import { Separator } from './Separator'
+import { isValidUrl } from '../lib/navigationFilter'
 
 type Environment = {
   key: string
@@ -12,13 +13,16 @@ type Environment = {
 
 const ENVIRONMENTS: Environment[] = [
   /**
-   * production environments
+   * production environment
    */
   {
     key: 'app',
     title: 'app',
     url: process.env.EXPO_PUBLIC_SHAPESHIFT_URI,
   },
+  /**
+   * internal environments, see allowsInternalEnvironments
+   */
   {
     key: 'private',
     title: 'private',
@@ -103,7 +107,7 @@ export const DeveloperModeModal = (props: {
       <View style={styles.modalView}>
         <Text style={styles.modalHeader}>Select Environment</Text>
         <FlatList
-          data={ENVIRONMENTS}
+          data={ENVIRONMENTS.filter(({ url }) => url && isValidUrl(url))}
           renderItem={({ item }) => (
             <ListItem {...item} onPress={url => (onSelect(url), onClose())} />
           )}
