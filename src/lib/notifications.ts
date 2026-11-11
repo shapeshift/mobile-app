@@ -2,14 +2,39 @@ import { Platform } from 'react-native'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 import Constants from 'expo-constants'
+import * as TaskManager from 'expo-task-manager'
+import { rememberPushVerification, rememberPushVerificationTask } from './pushVerification'
+
+const PUSH_VERIFICATION_TASK = 'push-verification'
+
+// iOS delivers the silent (content-available) proof only to background notification tasks,
+// even while the app is in the foreground. Android also reaches the listeners below.
+TaskManager.defineTask<Notifications.NotificationTaskPayload>(
+  PUSH_VERIFICATION_TASK,
+  ({ data }) => {
+    rememberPushVerificationTask(data)
+    return Promise.resolve()
+  },
+)
+Notifications.registerTaskAsync(PUSH_VERIFICATION_TASK).catch(error =>
+  console.error('[notifications] Unable to register push verification task', error),
+)
+
+Notifications.addNotificationReceivedListener(notification => {
+  rememberPushVerification(notification.request.content.data ?? {})
+})
 
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
+  handleNotification: async notification => {
+    const data = notification.request.content.data ?? {}
+    const isVerification = rememberPushVerification(data)
+    return {
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+      shouldShowBanner: !isVerification,
+      shouldShowList: !isVerification,
+    }
+  },
 })
 
 export async function getExpoToken() {

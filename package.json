@@ -11,7 +11,8 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "type-check": "tsc --project ./tsconfig.json --noEmit"
+    "type-check": "tsc --project ./tsconfig.json --noEmit",
+    "test:security": "jest --config jest.security.config.cjs --runInBand"
   },
   "dependencies": {
     "@react-hook/async": "^3.1.1",
@@ -39,6 +40,7 @@
     "expo-splash-screen": "~31.0.10",
     "expo-status-bar": "^3.0.8",
     "expo-store-review": "~9.0.8",
+    "expo-task-manager": "~14.0.8",
     "expo-updates": "~29.0.12",
     "lodash.memoize": "^4.1.2",
     "lodash.once": "^4.1.1",
