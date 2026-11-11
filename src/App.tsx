@@ -21,9 +21,6 @@ import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 import Constants from 'expo-constants'
 import { Platform } from 'react-native'
-import * as NavigationBar from 'expo-navigation-bar'
-
-NavigationBar.setPositionAsync('relative')
 
 const isRunningInExpoGo = Constants.appOwnership === 'expo'
 
