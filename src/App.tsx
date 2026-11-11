@@ -17,6 +17,7 @@ import { useKeepAlive } from './hooks/useKeepAlive'
 import { useSeekerWallet } from './hooks/useSeekerWallet'
 import { useSettings } from './hooks/useSettings'
 import { getMessageManager } from './lib/getMessageManager'
+import type { BridgeSession } from './lib/MessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 import Constants from 'expo-constants'
@@ -41,7 +42,7 @@ const App = () => {
   const [error, setError] = useState(false)
   const [isDebugModalVisible, setIsDebugModalVisible] = useState(false)
   const [isQRScannerVisible, setIsQRScannerVisible] = useState(false)
-  const qrGeneration = useRef(0)
+  const qrSession = useRef<BridgeSession | undefined>(undefined)
   const webviewRef = useRef<WebView>(null)
   const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
@@ -114,18 +115,18 @@ const App = () => {
   useEffect(() => {
     messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
     messageManager.on('openNativeQRScanner', () => {
-      qrGeneration.current = messageManager.sessionGeneration
+      qrSession.current = messageManager.session
       setIsQRScannerVisible(true)
     })
   }, [messageManager])
 
   const handleQRScanSuccess = (data: string) => {
-    messageManager.postMessage({ type: 'qrScanResult', data }, qrGeneration.current)
+    messageManager.postMessage({ type: 'qrScanResult', data }, qrSession.current)
     setIsQRScannerVisible(false)
   }
 
   const handleQRScannerClose = () => {
-    messageManager.postMessage({ type: 'qrScanCancelled' }, qrGeneration.current)
+    messageManager.postMessage({ type: 'qrScanCancelled' }, qrSession.current)
     setIsQRScannerVisible(false)
   }
 

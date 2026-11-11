@@ -7,16 +7,19 @@ export type MessageCallback = (e: EventData) => undefined | unknown
 
 export type EventData = {
   cmd: string
-  id: number
+  id?: string | number
   key: string
   [k: string]: unknown
 }
+
+export type BridgeSession = { generation: number; document: string | undefined }
 
 export class MessageManager {
   #bridgeToken = Array.from(getRandomValues(new Uint32Array(8)), value => value.toString(16)).join(
     '-',
   )
   #generation = 0
+  #document: string | undefined
   #origin: string | undefined
   #appOrigin: string | undefined
   #handlers = new Map<string, MessageCallback>()
@@ -36,9 +39,11 @@ try {
 if (window.top !== window.self || window.location.origin !== ${JSON.stringify(
       this.#appOrigin,
     )}) return;
+const bridgeDocument = Array.from(crypto.getRandomValues(new Uint32Array(4)), value => value.toString(16)).join('-');
+Object.defineProperty(window, '__shapeshiftBridgeDocument', { value: bridgeDocument });
 const nativePostMessage = window.ReactNativeWebView.postMessage.bind(window.ReactNativeWebView);
 window.ReactNativeWebView.postMessage = data => nativePostMessage(JSON.stringify({
-  bridgeToken: ${JSON.stringify(this.#bridgeToken)}, data
+  bridgeToken: ${JSON.stringify(this.#bridgeToken)}, bridgeDocument, data
 }));
 ${this.#js.join('\n')}
 } catch (e) {}
@@ -57,22 +62,33 @@ true;`
     ).join('-')
   }
 
+  /**
+   * Android also reports history.pushState() as a load start, so only an origin change
+   * invalidates the session. Replies are bound to the requesting document instead.
+   */
   beginNavigation(url: string, appUrl: string | undefined) {
     this.setAppUrl(appUrl)
-    this.#generation++
-    this.#origin =
+    const origin =
       isValidUrl(url) && getTrustedOrigin(url) === getTrustedOrigin(appUrl)
         ? getTrustedOrigin(url)
         : undefined
+    if (origin !== this.#origin) this.invalidate()
+    this.#origin = origin
+    this.#document = undefined
   }
 
   invalidate() {
     this.#generation++
     this.#origin = undefined
+    this.#document = undefined
   }
 
   get sessionGeneration() {
     return this.#generation
+  }
+
+  get session(): BridgeSession {
+    return { generation: this.#generation, document: this.#document }
   }
 
   /**
@@ -117,12 +133,24 @@ true;`
    */
   async handleMessage(evt: WebViewMessageEvent) {
     try {
-      const generation = this.#generation
       if (!this.#origin || getTrustedOrigin(evt.nativeEvent.url) !== this.#origin) return
       const envelope = JSON.parse(evt.nativeEvent.data)
-      if (envelope?.bridgeToken !== this.#bridgeToken || typeof envelope.data !== 'string') return
+      if (
+        envelope?.bridgeToken !== this.#bridgeToken ||
+        typeof envelope.bridgeDocument !== 'string' ||
+        typeof envelope.data !== 'string'
+      )
+        return
       const data: EventData = JSON.parse(envelope.data)
-      if (!data || typeof data.cmd !== 'string' || !Number.isSafeInteger(data.id)) return
+      // The web app uses string IDs; injected helpers such as the clipboard send none
+      if (
+        !data ||
+        typeof data.cmd !== 'string' ||
+        !['string', 'number', 'undefined'].includes(typeof data.id)
+      )
+        return
+      this.#document = envelope.bridgeDocument
+      const session = this.session
       const handler = this.#handlers.get(data.cmd)
       if (handler) {
         let result
@@ -131,32 +159,40 @@ true;`
         } catch (e) {
           result = { error: String(e) }
         }
-        if (generation === this.#generation) this.sendResult(data.id, result)
+        this.sendResult(data.id, result, session)
       }
     } catch {
       console.error('[MessageManager:handleMessage] Invalid event data')
     }
   }
 
-  postMessage(data: unknown, generation = this.#generation) {
-    if (!this.#origin || generation !== this.#generation) return
+  /**
+   * Send a message to the current trusted document, or only to the document of `session`
+   */
+  postMessage(data: unknown, session?: BridgeSession) {
+    if (!this.#origin || (session && session.generation !== this.#generation)) return
+    const document = session?.document
+      ? ` && window.__shapeshiftBridgeDocument === ${JSON.stringify(session.document)}`
+      : ''
     try {
       // Yes, a document can post a message to itself
       this.#webview?.current?.injectJavaScript(
         `if (window.location.origin === ${JSON.stringify(
           this.#origin,
-        )}) window.postMessage(${JSON.stringify(data)}, ${JSON.stringify(this.#origin)})`,
+        )}${document}) window.postMessage(${JSON.stringify(data)}, ${JSON.stringify(
+          this.#origin,
+        )})`,
       )
     } catch {
       console.error('[MessageManager:postMessage] Error sending message')
     }
   }
 
-  private sendResult(id: number, result: unknown) {
+  private sendResult(id: EventData['id'], result: unknown, session: BridgeSession) {
     // There are better ways to determine if a function result should be sent back
     // to the WebView, but this solution is simple and pragmatic for now
     if (result === undefined) return
 
-    this.postMessage({ id, result })
+    this.postMessage({ id, result }, session)
   }
 }

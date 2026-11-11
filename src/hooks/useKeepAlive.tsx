@@ -6,7 +6,7 @@ export const useKeepAlive = () => {
   const [isAlerting, setIsAlerting] = useState(false)
 
   const messageManager = getMessageManager()
-  messageManager.on('pong', evt => setLastPong(evt.id))
+  messageManager.on('pong', evt => typeof evt.id === 'number' && setLastPong(evt.id))
 
   useEffect(() => {
     const intervalPing = setInterval(() => {
