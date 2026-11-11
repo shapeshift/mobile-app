@@ -9,6 +9,13 @@ const { runInNewContext } = jest.requireActual<{
   runInNewContext: (code: string, context: object) => unknown
 }>('vm')
 
+const mockUpdates = { channel: null as string | null }
+jest.mock('expo-updates', () => ({
+  get channel() {
+    return mockUpdates.channel
+  },
+}))
+
 jest.mock('expo-crypto', () => ({
   getRandomValues: (value: Uint32Array) =>
     jest.requireActual<NodeCrypto>('crypto').webcrypto.getRandomValues(value),
@@ -62,6 +69,23 @@ const deliver = (script: string, pageOrigin: string, bridgeDocument: string) => 
 
 beforeEach(() => {
   process.env.EXPO_PUBLIC_SHAPESHIFT_URI = origin
+  process.env.EXPO_PUBLIC_SHAPESHIFT_PRIVATE_URI = 'https://private.shapeshift.com'
+  delete process.env.EXPO_PUBLIC_ALLOW_INTERNAL_ENVIRONMENTS
+  mockUpdates.channel = null
+})
+
+test.each([
+  [undefined, 'staging', false],
+  ['true', 'staging', true],
+  ['true', null, true],
+  // An OTA update bundled with the flag must not open internal environments in a store build
+  ['true', 'production', false],
+])('internal environments with flag %s on channel %s: %s', (flag, channel, allowed) => {
+  if (flag) process.env.EXPO_PUBLIC_ALLOW_INTERNAL_ENVIRONMENTS = flag
+  mockUpdates.channel = channel
+  expect(isValidUrl('https://private.shapeshift.com/#/trade')).toBe(allowed)
+  expect(isValidUrl(origin)).toBe(true)
+  expect(isValidUrl('https://private.shapeshift.com.attacker.invalid')).toBe(false)
 })
 
 test.each([
@@ -178,19 +202,25 @@ test('foreign frames do not open an external browser', () => {
   ).toBe(false)
 })
 
-const injectedPage = (manager: MessageManager, pageOrigin: string, isTop: boolean) => {
+const injectedPageWindow = (manager: MessageManager, pageOrigin: string, isTop: boolean) => {
   const postMessage = jest.fn()
   const page = {
     location: { origin: pageOrigin },
     ReactNativeWebView: { postMessage },
+    nativePostMessage: postMessage,
     self: undefined as unknown,
     top: undefined as unknown,
   }
   page.self = page
   page.top = isTop ? page : {}
   runInNewContext(manager.injectedJavaScript, { window: page, globalThis: page, crypto: webcrypto })
+  return page
+}
+
+const injectedPage = (manager: MessageManager, pageOrigin: string, isTop: boolean) => {
+  const page = injectedPageWindow(manager, pageOrigin, isTop)
   page.ReactNativeWebView.postMessage('test')
-  return postMessage
+  return page.nativePostMessage
 }
 
 test.each([
@@ -207,4 +237,19 @@ test('injection grants a token to the configured top-level origin', () => {
   manager.setAppUrl(origin)
   const postMessage = injectedPage(manager, origin, true)
   expect(JSON.parse(postMessage.mock.calls[0][0]).bridgeToken).toBeDefined()
+})
+
+test('only the trusted top-level document advertises native delete confirmation', () => {
+  const manager = new MessageManager()
+  manager.setAppUrl(origin)
+  const capabilities = (pageOrigin: string, isTop: boolean) => {
+    const page = injectedPageWindow(manager, pageOrigin, isTop)
+    return (page as { shapeshiftMobileCapabilities?: unknown }).shapeshiftMobileCapabilities
+  }
+  expect(capabilities(origin, true)).toEqual({ nativeDeleteConfirmation: true })
+  expect(capabilities(origin, false)).toBeUndefined()
+  expect(capabilities('https://attacker.invalid', true)).toBeUndefined()
+  const page = injectedPageWindow(manager, origin, true) as Record<string, unknown>
+  expect(() => Object.defineProperty(page, 'shapeshiftMobileCapabilities', { value: {} })).toThrow()
+  expect(Object.isFrozen(page.shapeshiftMobileCapabilities)).toBe(true)
 })

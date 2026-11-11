@@ -45,6 +45,10 @@ const nativePostMessage = window.ReactNativeWebView.postMessage.bind(window.Reac
 window.ReactNativeWebView.postMessage = data => nativePostMessage(JSON.stringify({
   bridgeToken: ${JSON.stringify(this.#bridgeToken)}, bridgeDocument, data
 }));
+// Lets the web app skip its own confirmation; only the trusted top-level document gets it
+Object.defineProperty(window, 'shapeshiftMobileCapabilities', {
+  value: Object.freeze({ nativeDeleteConfirmation: true }),
+});
 ${this.#js.join('\n')}
 } catch (e) {}
 })();

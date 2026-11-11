@@ -1,6 +1,7 @@
 import { URL } from 'react-native-url-polyfill/js/URL'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { Linking } from 'react-native'
+import * as Updates from 'expo-updates'
 import { WALLET_SCHEMES } from './WalletDetector'
 
 export const getTrustedOrigin = (value: string | undefined): string | undefined => {
@@ -20,11 +21,20 @@ export const getTrustedOrigin = (value: string | undefined): string | undefined 
   }
 }
 
+/**
+ * Internal and preview builds may switch to non-production web environments.
+ * EXPO_PUBLIC_ALLOW_INTERNAL_ENVIRONMENTS is set per EAS build profile in eas.json and
+ * inlined into the bundle. The native update channel also has to be non-production, so an
+ * OTA update bundled with the flag cannot open internal environments in a store build.
+ */
+export const allowsInternalEnvironments = (): boolean =>
+  process.env.EXPO_PUBLIC_ALLOW_INTERNAL_ENVIRONMENTS === 'true' && Updates.channel !== 'production'
+
 export const isValidUrl = (value: string): boolean => {
   const origin = getTrustedOrigin(value)
   if (!origin) return false
   const allowed = [process.env.EXPO_PUBLIC_SHAPESHIFT_URI]
-  if (__DEV__)
+  if (allowsInternalEnvironments())
     allowed.push(
       process.env.EXPO_PUBLIC_SHAPESHIFT_PRIVATE_URI,
       process.env.EXPO_PUBLIC_RELEASE_URI,
