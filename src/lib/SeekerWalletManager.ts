@@ -290,7 +290,7 @@ export class SeekerWalletManager {
     const { transact } = await import('@solana-mobile/mobile-wallet-adapter-protocol-web3js')
 
     // Decode the transaction
-    const txBytes = Buffer.from(serializedTx, 'base64')
+    const txBytes = Uint8Array.from(Buffer.from(serializedTx, 'base64'))
     const transaction = VersionedTransaction.deserialize(txBytes)
 
     const signedTx = await transact(async wallet => {
@@ -322,7 +322,7 @@ export class SeekerWalletManager {
     const { transact } = await import('@solana-mobile/mobile-wallet-adapter-protocol-web3js')
 
     // Decode the transaction
-    const txBytes = Buffer.from(serializedTx, 'base64')
+    const txBytes = Uint8Array.from(Buffer.from(serializedTx, 'base64'))
     const transaction = VersionedTransaction.deserialize(txBytes)
 
     const signature = await transact(async wallet => {

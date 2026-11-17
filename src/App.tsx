@@ -17,6 +17,7 @@ import { useKeepAlive } from './hooks/useKeepAlive'
 import { useSeekerWallet } from './hooks/useSeekerWallet'
 import { useSettings } from './hooks/useSettings'
 import { getMessageManager } from './lib/getMessageManager'
+import type { BridgeSession } from './lib/MessageManager'
 import { shouldLoadFilter } from './lib/navigationFilter'
 import { styles } from './styles'
 import Constants from 'expo-constants'
@@ -38,9 +39,11 @@ const App = () => {
   const [error, setError] = useState(false)
   const [isDebugModalVisible, setIsDebugModalVisible] = useState(false)
   const [isQRScannerVisible, setIsQRScannerVisible] = useState(false)
+  const qrSession = useRef<BridgeSession | undefined>(undefined)
   const webviewRef = useRef<WebView>(null)
   const messageManager = getMessageManager()
   messageManager.setWebViewRef(webviewRef)
+  messageManager.setAppUrl(uri)
   const [keyboardVisible, setKeyboardVisible] = useState(false)
   const insets = useSafeAreaInsets()
 
@@ -108,16 +111,19 @@ const App = () => {
 
   useEffect(() => {
     messageManager.on('showDeveloperModal', evt => setIsDebugModalVisible(Boolean(evt.key)))
-    messageManager.on('openNativeQRScanner', () => setIsQRScannerVisible(true))
+    messageManager.on('openNativeQRScanner', () => {
+      qrSession.current = messageManager.session
+      setIsQRScannerVisible(true)
+    })
   }, [messageManager])
 
   const handleQRScanSuccess = (data: string) => {
-    messageManager.postMessage({ type: 'qrScanResult', data })
+    messageManager.postMessage({ type: 'qrScanResult', data }, qrSession.current)
     setIsQRScannerVisible(false)
   }
 
   const handleQRScannerClose = () => {
-    messageManager.postMessage({ type: 'qrScanCancelled' })
+    messageManager.postMessage({ type: 'qrScanCancelled' }, qrSession.current)
     setIsQRScannerVisible(false)
   }
 
@@ -260,6 +266,9 @@ const App = () => {
             )}
             injectedJavaScriptBeforeContentLoaded={`${messageManager.injectedJavaScript}\n${injectedSafeArea}`}
             injectedJavaScript={injectedSafeArea}
+            injectedJavaScriptBeforeContentLoadedForMainFrameOnly
+            injectedJavaScriptForMainFrameOnly
+            onLoadStart={event => messageManager.beginNavigation(event.nativeEvent.url, uri)}
             onMessage={msg => messageManager.handleMessage(msg)}
             onNavigationStateChange={e => {
               console.debug('\x1b[7m onNavigationStateChange', e, '\x1b[0m')
@@ -267,12 +276,14 @@ const App = () => {
               if (loading) setLoading(e.loading)
             }}
             onContentProcessDidTerminate={() => {
+              messageManager.invalidate()
               setUri(defaultUrl)
               webviewRef.current?.reload()
             }}
-            onShouldStartLoadWithRequest={shouldLoadFilter}
+            onShouldStartLoadWithRequest={request => shouldLoadFilter(request, uri)}
             source={{ uri }}
             onError={syntheticEvent => {
+              messageManager.invalidate()
               const { nativeEvent } = syntheticEvent
               console.error('WebView onError: ', nativeEvent)
               syntheticEvent.preventDefault()
